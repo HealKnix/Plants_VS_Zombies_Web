@@ -75,7 +75,5 @@ zombieSpawners.forEach(spawn => {
     spawn.appendChild(newElement)
 
     map[parseInt(spawn.id)].zombiesArray.push(new Zombie.RegularZombie(newElement))
-
-    console.log(map)
   })
 })
