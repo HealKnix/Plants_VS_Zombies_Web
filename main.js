@@ -1,6 +1,8 @@
 import * as Plants from '/src/models/Plants'
 import * as Zombie from '/src/models/Zombies'
 
+import PeashooterImg from '/src/images/plants/peashooter.png'
+
 let suns = 0
 let deltaTime = 0
 
@@ -31,10 +33,24 @@ let floor_row = document.querySelectorAll('.floor__row')
 
 floor_row.forEach(row => {
   ;[...row.children].forEach(ceil => {
+    ceil.addEventListener('mouseenter', e => {
+      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+
+      ceil.style.backgroundImage = `url("${PeashooterImg}")`
+      ceil.style.opacity = `0.5`
+    })
+    ceil.addEventListener('mouseleave', e => {
+      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+
+      ceil.style.backgroundImage = `url("")`
+      ceil.style.opacity = `1`
+    })
     ceil.addEventListener('click', e => {
       if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
 
       map[parseInt(row.id)].plantsArray.push(new Plants.Peashooter(ceil))
+
+      ceil.style.opacity = `1`
     })
   })
 })
@@ -71,6 +87,11 @@ zombieSpawners.forEach(spawn => {
   spawn.addEventListener('click', e => {
     let newElement = document.createElement('div')
     newElement.classList.add('zombie')
+
+    let healthBar = document.createElement('div')
+    healthBar.classList.add('health_bar')
+
+    newElement.appendChild(healthBar)
 
     spawn.appendChild(newElement)
 

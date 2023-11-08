@@ -41,7 +41,6 @@ main {
 
 .floor__ceil {
   position: relative;
-  outline: 1px solid rgba(255, 255, 255, 0.493);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 70%;
@@ -52,6 +51,7 @@ main {
   width: 13.5vh;
   height: 16.5vh;
   left: 170vh;
+  outline: 1px solid black;
   background-color: rgba(255, 0, 0, 0.164);
 }
 
@@ -60,24 +60,21 @@ main {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 0, 0, 0.164);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   will-change: auto;
 }
 
-.zombie_spawner>.zombie::before {
+.zombie_spawner>.zombie>.health_bar {
   display: block;
   position: absolute;
-  content: '';
+  top: -1vh;
   width: 100%;
-  height: 5px;
-  background-color: magenta;
-}
-
-.floor__ceil:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  height: 10px;
+  background-color: red;
+  outline: 0.1vh solid #333;
+  border-radius: 1vh;
 }
 
 .bullet {

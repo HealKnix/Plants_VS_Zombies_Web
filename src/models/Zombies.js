@@ -8,6 +8,7 @@ class Zombie {
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
+    this.fullHealth = this.health
   }
 
   eat() {}
@@ -27,6 +28,7 @@ class Zombie {
               this.htmlElement.getBoundingClientRect().width
         ) {
           this.health -= 25
+          this.htmlElement.children[0].style.width = `${(this.health / this.fullHealth) * 100}%`
           bullet.parentElement.removeChild(bullet)
           isHit = true
           return
@@ -45,6 +47,7 @@ class Zombie {
 export class RegularZombie extends Zombie {
   image = RegularZombieImg
   health = 250
+  fullHealth = this.health
 
   constructor(htmlElement) {
     super(htmlElement)
