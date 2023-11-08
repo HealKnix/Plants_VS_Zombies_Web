@@ -54,7 +54,12 @@ floor_row.forEach(row => {
       }
     })
     ceil.addEventListener('click', e => {
-      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+      if (
+        ceil.classList.contains('planted') ||
+        ceil.classList.contains('zombie_spawner') ||
+        ceil.children.length !== 0
+      )
+        return
 
       ceil.removeAttribute('style')
 
