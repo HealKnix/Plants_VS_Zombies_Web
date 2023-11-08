@@ -38,17 +38,27 @@ const map = [
 let floor_row = document.querySelectorAll('.floor__row')
 
 floor_row.forEach(row => {
-	;[...row.children].forEach(ceil => {
-		ceil.addEventListener('click', e => {
-			if (
-				ceil.classList.contains('planted') ||
-				ceil.classList.contains('zombie_spawner')
-			)
-				return
+  ;[...row.children].forEach(ceil => {
+    ceil.addEventListener('mouseenter', e => {
+      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
 
-			map[parseInt(row.id)].plantsArray.push(new Plants.Peashooter(ceil))
-		})
-	})
+      ceil.style.backgroundImage = `url("${Plants.getPlantsImages().peashooter}")`
+      ceil.style.opacity = `0.5`
+    })
+    ceil.addEventListener('mouseleave', e => {
+      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+
+      ceil.style.backgroundImage = `url("")`
+      ceil.style.opacity = `1`
+    })
+    ceil.addEventListener('click', e => {
+      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+
+      map[parseInt(row.id)].plantsArray.push(new Plants.Peashooter(ceil))
+
+      ceil.style.opacity = `1`
+    })
+  })
 })
 
 requestAnimationFrame(function selectedCeil() {
@@ -86,7 +96,12 @@ zombieSpawners.forEach(spawn => {
 		let newElement = document.createElement('div')
 		newElement.classList.add('zombie')
 
-		spawn.appendChild(newElement)
+    let healthBar = document.createElement('div')
+    healthBar.classList.add('health_bar')
+
+    newElement.appendChild(healthBar)
+
+    spawn.appendChild(newElement)
 
 		map[parseInt(spawn.id)].zombiesArray.push(
 			new Zombie.RegularZombie(newElement)
