@@ -1,11 +1,11 @@
 import * as Plants from '/src/models/Plants'
 import * as Zombie from '/src/models/Zombies'
 
-document.addEventListener('DOMContentLoaded', function () {
-  var audio = document.getElementById('music')
-  audio.volume = 0.25
+let themeAudio = document.getElementById('music')
+themeAudio.volume = 0.15
 
-  audio.play()
+document.addEventListener('click', () => {
+  themeAudio.play()
 })
 
 let suns = 0
@@ -41,19 +41,29 @@ floor_row.forEach(row => {
     ceil.addEventListener('mouseenter', e => {
       if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
 
-      ceil.style.backgroundImage = `url("${Plants.getPlantsImages().peashooter}")`
-      ceil.style.opacity = `0.5`
+      if (ceil.children.length === 0) {
+        ceil.style.backgroundImage = `url("${Plants.getPlantsImages().peashooter}")`
+        ceil.style.opacity = `0.5`
+      }
     })
     ceil.addEventListener('mouseleave', e => {
       if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
 
-      ceil.style.backgroundImage = `url("")`
-      ceil.style.opacity = `1`
+      if (ceil.children.length === 0) {
+        ceil.removeAttribute('style')
+      }
     })
     ceil.addEventListener('click', e => {
       if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
 
-      map[parseInt(row.id)].plantsArray.push(new Plants.Peashooter(ceil))
+      ceil.removeAttribute('style')
+
+      let newElement = document.createElement('div')
+      newElement.classList.add('plant')
+
+      ceil.appendChild(newElement)
+
+      map[parseInt(row.id)].plantsArray.push(new Plants.Peashooter(newElement))
 
       ceil.style.opacity = `1`
     })
@@ -89,18 +99,20 @@ requestAnimationFrame(function selectedCeil() {
 
 let zombieSpawners = document.querySelectorAll('.zombie_spawner')
 
-zombieSpawners.forEach(spawn => {
-  spawn.addEventListener('click', e => {
-    let newElement = document.createElement('div')
-    newElement.classList.add('zombie')
+setInterval(() => {
+  const randomLane = Math.floor(Math.random() * map.length)
 
-    let healthBar = document.createElement('div')
-    healthBar.classList.add('health_bar')
+  let newElement = document.createElement('div')
+  newElement.classList.add('zombie')
 
-    newElement.appendChild(healthBar)
+  let healthBar = document.createElement('div')
+  healthBar.classList.add('health_bar')
 
-    spawn.appendChild(newElement)
+  newElement.appendChild(healthBar)
 
-    map[parseInt(spawn.id)].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  })
-})
+  zombieSpawners[randomLane].appendChild(newElement)
+
+  map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
+
+  console.log(map)
+}, 2500)
