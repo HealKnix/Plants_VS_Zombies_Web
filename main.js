@@ -5,9 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var audio = document.getElementById('music')
   audio.volume = 0.25
 
-  audio.addEventListener('ended', () => {
-    audio.play()
-  })
+  audio.play()
 })
 
 let suns = 0
