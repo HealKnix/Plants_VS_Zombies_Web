@@ -59,3 +59,7 @@ export class Peashooter extends Plant {
     }
   }
 }
+
+export function getPlantsImages() {
+  return { peashooter: PeashooterImg }
+}

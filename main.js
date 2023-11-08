@@ -1,8 +1,6 @@
 import * as Plants from '/src/models/Plants'
 import * as Zombie from '/src/models/Zombies'
 
-import PeashooterImg from '/src/images/plants/peashooter.png'
-
 let suns = 0
 let deltaTime = 0
 
@@ -36,7 +34,7 @@ floor_row.forEach(row => {
     ceil.addEventListener('mouseenter', e => {
       if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
 
-      ceil.style.backgroundImage = `url("${PeashooterImg}")`
+      ceil.style.backgroundImage = `url("${Plants.getPlantsImages().peashooter}")`
       ceil.style.opacity = `0.5`
     })
     ceil.addEventListener('mouseleave', e => {
