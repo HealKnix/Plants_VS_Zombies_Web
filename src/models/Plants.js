@@ -1,6 +1,8 @@
 import PeashooterImg from '../images/plants/peashooter.png'
+import PlantingSound from '/src/music/planting-sound.mp3'
 
 class Plant {
+  plantingSound = new Audio(PlantingSound)
   htmlElement = null
   image = ''
   isReadyToShoot = false
@@ -9,8 +11,10 @@ class Plant {
   bulletSpeed = 0.2
 
   constructor(htmlElement) {
+    this.plantingSound.volume = 0.1
     this.htmlElement = htmlElement
     this.htmlElement.classList.add('planted')
+    this.plantingSound.play()
   }
 
   shoot() {}
