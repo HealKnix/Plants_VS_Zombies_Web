@@ -1,3 +1,5 @@
+import { gameStatus } from '../../main'
+
 import PlantingSound from '/src/music/planting_sound.mp3'
 
 import { deltaTime } from '/main'
@@ -91,18 +93,20 @@ export class Sunflower extends Plant {
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
   }
 
-  active() {
+  activate() {
     if (this.isReadyToActive) {
-      this.htmlElement.innerHTML = /*html*/ `<div class='sun_from_sunflower'></div>`
+      this.htmlElement.innerHTML = /*html*/ `<div class='sun_from_sunflower' style="pos"></div>`
+
+      this.htmlElement.children[0].addEventListener('click', () => {
+        gameStatus.suns += 25
+        this.htmlElement.children[0].parentElement.removeChild(this.htmlElement.children[0])
+        console.log('sun!')
+      })
 
       this.isReadyToActive = false
       setTimeout(() => {
         this.isReadyToActive = true
       }, 25000)
     }
-  }
-
-  updateActive() {
-    const suns = this.htmlElement.children
   }
 }

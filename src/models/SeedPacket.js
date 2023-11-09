@@ -1,3 +1,5 @@
+import { gameStatus } from '../../main'
+
 import PeashooterImg from '../images/plants/peashooter.png'
 import SunflowerImg from '../images/plants/sunflower.png'
 
@@ -28,6 +30,7 @@ export class SeedPacket {
   }
 
   createPlant(htmlElement) {
+    gameStatus.suns -= this.option.cost
     return new this.option.plant(htmlElement, this.option.image)
   }
 }

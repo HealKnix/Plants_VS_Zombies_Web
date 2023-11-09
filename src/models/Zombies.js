@@ -28,6 +28,7 @@ class Zombie {
     let isHit = false
     plantsArray.forEach(plant => {
       ;[...plant.htmlElement.children].forEach(bullet => {
+        if (!bullet.classList.contains('bullet')) return
         if (
           bullet.getBoundingClientRect().x - bullet.getBoundingClientRect().width >=
             this.htmlElement.getBoundingClientRect().x &&

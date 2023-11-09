@@ -57,6 +57,11 @@ body {
   background-size: contain;
 }
 
+.seed_bar__seeds__packet[disabled=""] {
+  pointer-events: none;
+  filter: saturate(0);
+}
+
 .seed_bar__seeds__packet.select {
   opacity: 0.5;
 }
@@ -242,4 +247,41 @@ main {
   will-change: auto;
 
   z-index: 99999;
+}
+
+.sun_from_sunflower {
+  cursor: pointer;
+  position: absolute;
+  width: 3.25vh;
+  height: 3.25vh;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  background-color: #fff70e;
+  outline: 0.3vh solid #a66a47;
+  border-radius: 50%;
+  z-index: 99999;
+  animation: sunJump 1s ease-in-out both;
+}
+
+@keyframes sunJump {
+  0% {
+    left: 50%;
+    top: 50%;
+  }
+
+  50% {
+    left: 60%;
+    top: 35%;
+  }
+
+  75% {
+    left: 75%;
+    top: 35%;
+  }
+
+  100% {
+    left: 100%;
+    top: 80%;
+  }
 }

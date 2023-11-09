@@ -11,7 +11,9 @@ document.addEventListener('click', () => {
   themeAudio.play()
 })
 
-let suns = 0
+export const gameStatus = {
+  suns: 200
+}
 export let deltaTime = 0
 let preventTime = 0
 
@@ -140,6 +142,14 @@ floor_row.forEach(row => {
 })
 
 requestAnimationFrame(function selectedCeil() {
+  seedPacketsList.forEach(packet => {
+    if (gameStatus.suns < packet.option.cost) {
+      seedPackets[packet.option.id].setAttribute('disabled', '')
+    } else {
+      seedPackets[packet.option.id].removeAttribute('disabled')
+    }
+  })
+
   deltaTime = (Date.now() - preventTime) / 1000
   map.forEach(lane => {
     lane.plantsArray.forEach(plant => {
@@ -152,7 +162,11 @@ requestAnimationFrame(function selectedCeil() {
     if (lane.zombiesArray.some(zombie => zombie.health === 0))
       lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
   })
+
   preventTime = Date.now()
+
+  document.querySelector('.count_of_suns').innerText = gameStatus.suns
+
   requestAnimationFrame(selectedCeil)
 })
 
