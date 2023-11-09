@@ -1,3 +1,5 @@
+@import 'src/assets/fonts/fonts.css';
+
 * {
   margin: 0;
   padding: 0;
@@ -8,6 +10,99 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.wrapper__seed_bar {
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  z-index: 9998;
+}
+
+.seed_bar {
+  display: grid;
+  grid-template-columns: 10vh 1fr;
+  gap: 1vh;
+  margin-left: calc(100vh / 2.4);
+  width: 50vh;
+  height: calc(100% - 2vh);
+  padding: 1vh;
+  background-color: #98441b;
+  outline: 2px solid #632d13;
+  border-radius: 1vh;
+  box-shadow: inset 0 0 2px 2px #5726107c;
+}
+
+.seed_bar__suns {
+  border-radius: 0.75vh 0 0 0.75vh;
+}
+
+.seed_bar__seeds {
+  border-radius: 0 0.75vh 0.75vh 0;
+}
+
+.seed_bar__suns,
+.seed_bar__seeds {
+  position: relative;
+  background-color: #6f3215;
+  outline: 1px solid #632d13;
+  box-shadow: inset 0 0 1vh #552610;
+}
+
+.seed_bar__suns__sticker {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 1.25vh);
+  height: 3.5vh;
+  left: 50%;
+  top: 91%;
+  background: linear-gradient(to top, #f4f7cc, #e1d79f);
+  transform: translate3d(-50%, -50%, 0);
+  box-shadow: 0.3vh 0.4vh 0.5vh #53270f, 0 0 0.5vh #3d1d0b;
+}
+
+.seed_bar__suns__sticker>.count_of_suns {
+  font-family: Cornerita;
+  margin-top: 0.6vh;
+  margin-left: 0.5vh;
+  font-size: 3.5vh;
+  text-shadow: 0 0 1px black, 0 0 1px black;
+}
+
+.seed_bar__suns_present {
+  position: relative;
+  width: 7.35vh;
+  height: 7.35vh;
+  margin: 1vh auto;
+  border-radius: 50%;
+  background: linear-gradient(-35deg, #98381b, #4d1c08, #6f3215);
+  border: 0.5vh solid #98441b;
+  box-shadow: 0.3vh 0.4vh 0.5vh #53270f, 0 0 0.5vh #53270f81;
+  overflow: hidden;
+}
+
+.seed_bar__suns_present__glass {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-225deg, rgba(255, 255, 255, 0.295), rgba(255, 255, 255, 0.068) 40%);
+  border-top: 2px solid rgba(255, 255, 255, 0.404);
+  border-left: 2px solid rgba(255, 255, 255, 0.404);
+  border-radius: 50%;
+}
+
+.seed_bar__suns_present__sun {
+  position: absolute;
+  width: 3.25vh;
+  height: 3.25vh;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  background-color: #fff70e;
+  outline: 0.3vh solid #a66a47;
+  border-radius: 50%;
 }
 
 main {
@@ -72,10 +167,12 @@ main {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: -2vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   will-change: auto;
+  z-index: 9999;
 }
 
 .zombie_spawner>.zombie>.health_bar {
@@ -100,7 +197,7 @@ main {
   top: 30%;
   left: 75%;
   transform: translate3d(-85%, -30%, 0);
-  background-image: url('src/images/plants/peashooter-bullet.png');
+  background-image: url('src/images/plants/peashooter_bullet.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

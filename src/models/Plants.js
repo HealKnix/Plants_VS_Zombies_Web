@@ -1,12 +1,16 @@
 import PeashooterImg from '../images/plants/peashooter.png'
+import SunflowerImg from '../images/plants/sunflower.png'
+
 import PlantingSound from '/src/music/planting-sound.mp3'
 
 class Plant {
   plantingSound = new Audio(PlantingSound)
   htmlElement = null
   image = ''
-  isReadyToShoot = false
+  isReadyToShoot = true
+  isReadyToActive = true
   health = 100
+  cost = 0
 
   bulletSpeed = 0.2
 
@@ -18,11 +22,12 @@ class Plant {
   }
 
   shoot() {}
+
+  active() {}
 }
 
 export class Peashooter extends Plant {
   image = PeashooterImg
-  isReadyToShoot = true
   health = 125
 
   constructor(htmlElement) {
@@ -64,6 +69,33 @@ export class Peashooter extends Plant {
   }
 }
 
+export class Sunflower extends Plant {
+  image = SunflowerImg
+  health = 150
+
+  constructor(htmlElement) {
+    super(htmlElement)
+    this.htmlElement.style.backgroundImage = `url("${this.image}")`
+  }
+
+  active() {
+    if (this.isReadyToActive) {
+      this.htmlElement.innerHTML = /*html*/ `<div class='sun_from_sunflower'></div>`
+
+      this.isReadyToActive = false
+      setTimeout(() => {
+        this.isReadyToActive = true
+      }, 25000)
+    }
+  }
+
+  updateActive() {
+    const suns = this.htmlElement.children
+
+    suns
+  }
+}
+
 export function getPlantsImages() {
-  return { peashooter: PeashooterImg }
+  return { peashooter: PeashooterImg, sunflower: SunflowerImg }
 }

@@ -1,4 +1,4 @@
-import RegularZombieImg from '../images/zombies/regular-zombie.png'
+import RegularZombieImg from '../images/zombies/regular_zombie.png'
 
 class Zombie {
   htmlElement = null
