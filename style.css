@@ -40,20 +40,20 @@ main {
 
 .floor__ceil {
   position: relative;
-  background-position: center;
+  background-position: center 4vh;
   background-repeat: no-repeat;
   background-size: 70%;
 }
 
 .floor__ceil:has(.plant.planted) {
-  background: radial-gradient(circle closest-side at 50% 65%, rgba(0, 60, 9, 0.5) 2vh, transparent 90%);
+  background: radial-gradient(circle closest-side at 53% 70%, rgba(0, 60, 9, 0.75) 2vh, transparent 80%);
 }
 
 .floor__ceil>.plant {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-position: center;
+  background-position: center 4vh;
   background-repeat: no-repeat;
   background-size: 70%;
 }
@@ -98,11 +98,14 @@ main {
   width: var(--size);
   height: var(--size);
   top: 30%;
-  left: 85%;
+  left: 75%;
   transform: translate3d(-85%, -30%, 0);
-  background-color: lime;
+  background-image: url('src/images/plants/peashooter-bullet.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   border-radius: 50%;
-  outline: calc(1vh / 4) solid #333;
+  outline: calc(1vh / 6) solid #333;
   will-change: auto;
 
   z-index: 99999;
