@@ -31,7 +31,7 @@ export class Peashooter extends Plant {
   health = 125
   cost = 100
 
-  bulletSpeed = 85
+  bulletSpeed = 50
 
   constructor(htmlElement) {
     super(htmlElement)
