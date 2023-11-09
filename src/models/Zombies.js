@@ -6,7 +6,7 @@ import HitSound2 from '../music/zombies_hit_2.mp3'
 const hitSounds = [HitSound1, HitSound2]
 
 class Zombie {
-  hitSound = new Audio()
+  hitSound = []
   htmlElement = null
   health = 100
   speedX = 0.015
@@ -15,7 +15,6 @@ class Zombie {
   constructor(htmlElement) {
     this.htmlElement = htmlElement
     this.fullHealth = this.health
-    this.hitSound.volume = 0.05
   }
 
   eat() {}
@@ -34,8 +33,14 @@ class Zombie {
             this.htmlElement.getBoundingClientRect().x +
               this.htmlElement.getBoundingClientRect().width
         ) {
-          this.hitSound.src = hitSounds[Math.floor(Math.random() * 2)]
-          this.hitSound.play()
+          this.hitSound.push(new Audio(hitSounds[Math.floor(Math.random() * 2)]))
+          this.hitSound[this.hitSound.length - 1].volume = 0.05
+          this.hitSound[this.hitSound.length - 1].play()
+          for (let i = 0; i < this.hitSound.length; i++) {
+            this.hitSound[i].addEventListener('ended', () => {
+              this.hitSound.splice(i, 1)
+            })
+          }
           this.health -= 25
           this.htmlElement.children[0].style.width = `${(this.health / this.fullHealth) * 100}%`
           bullet.parentElement.removeChild(bullet)
