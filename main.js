@@ -118,6 +118,4 @@ setInterval(() => {
   zombieSpawners[randomLane].appendChild(newElement)
 
   map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-
-  console.log(map)
 }, 2500)
