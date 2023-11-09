@@ -53,7 +53,11 @@ class Zombie {
       if (isHit) return
     })
 
-    if (this.health <= 0) {
+    if (
+      this.health <= 0 ||
+      this.htmlElement.getBoundingClientRect().x <=
+        document.documentElement.getBoundingClientRect().height * 0.2
+    ) {
       this.health = 0
       this.htmlElement.parentElement.removeChild(this.htmlElement)
     }
