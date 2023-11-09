@@ -3,13 +3,15 @@ import RegularZombieImg from '../images/zombies/regular_zombie.png'
 import HitSound1 from '../music/zombies_hit_1.mp3'
 import HitSound2 from '../music/zombies_hit_2.mp3'
 
+import { deltaTime } from '/main'
+
 const hitSounds = [HitSound1, HitSound2]
 
 class Zombie {
   hitSound = []
   htmlElement = null
   health = 100
-  speedX = 0.015
+  speedX = 3
   posX = 0
 
   constructor(htmlElement) {
@@ -20,7 +22,7 @@ class Zombie {
   eat() {}
   walk() {
     this.htmlElement.style.transform = `translate3d(${this.posX}vh, 0, 0)`
-    this.posX -= this.speedX
+    this.posX -= this.speedX * deltaTime
   }
   checkHit(plantsArray) {
     let isHit = false

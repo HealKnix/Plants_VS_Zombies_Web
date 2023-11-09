@@ -9,7 +9,8 @@ document.addEventListener('click', () => {
 })
 
 let suns = 0
-let deltaTime = 0
+export let deltaTime = 0
+let preventTime = 0
 
 const map = [
   {
@@ -76,6 +77,7 @@ floor_row.forEach(row => {
 })
 
 requestAnimationFrame(function selectedCeil() {
+  deltaTime = (Date.now() - preventTime) / 1000
   map.forEach(lane => {
     lane.plantsArray.forEach(plant => {
       if (
@@ -99,6 +101,7 @@ requestAnimationFrame(function selectedCeil() {
     if (lane.zombiesArray.some(zombie => zombie.health === 0))
       lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
   })
+  preventTime = Date.now()
   requestAnimationFrame(selectedCeil)
 })
 

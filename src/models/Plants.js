@@ -3,6 +3,8 @@ import SunflowerImg from '../images/plants/sunflower.png'
 
 import PlantingSound from '/src/music/planting_sound.mp3'
 
+import { deltaTime } from '/main'
+
 class Plant {
   plantingSound = new Audio(PlantingSound)
   htmlElement = null
@@ -11,8 +13,6 @@ class Plant {
   isReadyToActive = true
   health = 100
   cost = 0
-
-  bulletSpeed = 0.2
 
   constructor(htmlElement) {
     this.plantingSound.volume = 0.1
@@ -29,6 +29,9 @@ class Plant {
 export class Peashooter extends Plant {
   image = PeashooterImg
   health = 125
+  cost = 100
+
+  bulletSpeed = 85
 
   constructor(htmlElement) {
     super(htmlElement)
@@ -38,7 +41,6 @@ export class Peashooter extends Plant {
   shoot() {
     if (this.isReadyToShoot) {
       this.htmlElement.innerHTML += /*html*/ `<div class="bullet" posX="0"></div>`
-
       this.isReadyToShoot = false
       setTimeout(() => {
         this.isReadyToShoot = true
@@ -63,7 +65,7 @@ export class Peashooter extends Plant {
         return
       }
 
-      bulletsX += this.bulletSpeed
+      bulletsX += this.bulletSpeed * deltaTime
       bullets[i].setAttribute('posX', bulletsX)
     }
   }
@@ -72,6 +74,7 @@ export class Peashooter extends Plant {
 export class Sunflower extends Plant {
   image = SunflowerImg
   health = 150
+  cost = 50
 
   constructor(htmlElement) {
     super(htmlElement)
