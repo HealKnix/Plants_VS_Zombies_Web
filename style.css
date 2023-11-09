@@ -24,7 +24,7 @@ body {
   grid-template-columns: 10vh 1fr;
   gap: 1vh;
   margin-left: calc(100vh / 2.4);
-  width: 50vh;
+  width: 72vh;
   height: calc(100% - 2vh);
   padding: 1vh;
   background-color: #98441b;
@@ -38,7 +38,39 @@ body {
 }
 
 .seed_bar__seeds {
+  display: grid;
+  gap: 2vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+  grid-template-columns: repeat(5, 1fr);
   border-radius: 0 0.75vh 0.75vh 0;
+}
+
+.seed_bar__seeds__packet {
+  position: relative;
+  display: grid;
+  grid-template-rows: 3fr 1fr;
+  cursor: pointer;
+  background-image: url('/src/images/other/seed_packet_green.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.seed_bar__seeds__packet__image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url('/src/images/plants/peashooter.png');
+  background-repeat: no-repeat;
+  background-position: center 3.5vh;
+  background-size: 50%;
+}
+
+.seed_bar__seeds__packet__cost {
+  margin: auto;
+  font-family: Pico12;
+  font-size: 1.8vh;
 }
 
 .seed_bar__suns,
