@@ -1,5 +1,8 @@
+import { seedPacketsList } from '/src/models/SeedPacket'
 import * as Plants from '/src/models/Plants'
 import * as Zombie from '/src/models/Zombies'
+
+import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 
 let themeAudio = document.getElementById('music')
 themeAudio.volume = 0.15
@@ -35,20 +38,67 @@ const map = [
   }
 ]
 
+let seedBar = document.querySelector('.seed_bar')
+let seedPackets = document.querySelectorAll('.seed_bar__seeds__packet')
+
+seedPackets.forEach(packet => {
+  packet.addEventListener('click', e => {
+    if (packet.classList.contains('select')) {
+      seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = false
+      packet.classList.remove('select')
+      return
+    }
+
+    let countIndex = 0
+
+    seedPacketsList.forEach(packet => {
+      if (packet.isSelected) countIndex++
+    })
+
+    if (countIndex > 0) {
+      seedPackets.forEach(packet => {
+        packet.classList.remove('select')
+      })
+      seedPacketsList.forEach(packet => {
+        packet.isSelected = false
+      })
+    }
+
+    packet.classList.add('select')
+    seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = true
+
+    let opa = new Audio(SeedPacketSound)
+    opa.volume = 0.35
+    opa.play()
+  })
+})
+
 let floor_row = document.querySelectorAll('.floor__row')
 
 floor_row.forEach(row => {
   ;[...row.children].forEach(ceil => {
     ceil.addEventListener('mouseenter', e => {
-      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+      if (
+        ceil.classList.contains('planted') ||
+        ceil.classList.contains('zombie_spawner') ||
+        !seedPacketsList.some(packet => packet.isSelected)
+      )
+        return
 
       if (ceil.children.length === 0) {
-        ceil.style.backgroundImage = `url("${Plants.getPlantsImages().peashooter}")`
+        ceil.style.backgroundImage = `url("${
+          seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image
+        }")`
         ceil.style.opacity = `0.5`
       }
     })
     ceil.addEventListener('mouseleave', e => {
-      if (ceil.classList.contains('planted') || ceil.classList.contains('zombie_spawner')) return
+      if (
+        ceil.classList.contains('planted') ||
+        ceil.classList.contains('zombie_spawner') ||
+        !seedPacketsList.some(packet => packet.isSelected)
+      )
+        return
 
       if (ceil.children.length === 0) {
         ceil.removeAttribute('style')
@@ -58,9 +108,11 @@ floor_row.forEach(row => {
       if (
         ceil.classList.contains('planted') ||
         ceil.classList.contains('zombie_spawner') ||
-        ceil.children.length !== 0
-      )
+        ceil.children.length !== 0 ||
+        !seedPacketsList.some(packet => packet.isSelected)
+      ) {
         return
+      }
 
       ceil.removeAttribute('style')
 
@@ -69,7 +121,18 @@ floor_row.forEach(row => {
 
       ceil.appendChild(newElement)
 
-      map[parseInt(row.id)].plantsArray.push(new Plants.Peashooter(newElement))
+      map[parseInt(row.id)].plantsArray.push(
+        seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].createPlant(
+          newElement
+        )
+      )
+
+      seedPackets.forEach(packet => {
+        packet.classList.remove('select')
+      })
+      seedPacketsList.forEach(packet => {
+        packet.isSelected = false
+      })
 
       ceil.style.opacity = `1`
     })
@@ -80,19 +143,7 @@ requestAnimationFrame(function selectedCeil() {
   deltaTime = (Date.now() - preventTime) / 1000
   map.forEach(lane => {
     lane.plantsArray.forEach(plant => {
-      if (
-        lane.zombiesArray.length > 0 &&
-        lane.zombiesArray.some(zombie => {
-          const centerOfZombie =
-            zombie.htmlElement.getBoundingClientRect().x +
-            zombie.htmlElement.getBoundingClientRect().width / 3
-          const plantPosX = plant.htmlElement.getBoundingClientRect().x
-          return centerOfZombie > plantPosX
-        })
-      ) {
-        plant.shoot()
-      }
-      plant.updateBullet()
+      plant.activate(lane)
     })
     lane.zombiesArray.forEach(zombie => {
       zombie.walk()

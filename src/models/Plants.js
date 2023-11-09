@@ -1,40 +1,36 @@
-import PeashooterImg from '../images/plants/peashooter.png'
-import SunflowerImg from '../images/plants/sunflower.png'
-
 import PlantingSound from '/src/music/planting_sound.mp3'
 
 import { deltaTime } from '/main'
 
 class Plant {
   plantingSound = new Audio(PlantingSound)
+  seedPacket = null
   htmlElement = null
   image = ''
   isReadyToShoot = true
   isReadyToActive = true
   health = 100
-  cost = 0
 
-  constructor(htmlElement) {
+  constructor(htmlElement, image) {
     this.plantingSound.volume = 0.1
     this.htmlElement = htmlElement
+    this.image = image
     this.htmlElement.classList.add('planted')
     this.plantingSound.play()
   }
 
   shoot() {}
 
-  active() {}
+  activate() {}
 }
 
 export class Peashooter extends Plant {
-  image = PeashooterImg
   health = 125
-  cost = 100
 
   bulletSpeed = 50
 
-  constructor(htmlElement) {
-    super(htmlElement)
+  constructor(htmlElement, seedPacket) {
+    super(htmlElement, seedPacket)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
   }
 
@@ -69,15 +65,29 @@ export class Peashooter extends Plant {
       bullets[i].setAttribute('posX', bulletsX)
     }
   }
+
+  activate(lane) {
+    if (
+      lane.zombiesArray.length > 0 &&
+      lane.zombiesArray.some(zombie => {
+        const centerOfZombie =
+          zombie.htmlElement.getBoundingClientRect().x +
+          zombie.htmlElement.getBoundingClientRect().width / 3
+        const plantPosX = this.htmlElement.getBoundingClientRect().x
+        return centerOfZombie > plantPosX
+      })
+    ) {
+      this.shoot()
+    }
+    this.updateBullet()
+  }
 }
 
 export class Sunflower extends Plant {
-  image = SunflowerImg
   health = 150
-  cost = 50
 
-  constructor(htmlElement) {
-    super(htmlElement)
+  constructor(htmlElement, seedPacket) {
+    super(htmlElement, seedPacket)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
   }
 
@@ -94,11 +104,5 @@ export class Sunflower extends Plant {
 
   updateActive() {
     const suns = this.htmlElement.children
-
-    suns
   }
-}
-
-export function getPlantsImages() {
-  return { peashooter: PeashooterImg, sunflower: SunflowerImg }
 }
