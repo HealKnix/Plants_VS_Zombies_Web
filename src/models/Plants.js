@@ -1,7 +1,7 @@
 import PeashooterImg from '../images/plants/peashooter.png'
 import SunflowerImg from '../images/plants/sunflower.png'
 
-import PlantingSound from '/src/music/planting-sound.mp3'
+import PlantingSound from '/src/music/planting_sound.mp3'
 
 class Plant {
   plantingSound = new Audio(PlantingSound)
