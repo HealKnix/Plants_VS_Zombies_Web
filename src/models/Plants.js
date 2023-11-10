@@ -103,14 +103,21 @@ export class Sunflower extends Plant {
 
   activate() {
     if (this.isReadyToActive) {
-      this.htmlElement.innerHTML = /*html*/ `<div class='sun_from_sunflower sun' style="pos"></div>`
+      const newElement = document.createElement('div')
+      newElement.classList.add('sun_from_sunflower', 'sun')
 
-      this.htmlElement.children[0].addEventListener('click', () => {
+      this.htmlElement.appendChild(newElement)
+
+      newElement.addEventListener('click', () => {
         gameStatus.suns += 25
         this.pickupSound.play()
-        this.htmlElement.children[0].parentElement.removeChild(this.htmlElement.children[0])
+        newElement.parentElement.removeChild(this.htmlElement.children[0])
         console.log('sun!')
       })
+
+      setTimeout(() => {
+        newElement.parentElement.removeChild(newElement)
+      }, 8000)
 
       this.isReadyToActive = false
       setTimeout(() => {
