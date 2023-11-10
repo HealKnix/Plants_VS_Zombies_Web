@@ -12,7 +12,7 @@ document.addEventListener('click', () => {
 })
 
 export const gameStatus = {
-  suns: 200
+  suns: 50
 }
 export let deltaTime = 0
 let preventTime = 0
@@ -180,18 +180,34 @@ requestAnimationFrame(function selectedCeil() {
 
 let zombieSpawners = document.querySelectorAll('.zombie_spawner')
 
-setInterval(() => {
-  const randomLane = Math.floor(Math.random() * map.length)
+setTimeout(() => {
+  setInterval(() => {
+    const randomLane = Math.floor(Math.random() * map.length)
 
-  let newElement = document.createElement('div')
-  newElement.classList.add('zombie')
+    let newElement = document.createElement('div')
+    newElement.classList.add('zombie')
 
-  let healthBar = document.createElement('div')
-  healthBar.classList.add('health_bar')
+    let healthBar = document.createElement('div')
+    healthBar.classList.add('health_bar')
 
-  newElement.appendChild(healthBar)
+    newElement.appendChild(healthBar)
 
-  zombieSpawners[randomLane].appendChild(newElement)
+    zombieSpawners[randomLane].appendChild(newElement)
 
-  map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
+    map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
+  }, 15000)
 }, 10000)
+
+setInterval(() => {
+  const newElement = document.createElement('div')
+  newElement.classList.add('sun_from_level', 'sun')
+
+  newElement.style.animationName = `sunFall${Math.floor(Math.random() * 8) + 1}`
+
+  newElement.addEventListener('click', () => {
+    gameStatus.suns += 25
+    newElement.parentElement.removeChild(newElement)
+  })
+
+  document.querySelector('main').appendChild(newElement)
+}, 5000)

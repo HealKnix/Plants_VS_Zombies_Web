@@ -12,6 +12,21 @@ body {
   overflow: hidden;
 }
 
+.sun {
+  cursor: pointer;
+  position: absolute;
+  width: 4vh;
+  height: 4vh;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  background-color: #fff70e;
+  outline: 0.3vh solid #a66a47;
+  border-radius: 50%;
+  will-change: auto;
+  z-index: 99999;
+}
+
 .wrapper__seed_bar {
   position: absolute;
   width: 100%;
@@ -154,18 +169,6 @@ body {
   border-radius: 50%;
 }
 
-.seed_bar__suns_present__sun {
-  position: absolute;
-  width: 3.25vh;
-  height: 3.25vh;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  background-color: #fff70e;
-  outline: 0.3vh solid #a66a47;
-  border-radius: 50%;
-}
-
 main {
   position: relative;
   height: 100%;
@@ -269,18 +272,7 @@ main {
   z-index: 99999;
 }
 
-.sun_from_sunflower {
-  cursor: pointer;
-  position: absolute;
-  width: 3.25vh;
-  height: 3.25vh;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  background-color: #fff70e;
-  outline: 0.3vh solid #a66a47;
-  border-radius: 50%;
-  z-index: 99999;
+.sun_from_sunflower.sun {
   animation: sunJump 1s ease-in-out both;
 }
 
@@ -303,5 +295,90 @@ main {
   100% {
     left: 100%;
     top: 80%;
+  }
+}
+
+.sun_from_level.sun {
+  top: 18vh;
+  animation: 10s linear both;
+}
+
+@keyframes sunFall1 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 50vh, 0);
+  }
+}
+
+@keyframes sunFall2 {
+  0% {
+    transform: translate3d(-10vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-10vh, 60vh, 0);
+  }
+}
+
+@keyframes sunFall3 {
+  0% {
+    transform: translate3d(-30vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-30vh, 30vh, 0);
+  }
+}
+
+@keyframes sunFall4 {
+  0% {
+    transform: translate3d(30vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(30vh, 70vh, 0);
+  }
+}
+
+@keyframes sunFall5 {
+  0% {
+    transform: translate3d(50vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(50vh, 10vh, 0);
+  }
+}
+
+@keyframes sunFall6 {
+  0% {
+    transform: translate3d(40vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(40vh, 50vh, 0);
+  }
+}
+
+@keyframes sunFall7 {
+  0% {
+    transform: translate3d(20vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(20vh, 45vh, 0);
+  }
+}
+
+@keyframes sunFall8 {
+  0% {
+    transform: translate3d(-40vh, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-40vh, 74vh, 0);
   }
 }

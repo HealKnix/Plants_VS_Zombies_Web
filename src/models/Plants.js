@@ -10,8 +10,7 @@ class Plant {
   htmlElement = null
   image = ''
   name = ''
-  isReadyToShoot = true
-  isReadyToActive = true
+  isReadyToActive = false
   health = 100
 
   constructor(htmlElement, image) {
@@ -20,6 +19,10 @@ class Plant {
     this.image = image
     this.htmlElement.classList.add('planted')
     this.plantingSound.play()
+
+    setTimeout(() => {
+      this.isReadyToActive = true
+    }, 1000)
   }
 
   shoot() {}
@@ -39,11 +42,11 @@ export class Peashooter extends Plant {
   }
 
   shoot() {
-    if (this.isReadyToShoot) {
+    if (this.isReadyToActive) {
       this.htmlElement.innerHTML += /*html*/ `<div class="bullet" posX="0"></div>`
-      this.isReadyToShoot = false
+      this.isReadyToActive = false
       setTimeout(() => {
-        this.isReadyToShoot = true
+        this.isReadyToActive = true
       }, 2000)
     }
   }
@@ -98,7 +101,7 @@ export class Sunflower extends Plant {
 
   activate() {
     if (this.isReadyToActive) {
-      this.htmlElement.innerHTML = /*html*/ `<div class='sun_from_sunflower' style="pos"></div>`
+      this.htmlElement.innerHTML = /*html*/ `<div class='sun_from_sunflower sun' style="pos"></div>`
 
       this.htmlElement.children[0].addEventListener('click', () => {
         gameStatus.suns += 25
