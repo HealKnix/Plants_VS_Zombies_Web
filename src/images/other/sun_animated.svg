@@ -7,7 +7,36 @@
       }
 
       .cls-1, .cls-3 {
+        --scale: 0.85;
+        transform-origin: 50%;
         opacity: .75;
+        animation: rotateBig 30s linear infinite
+      }
+
+      @keyframes rotateBig {
+        0% {
+          rotate: 0deg;
+          scale: 1;
+        }
+        12.5% {
+          scale: var(--scale);
+        }
+        25% {
+          scale: 1;
+        }
+        50% {
+          scale: var(--scale);
+        }
+        62.5% {
+          scale: 1;
+        }
+        75% {
+          scale: var(--scale);
+        }
+        100% {
+          scale: 1;
+          rotate: 360deg;
+        }
       }
 
       .cls-4 {
@@ -27,7 +56,36 @@
       }
 
       .cls-2 {
+        --scale: 1.15;
+        transform-origin: 50%;
         opacity: .85;
+        animation: rotateSmall 30s linear infinite
+      }
+
+      @keyframes rotateSmall {
+        0% {
+          rotate: 0deg;
+          scale: 1;
+        }
+        12.5% {
+          scale: var(--scale);
+        }
+        25% {
+          scale: 1;
+        }
+        50% {
+          scale: var(--scale);
+        }
+        62.5% {
+          scale: 1;
+        }
+        75% {
+          scale: var(--scale);
+        }
+        100% {
+          scale: 1;
+          rotate: 360deg;
+        }
       }
 
       .cls-3 {

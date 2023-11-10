@@ -18,7 +18,7 @@ body {
   width: 9vh;
   height: 9vh;
   transform: translate3d(-50%, -50%, 0);
-  background: url('/src/images/other/sun.svg');
+  background: url('/src/images/other/sun_animated.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -160,9 +160,11 @@ body {
 
 .seed_bar__suns_present__sun.sun {
   cursor: default;
-  left: 50%;
   top: 50%;
+  left: 50%;
+  background-image: url('/src/images/other/sun.svg');
   background-size: 85%;
+  animation: rotateAlternative 30s linear infinite
 }
 
 .seed_bar__suns_present__glass {
