@@ -2,9 +2,11 @@ import { seedPacketsList } from '/src/models/SeedPacket'
 import * as Plants from '/src/models/Plants'
 import * as Zombie from '/src/models/Zombies'
 
+import SunPickupSound from '/src/music/sun_pickup.mp3'
+
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 
-let themeAudio = document.getElementById('music')
+const themeAudio = document.getElementById('music')
 themeAudio.volume = 0.15
 
 document.addEventListener('click', () => {
@@ -202,10 +204,13 @@ setInterval(() => {
   const newElement = document.createElement('div')
   newElement.classList.add('sun_from_level', 'sun')
 
-  newElement.style.animationName = `sunFall${Math.floor(Math.random() * 8) + 1}`
+  newElement.style.animationName = `sunFall${Math.floor(Math.random() * 9) + 1}`
 
   newElement.addEventListener('click', () => {
     gameStatus.suns += 25
+    const pickupSound = new Audio(SunPickupSound)
+    pickupSound.volume = 0.25
+    pickupSound.play()
     newElement.parentElement.removeChild(newElement)
   })
 

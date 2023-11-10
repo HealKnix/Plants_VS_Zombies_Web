@@ -1,3 +1,5 @@
+import SunPickupSound from '/src/music/sun_pickup.mp3'
+
 import { gameStatus } from '../../main'
 
 import PlantingSound from '/src/music/planting_sound.mp3'
@@ -89,12 +91,14 @@ export class Peashooter extends Plant {
 }
 
 export class Sunflower extends Plant {
+  pickupSound = new Audio(SunPickupSound)
   static name = 'Подсолнух'
   health = 150
 
   constructor(htmlElement, seedPacket) {
     super(htmlElement, seedPacket)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
+    this.pickupSound.volume = 0.25
   }
 
   activate() {
@@ -103,6 +107,7 @@ export class Sunflower extends Plant {
 
       this.htmlElement.children[0].addEventListener('click', () => {
         gameStatus.suns += 25
+        this.pickupSound.play()
         this.htmlElement.children[0].parentElement.removeChild(this.htmlElement.children[0])
         console.log('sun!')
       })
