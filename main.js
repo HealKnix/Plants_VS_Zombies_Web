@@ -234,16 +234,11 @@ setTimeout(() => {
     let newElement = document.createElement('div')
     newElement.classList.add('zombie')
 
-    let healthBar = document.createElement('div')
-    healthBar.classList.add('health_bar')
-
-    newElement.appendChild(healthBar)
-
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  }, 15000)
-}, 10000)
+  }, 12500)
+}, 20000)
 
 // Для спавна солнышек на уровне
 setInterval(() => {

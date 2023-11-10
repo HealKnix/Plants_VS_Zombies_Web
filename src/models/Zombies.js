@@ -30,9 +30,9 @@ class Zombie {
       ;[...plant.htmlElement.children].forEach(bullet => {
         if (!bullet.classList.contains('bullet')) return
         if (
-          bullet.getBoundingClientRect().x - bullet.getBoundingClientRect().width >=
+          bullet.getBoundingClientRect().x - bullet.getBoundingClientRect().width * 1.75 >=
             this.htmlElement.getBoundingClientRect().x &&
-          bullet.getBoundingClientRect().x - bullet.getBoundingClientRect().width <=
+          bullet.getBoundingClientRect().x <=
             this.htmlElement.getBoundingClientRect().x +
               this.htmlElement.getBoundingClientRect().width
         ) {
@@ -44,8 +44,7 @@ class Zombie {
               this.hitSound.splice(i, 1)
             })
           }
-          this.health -= 25
-          this.htmlElement.children[0].style.width = `${(this.health / this.fullHealth) * 100}%`
+          this.health -= parseInt(bullet.getAttribute('damage'))
           bullet.parentElement.removeChild(bullet)
           isHit = true
           return
@@ -67,7 +66,7 @@ class Zombie {
 
 export class RegularZombie extends Zombie {
   image = RegularZombieImg
-  health = 250
+  health = 200
   fullHealth = this.health
 
   constructor(htmlElement) {

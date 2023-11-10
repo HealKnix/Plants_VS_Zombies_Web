@@ -27,6 +27,7 @@ class Plant {
 export class Peashooter extends Plant {
   static name = 'Горохострел'
   health = 125
+  bulletDamage = 20
 
   bulletSpeed = 50
 
@@ -41,7 +42,7 @@ export class Peashooter extends Plant {
 
   shoot() {
     if (this.isReadyToActive) {
-      this.htmlElement.innerHTML += /*html*/ `<div class="bullet" posX="0"></div>`
+      this.htmlElement.innerHTML += /*html*/ `<div class="bullet" damage="${this.bulletDamage}" posX="0"></div>`
       this.isReadyToActive = false
       setTimeout(() => {
         this.isReadyToActive = true
