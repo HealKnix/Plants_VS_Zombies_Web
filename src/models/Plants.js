@@ -1,9 +1,7 @@
 import SunPickupSound from '/src/music/sun_pickup.mp3'
-
-import { gameStatus } from '../../main'
-
 import PlantingSound from '/src/music/planting_sound.mp3'
 
+import { gameStatus } from '../../main'
 import { deltaTime } from '/main'
 
 class Plant {
@@ -21,10 +19,6 @@ class Plant {
     this.image = image
     this.htmlElement.classList.add('planted')
     this.plantingSound.play()
-
-    setTimeout(() => {
-      this.isReadyToActive = true
-    }, 1000)
   }
 
   activate() {}
@@ -39,6 +33,10 @@ export class Peashooter extends Plant {
   constructor(htmlElement, seedPacket) {
     super(htmlElement, seedPacket)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
+
+    setTimeout(() => {
+      this.isReadyToActive = true
+    }, 1000)
   }
 
   shoot() {
@@ -99,6 +97,10 @@ export class Sunflower extends Plant {
     super(htmlElement, seedPacket)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.pickupSound.volume = 0.25
+
+    setTimeout(() => {
+      this.isReadyToActive = true
+    }, 5000)
   }
 
   activate() {
