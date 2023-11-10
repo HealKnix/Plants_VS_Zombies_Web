@@ -48,6 +48,24 @@ let seedPackets = document.querySelectorAll('.seed_bar__seeds__packet')
 seedPackets.forEach(packet => {
   packet.addEventListener('mouseenter', () => {
     packet.children[2].classList.add('show')
+
+    const seedPacket = seedPacketsList[parseInt(packet.getAttribute('id'))]
+
+    if (gameStatus.suns < seedPacket.option.cost) {
+      if (!seedPacket.isReloaded) {
+        packet.children[2].innerHTML = /*html*/ `
+        <span style="font-size: 1.5vh; color: red">недостаточно солнышек</span>
+        <span>${seedPacket.option.plant.name}</span>
+      `
+      } else {
+        packet.children[2].innerHTML = /*html*/ `
+          <span style="font-size: 1.5vh; color: red">перезарядка...</span>
+          <span>${seedPacket.option.plant.name}</span>
+        `
+      }
+    } else if (!seedPacket.isReloaded) {
+      packet.children[2].innerText = seedPacket.option.plant.name
+    }
   })
   packet.addEventListener('mouseleave', () => {
     packet.children[2].classList.remove('show')
@@ -151,11 +169,13 @@ floor_row.forEach(row => {
   })
 })
 
+// Игровая логика
 requestAnimationFrame(function selectedCeil() {
   seedPacketsList.forEach(packet => {
+    packet.updateReload()
     if (gameStatus.suns < packet.option.cost) {
       seedPackets[packet.option.id].classList.add('disabled')
-    } else {
+    } else if (!packet.isReloaded) {
       seedPackets[packet.option.id].classList.remove('disabled')
     }
   })
@@ -173,15 +193,14 @@ requestAnimationFrame(function selectedCeil() {
       lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
   })
 
-  preventTime = Date.now()
-
   document.querySelector('.count_of_suns').innerText = gameStatus.suns
 
+  preventTime = Date.now()
   requestAnimationFrame(selectedCeil)
 })
 
+// Для спавна зомби на уровне
 let zombieSpawners = document.querySelectorAll('.zombie_spawner')
-
 setTimeout(() => {
   setInterval(() => {
     const randomLane = Math.floor(Math.random() * map.length)
@@ -200,6 +219,7 @@ setTimeout(() => {
   }, 15000)
 }, 10000)
 
+// Для спавна солнышек на уровне
 setInterval(() => {
   const newElement = document.createElement('div')
   newElement.classList.add('sun_from_level', 'sun')
