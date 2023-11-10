@@ -214,9 +214,12 @@ requestAnimationFrame(function selectedCeil() {
     lane.zombiesArray.forEach(zombie => {
       zombie.walk()
       zombie.checkHit(lane.plantsArray)
+      zombie.checkCollision(lane.plantsArray)
     })
     if (lane.zombiesArray.some(zombie => zombie.health === 0))
       lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
+    if (lane.plantsArray.some(plant => plant.health === 0))
+      lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0)
   })
 
   document.querySelector('.count_of_suns').innerText = gameStatus.suns

@@ -1,11 +1,14 @@
 import SunPickupSound from '/src/music/sun_pickup.mp3'
-import PlantingSound from '/src/music/planting_sound.mp3'
+import PlantingSound1 from '/src/music/planting_sound_1.mp3'
+import PlantingSound2 from '/src/music/planting_sound_2.mp3'
 
 import { gameStatus } from '../../main'
 import { deltaTime } from '/main'
 
+const plantSounds = [PlantingSound1, PlantingSound2]
+
 class Plant {
-  plantingSound = new Audio(PlantingSound)
+  plantingSound = new Audio()
   seedPacket = null
   htmlElement = null
   image = ''
@@ -14,6 +17,7 @@ class Plant {
   health = 100
 
   constructor(htmlElement, image) {
+    this.plantingSound.src = plantSounds[Math.floor(Math.random() * 2)]
     this.plantingSound.volume = 0.1
     this.htmlElement = htmlElement
     this.image = image
@@ -46,7 +50,7 @@ export class Peashooter extends Plant {
       this.isReadyToActive = false
       setTimeout(() => {
         this.isReadyToActive = true
-      }, 2000)
+      }, 1500)
     }
   }
 
@@ -126,6 +130,10 @@ export class Sunflower extends Plant {
       setTimeout(() => {
         this.isReadyToActive = true
       }, 25000)
+    }
+    if (this.health <= 0) {
+      this.health = 0
+      this.htmlElement.parentElement.removeChild(this.htmlElement)
     }
   }
 }

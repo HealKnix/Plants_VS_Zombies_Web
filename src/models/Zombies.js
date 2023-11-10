@@ -10,6 +10,7 @@ const hitSounds = [HitSound1, HitSound2]
 class Zombie {
   hitSound = []
   htmlElement = null
+  damage = 20
   health = 100
   speedX = 3
   posX = 0
@@ -19,7 +20,9 @@ class Zombie {
     this.fullHealth = this.health
   }
 
-  eat() {}
+  eat(plant) {
+    plant.health -= this.damage
+  }
   walk() {
     this.htmlElement.style.transform = `translate3d(${this.posX}vh, 0, 0)`
     this.posX -= this.speedX * deltaTime
@@ -62,11 +65,27 @@ class Zombie {
       this.htmlElement.parentElement.removeChild(this.htmlElement)
     }
   }
+
+  checkCollision(plantsArray) {
+    const centerPositionOfZombie =
+      this.htmlElement.getBoundingClientRect().x +
+      this.htmlElement.getBoundingClientRect().width / 2
+    plantsArray.forEach(plant => {
+      const leftSideOfPlant = plant.htmlElement.getBoundingClientRect().x
+      const rightSideOfPlant =
+        plant.htmlElement.getBoundingClientRect().x +
+        plant.htmlElement.getBoundingClientRect().width
+      if (centerPositionOfZombie >= leftSideOfPlant && centerPositionOfZombie <= rightSideOfPlant) {
+        this.eat(plant)
+      }
+    })
+  }
 }
 
 export class RegularZombie extends Zombie {
   image = RegularZombieImg
   health = 200
+  damage = 20
   fullHealth = this.health
 
   constructor(htmlElement) {
