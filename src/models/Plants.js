@@ -25,12 +25,16 @@ class Plant {
     this.plantingSound.play()
   }
 
-  activate() {}
+  update(lane) {}
+
+  destroy() {
+    this.health = 0
+    this.htmlElement.parentElement.removeChild(this.htmlElement)
+  }
 }
 
 export class Peashooter extends Plant {
   static name = 'Горохострел'
-  health = 125
   bulletDamage = 20
 
   bulletSpeed = 50
@@ -38,6 +42,7 @@ export class Peashooter extends Plant {
   constructor(htmlElement, image) {
     super(htmlElement, image)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
+    this.health = 120
 
     setTimeout(() => {
       this.isReadyToActive = true
@@ -76,7 +81,7 @@ export class Peashooter extends Plant {
     }
   }
 
-  activate(lane) {
+  update(lane) {
     if (
       lane.zombiesArray.length > 0 &&
       lane.zombiesArray.some(zombie => {
@@ -96,19 +101,19 @@ export class Peashooter extends Plant {
 export class Sunflower extends Plant {
   pickupSound = new Audio(SunPickupSound)
   static name = 'Подсолнух'
-  health = 150
 
   constructor(htmlElement, image) {
     super(htmlElement, image)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.pickupSound.volume = 0.25
+    this.health = 120
 
     setTimeout(() => {
       this.isReadyToActive = true
     }, 5000)
   }
 
-  activate() {
+  update() {
     if (this.isReadyToActive) {
       const newElement = document.createElement('div')
       newElement.classList.add('sun_from_sunflower', 'sun')
@@ -129,11 +134,7 @@ export class Sunflower extends Plant {
       this.isReadyToActive = false
       setTimeout(() => {
         this.isReadyToActive = true
-      }, 25000)
-    }
-    if (this.health <= 0) {
-      this.health = 0
-      this.htmlElement.parentElement.removeChild(this.htmlElement)
+      }, 24000)
     }
   }
 }

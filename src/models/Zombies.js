@@ -3,30 +3,51 @@ import RegularZombieImg from '../images/zombies/regular_zombie.png'
 import HitSound1 from '../music/zombies_hit_1.mp3'
 import HitSound2 from '../music/zombies_hit_2.mp3'
 
+import ChompSound1 from '../music/zombie_chomp_1.mp3'
+import ChompSound2 from '../music/zombie_chomp_2.mp3'
+
 import { deltaTime } from '/main'
 
 const hitSounds = [HitSound1, HitSound2]
+const chompSounds = [ChompSound1, ChompSound2]
 
 class Zombie {
   hitSound = []
+  chompSound = []
+  isReadyToActive = true
   htmlElement = null
   damage = 20
   health = 100
   speedX = 3
+  eatDelay = 500
   posX = 0
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
     this.fullHealth = this.health
+    this.chompSound.volume = 0.25
   }
 
   eat(plant) {
     plant.health -= this.damage
+    if (plant.health <= 0) {
+      plant.destroy()
+    }
+    this.chompSound.push(new Audio(chompSounds[Math.floor(Math.random() * 2)]))
+    this.chompSound[this.chompSound.length - 1].volume = 0.15
+    this.chompSound[this.chompSound.length - 1].play()
+    for (let i = 0; i < this.chompSound.length; i++) {
+      this.chompSound[i].addEventListener('ended', () => {
+        this.chompSound.splice(i, 1)
+      })
+    }
   }
+
   walk() {
     this.htmlElement.style.transform = `translate3d(${this.posX}vh, 0, 0)`
     this.posX -= this.speedX * deltaTime
   }
+
   checkHit(plantsArray) {
     let isHit = false
     plantsArray.forEach(plant => {
@@ -67,6 +88,7 @@ class Zombie {
   }
 
   checkCollision(plantsArray) {
+    let result = false
     const centerPositionOfZombie =
       this.htmlElement.getBoundingClientRect().x +
       this.htmlElement.getBoundingClientRect().width / 2
@@ -76,9 +98,26 @@ class Zombie {
         plant.htmlElement.getBoundingClientRect().x +
         plant.htmlElement.getBoundingClientRect().width
       if (centerPositionOfZombie >= leftSideOfPlant && centerPositionOfZombie <= rightSideOfPlant) {
-        this.eat(plant)
+        result = true
+        if (this.isReadyToActive) {
+          this.eat(plant)
+          this.isReadyToActive = false
+
+          setTimeout(() => {
+            this.isReadyToActive = true
+          }, this.eatDelay)
+        }
       }
     })
+
+    return result
+  }
+
+  update(lane) {
+    if (!this.checkCollision(lane.plantsArray)) {
+      this.walk()
+    }
+    this.checkHit(lane.plantsArray)
   }
 }
 
@@ -91,5 +130,6 @@ export class RegularZombie extends Zombie {
   constructor(htmlElement) {
     super(htmlElement)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
+    this.eatDelay = 650
   }
 }

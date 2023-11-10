@@ -209,12 +209,10 @@ requestAnimationFrame(function selectedCeil() {
   deltaTime = (Date.now() - preventTime) / 1000
   map.forEach(lane => {
     lane.plantsArray.forEach(plant => {
-      plant.activate(lane)
+      plant.update(lane)
     })
     lane.zombiesArray.forEach(zombie => {
-      zombie.walk()
-      zombie.checkHit(lane.plantsArray)
-      zombie.checkCollision(lane.plantsArray)
+      zombie.update(lane)
     })
     if (lane.zombiesArray.some(zombie => zombie.health === 0))
       lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
@@ -240,8 +238,8 @@ setTimeout(() => {
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  }, 12500)
-}, 20000)
+  }, 1000)
+}, 1)
 
 // Для спавна солнышек на уровне
 setInterval(() => {
