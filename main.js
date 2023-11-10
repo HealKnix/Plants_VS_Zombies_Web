@@ -218,13 +218,5 @@ setInterval(() => {
     newElement.parentElement.removeChild(newElement)
   }, 18000)
 
-  newElement.addEventListener('click', () => {
-    gameStatus.suns += 25
-    const pickupSound = new Audio(SunPickupSound)
-    pickupSound.volume = 0.25
-    pickupSound.play()
-    newElement.parentElement.removeChild(newElement)
-  })
-
   document.querySelector('main').appendChild(newElement)
 }, 5000)
