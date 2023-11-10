@@ -138,3 +138,13 @@ export class Sunflower extends Plant {
     }
   }
 }
+
+export class WallNut extends Plant {
+  static name = 'Стеноорех'
+
+  constructor(htmlElement, image) {
+    super(htmlElement, image)
+    this.htmlElement.style.backgroundImage = `url("${this.image}")`
+    this.health = 2120
+  }
+}

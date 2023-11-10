@@ -238,8 +238,8 @@ setTimeout(() => {
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  }, 1000)
-}, 1)
+  }, 12500)
+}, 20000)
 
 // Для спавна солнышек на уровне
 setInterval(() => {

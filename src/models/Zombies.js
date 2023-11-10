@@ -10,10 +10,10 @@ import { deltaTime } from '/main'
 
 const hitSounds = [HitSound1, HitSound2]
 const chompSounds = [ChompSound1, ChompSound2]
+const chompSound = []
 
 class Zombie {
   hitSound = []
-  chompSound = []
   isReadyToActive = true
   htmlElement = null
   damage = 20
@@ -25,7 +25,6 @@ class Zombie {
   constructor(htmlElement) {
     this.htmlElement = htmlElement
     this.fullHealth = this.health
-    this.chompSound.volume = 0.25
   }
 
   eat(plant) {
@@ -33,14 +32,16 @@ class Zombie {
     if (plant.health <= 0) {
       plant.destroy()
     }
-    this.chompSound.push(new Audio(chompSounds[Math.floor(Math.random() * 2)]))
-    this.chompSound[this.chompSound.length - 1].volume = 0.15
-    this.chompSound[this.chompSound.length - 1].play()
-    for (let i = 0; i < this.chompSound.length; i++) {
-      this.chompSound[i].addEventListener('ended', () => {
-        this.chompSound.splice(i, 1)
+    chompSound.push(new Audio(chompSounds[Math.floor(Math.random() * 2)]))
+    chompSound[chompSound.length - 1].volume = 0.1 / chompSound.length
+    chompSound[chompSound.length - 1].play()
+    for (let i = 0; i < chompSound.length; i++) {
+      chompSound[i].addEventListener('ended', () => {
+        chompSound.splice(i, 1)
       })
     }
+
+    console.log(chompSound)
   }
 
   walk() {
@@ -61,7 +62,7 @@ class Zombie {
               this.htmlElement.getBoundingClientRect().width
         ) {
           this.hitSound.push(new Audio(hitSounds[Math.floor(Math.random() * 2)]))
-          this.hitSound[this.hitSound.length - 1].volume = 0.05
+          this.hitSound[this.hitSound.length - 1].volume = 0.1
           this.hitSound[this.hitSound.length - 1].play()
           for (let i = 0; i < this.hitSound.length; i++) {
             this.hitSound[i].addEventListener('ended', () => {
