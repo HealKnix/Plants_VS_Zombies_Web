@@ -30,8 +30,8 @@ export class Peashooter extends Plant {
 
   bulletSpeed = 50
 
-  constructor(htmlElement, seedPacket) {
-    super(htmlElement, seedPacket)
+  constructor(htmlElement, image) {
+    super(htmlElement, image)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
 
     setTimeout(() => {
@@ -93,8 +93,8 @@ export class Sunflower extends Plant {
   static name = 'Подсолнух'
   health = 150
 
-  constructor(htmlElement, seedPacket) {
-    super(htmlElement, seedPacket)
+  constructor(htmlElement, image) {
+    super(htmlElement, image)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.pickupSound.volume = 0.25
 
