@@ -115,10 +115,17 @@ export class Sunflower extends Plant {
 
   update() {
     if (this.isReadyToActive) {
+      const goal = document.querySelector('.seed_bar__suns_present__sun')
+
       const newElement = document.createElement('div')
       newElement.classList.add('sun_from_sunflower', 'sun')
-
-      this.htmlElement.appendChild(newElement)
+      newElement.style.position = 'absolute'
+      newElement.style.left = `${
+        this.htmlElement.getBoundingClientRect().x + this.htmlElement.getBoundingClientRect().width
+      }px`
+      newElement.style.top = `${
+        this.htmlElement.getBoundingClientRect().y + this.htmlElement.getBoundingClientRect().height
+      }px`
 
       const timeoutToRemoveSun = setTimeout(() => {
         newElement.parentElement.removeChild(newElement)
@@ -127,9 +134,19 @@ export class Sunflower extends Plant {
       newElement.addEventListener('click', () => {
         gameStatus.suns += 25
         this.pickupSound.play()
-        newElement.parentElement.removeChild(newElement)
-        clearTimeout(timeoutToRemoveSun)
+        newElement.style.position = 'absolute'
+        newElement.style.transition = '0.5s ease-in-out'
+        newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh)`
+        newElement.style.top = `calc(${goal.getBoundingClientRect().y}px + 4.5vh)`
+        newElement.style.opacity = `0.2`
+        newElement.style.pointerEvents = 'none'
+        setTimeout(() => {
+          newElement.parentElement.removeChild(newElement)
+          clearTimeout(timeoutToRemoveSun)
+        }, 500)
       })
+
+      document.querySelector('main').appendChild(newElement)
 
       this.isReadyToActive = false
       setTimeout(() => {

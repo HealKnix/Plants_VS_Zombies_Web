@@ -22,8 +22,9 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  will-change: auto;
+  transition: 4s linear;
   z-index: 99999;
+  will-change: auto;
 }
 
 .wrapper__seed_bar {
@@ -308,124 +309,11 @@ main {
 }
 
 .sun_from_sunflower.sun {
-  animation: sunJump 1s ease-in-out both;
-}
-
-@keyframes sunJump {
-  0% {
-    left: 50%;
-    top: 50%;
-  }
-
-  50% {
-    left: 60%;
-    top: 35%;
-  }
-
-  75% {
-    left: 75%;
-    top: 35%;
-  }
-
-  100% {
-    left: 100%;
-    top: 80%;
-  }
+  position: absolute;
 }
 
 .sun_from_level.sun {
   top: 18vh;
-  animation: 10s linear both;
-}
-
-@keyframes sunFall1 {
-  0% {
-    transform: translate3d(50vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(50vh, 50vh, 0);
-  }
-}
-
-@keyframes sunFall2 {
-  0% {
-    transform: translate3d(70vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(70vh, 60vh, 0);
-  }
-}
-
-@keyframes sunFall3 {
-  0% {
-    transform: translate3d(100vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(100vh, 30vh, 0);
-  }
-}
-
-@keyframes sunFall4 {
-  0% {
-    transform: translate3d(120vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(120vh, 70vh, 0);
-  }
-}
-
-@keyframes sunFall5 {
-  0% {
-    transform: translate3d(130vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(130vh, 10vh, 0);
-  }
-}
-
-@keyframes sunFall6 {
-  0% {
-    transform: translate3d(140vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(140vh, 50vh, 0);
-  }
-}
-
-@keyframes sunFall7 {
-  0% {
-    transform: translate3d(150vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(150vh, 60vh, 0);
-  }
-}
-
-@keyframes sunFall8 {
-  0% {
-    transform: translate3d(85vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(85vh, 65vh, 0);
-  }
-}
-
-@keyframes sunFall9 {
-  0% {
-    transform: translate3d(68vh, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(68vh, 25vh, 0);
-  }
 }
 
 .cursor_selected_plant {

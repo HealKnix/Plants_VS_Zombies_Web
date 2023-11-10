@@ -196,7 +196,16 @@ floor_row.forEach(row => {
 })
 
 // Игровая логика
+let y = 10
 requestAnimationFrame(function selectedCeil() {
+  deltaTime = (Date.now() - preventTime) / 1000
+
+  document.querySelectorAll('.sun_from_level.sun').forEach(sun => {
+    if (sun.classList.contains('fall')) return
+    sun.classList.add('fall')
+    sun.style.top = `${Math.floor(Math.random() * 70 + 20)}vh`
+  })
+
   seedPacketsList.forEach(packet => {
     packet.updateReload()
     if (gameStatus.suns < packet.option.cost) {
@@ -206,7 +215,6 @@ requestAnimationFrame(function selectedCeil() {
     }
   })
 
-  deltaTime = (Date.now() - preventTime) / 1000
   map.forEach(lane => {
     lane.plantsArray.forEach(plant => {
       plant.update(lane)
@@ -251,7 +259,7 @@ setInterval(() => {
   const newElement = document.createElement('div')
   newElement.classList.add('sun_from_level', 'sun')
 
-  newElement.style.animationName = `sunFall${Math.floor(Math.random() * 9) + 1}`
+  newElement.setAttribute('style', `left: ${Math.floor(Math.random() * 100 + 50)}vh`)
 
   const timeoutToRemoveSun = setTimeout(() => {
     newElement.parentElement.removeChild(newElement)
@@ -262,8 +270,16 @@ setInterval(() => {
     const pickupSound = new Audio(SunPickupSound)
     pickupSound.volume = 0.25
     pickupSound.play()
-    newElement.parentElement.removeChild(newElement)
-    clearTimeout(timeoutToRemoveSun)
+    const goal = document.querySelector('.seed_bar__suns_present__sun')
+    newElement.style.transition = '0.5s ease-in-out'
+    newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh)`
+    newElement.style.top = `calc(${goal.getBoundingClientRect().y}px + 4.5vh)`
+    newElement.style.opacity = `0.2`
+    newElement.style.pointerEvents = 'none'
+    setTimeout(() => {
+      newElement.parentElement.removeChild(newElement)
+      clearTimeout(timeoutToRemoveSun)
+    }, 500)
   })
 
   document.querySelector('main').appendChild(newElement)
