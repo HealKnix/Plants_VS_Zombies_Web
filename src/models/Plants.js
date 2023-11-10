@@ -25,8 +25,6 @@ class Plant {
     }, 1000)
   }
 
-  shoot() {}
-
   activate() {}
 }
 
