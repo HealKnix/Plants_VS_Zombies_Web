@@ -270,8 +270,6 @@ main {
   width: 13.5vh;
   height: 16.5vh;
   left: 185vh;
-  outline: 1px solid black;
-  background-color: rgba(255, 0, 0, 0.164);
 }
 
 .zombie_spawner>.zombie {
@@ -285,17 +283,6 @@ main {
   background-size: contain;
   will-change: auto;
   z-index: 9999;
-}
-
-.zombie_spawner>.zombie>.health_bar {
-  display: block;
-  position: absolute;
-  top: -1vh;
-  width: 100%;
-  height: 10px;
-  background-color: red;
-  outline: 0.1vh solid #333;
-  border-radius: 1vh;
 }
 
 .bullet {
