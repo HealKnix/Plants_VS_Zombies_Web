@@ -1,10 +1,27 @@
 import { seedPacketsList } from '/src/models/SeedPacket'
-import * as Plants from '/src/models/Plants'
 import * as Zombie from '/src/models/Zombies'
 
 import SunPickupSound from '/src/music/sun_pickup.mp3'
 
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
+
+const cursorSelectedPlant = document.querySelector('.cursor_selected_plant')
+document.addEventListener('mousemove', e => {
+  if (!seedPacketsList.some(packet => packet.isSelected)) return
+  cursorSelectedPlant.style.left = `${
+    e.clientX - cursorSelectedPlant.getBoundingClientRect().width / 2
+  }px`
+  cursorSelectedPlant.style.top = `${
+    e.clientY - cursorSelectedPlant.getBoundingClientRect().height / 1.5
+  }px`
+})
+
+function clearCursor() {
+  cursorSelectedPlant.style.display = 'none'
+  cursorSelectedPlant.style.left = '-1000px'
+  cursorSelectedPlant.style.top = '-1000px'
+  cursorSelectedPlant.style.backgroundImage = `url()`
+}
 
 const themeAudio = document.getElementById('music')
 themeAudio.volume = 0.15
@@ -51,19 +68,20 @@ seedPackets.forEach(packet => {
 
     const seedPacket = seedPacketsList[parseInt(packet.getAttribute('id'))]
 
+    if (seedPacket.isReloaded) {
+      packet.children[2].innerHTML = /*html*/ `
+        <span style="font-size: 1.5vh; color: red">перезарядка...</span>
+        <span>${seedPacket.option.plant.name}</span>
+      `
+      return
+    }
+
     if (gameStatus.suns < seedPacket.option.cost) {
-      if (!seedPacket.isReloaded) {
-        packet.children[2].innerHTML = /*html*/ `
+      packet.children[2].innerHTML = /*html*/ `
         <span style="font-size: 1.5vh; color: red">недостаточно солнышек</span>
         <span>${seedPacket.option.plant.name}</span>
       `
-      } else {
-        packet.children[2].innerHTML = /*html*/ `
-          <span style="font-size: 1.5vh; color: red">перезарядка...</span>
-          <span>${seedPacket.option.plant.name}</span>
-        `
-      }
-    } else if (!seedPacket.isReloaded) {
+    } else {
       packet.children[2].innerText = seedPacket.option.plant.name
     }
   })
@@ -76,6 +94,7 @@ seedPackets.forEach(packet => {
     if (packet.classList.contains('select')) {
       seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = false
       packet.classList.remove('select')
+      clearCursor()
       return
     }
 
@@ -96,6 +115,11 @@ seedPackets.forEach(packet => {
 
     packet.classList.add('select')
     seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = true
+
+    cursorSelectedPlant.style.display = 'block'
+    cursorSelectedPlant.style.backgroundImage = `url(${
+      seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image
+    })`
 
     let opa = new Audio(SeedPacketSound)
     opa.volume = 0.35
@@ -163,6 +187,8 @@ floor_row.forEach(row => {
       seedPacketsList.forEach(packet => {
         packet.isSelected = false
       })
+
+      clearCursor()
 
       ceil.style.opacity = `1`
     })

@@ -440,3 +440,13 @@ main {
     transform: translate3d(68vh, 25vh, 0);
   }
 }
+
+.cursor_selected_plant {
+  pointer-events: none;
+  position: absolute;
+  width: 13.5vh;
+  height: 13.5vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+}
