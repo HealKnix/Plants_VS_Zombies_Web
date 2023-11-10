@@ -206,17 +206,18 @@ setInterval(() => {
 
   newElement.style.animationName = `sunFall${Math.floor(Math.random() * 9) + 1}`
 
+  const timeoutToRemoveSun = setTimeout(() => {
+    newElement.parentElement.removeChild(newElement)
+  }, 18000)
+
   newElement.addEventListener('click', () => {
     gameStatus.suns += 25
     const pickupSound = new Audio(SunPickupSound)
     pickupSound.volume = 0.25
     pickupSound.play()
     newElement.parentElement.removeChild(newElement)
+    clearTimeout(timeoutToRemoveSun)
   })
-
-  setTimeout(() => {
-    newElement.parentElement.removeChild(newElement)
-  }, 18000)
 
   document.querySelector('main').appendChild(newElement)
 }, 5000)

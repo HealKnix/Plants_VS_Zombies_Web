@@ -110,16 +110,16 @@ export class Sunflower extends Plant {
 
       this.htmlElement.appendChild(newElement)
 
+      const timeoutToRemoveSun = setTimeout(() => {
+        newElement.parentElement.removeChild(newElement)
+      }, 8000)
+
       newElement.addEventListener('click', () => {
         gameStatus.suns += 25
         this.pickupSound.play()
-        newElement.parentElement.removeChild(this.htmlElement.children[0])
-        console.log('sun!')
-      })
-
-      setTimeout(() => {
         newElement.parentElement.removeChild(newElement)
-      }, 8000)
+        clearTimeout(timeoutToRemoveSun)
+      })
 
       this.isReadyToActive = false
       setTimeout(() => {
