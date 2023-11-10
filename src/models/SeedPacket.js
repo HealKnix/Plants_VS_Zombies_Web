@@ -71,7 +71,7 @@ export const seedPacketsList = [
     plant: Plants.Peashooter,
     image: PeashooterImg,
     cost: 100,
-    reloadTime: 15000,
+    reloadTime: 8000,
     id: 0
   }),
   new SeedPacket({
