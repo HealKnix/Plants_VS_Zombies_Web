@@ -69,15 +69,33 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  border-radius: 0.2vh;
 }
 
-.seed_bar__seeds__packet.disabled {
-  cursor: default;
-  filter: saturate(0);
+.seed_bar__seeds__packet.disabled::after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 95%;
+  height: 100%;
+  background-color: #00000077;
+  margin-left: 0.2vh;
+  border-radius: 0.3vh;
 }
 
-.seed_bar__seeds__packet.select {
-  opacity: 0.5;
+.seed_bar__seeds__packet.select::after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 95%;
+  height: 100%;
+  background-color: #000000bb;
+  margin-left: 0.2vh;
+  border-radius: 0.3vh;
 }
 
 .seed_bar__seeds__packet__image {
