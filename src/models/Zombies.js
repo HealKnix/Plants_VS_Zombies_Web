@@ -33,15 +33,13 @@ class Zombie {
       plant.destroy()
     }
     chompSound.push(new Audio(chompSounds[Math.floor(Math.random() * 2)]))
-    chompSound[chompSound.length - 1].volume = 0.1 / chompSound.length
+    chompSound[chompSound.length - 1].volume = 0.075 / chompSound.length
     chompSound[chompSound.length - 1].play()
     for (let i = 0; i < chompSound.length; i++) {
       chompSound[i].addEventListener('ended', () => {
         chompSound.splice(i, 1)
       })
     }
-
-    console.log(chompSound)
   }
 
   walk() {
