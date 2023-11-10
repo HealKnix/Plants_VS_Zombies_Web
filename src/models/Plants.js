@@ -9,6 +9,7 @@ class Plant {
   seedPacket = null
   htmlElement = null
   image = ''
+  name = ''
   isReadyToShoot = true
   isReadyToActive = true
   health = 100
@@ -27,6 +28,7 @@ class Plant {
 }
 
 export class Peashooter extends Plant {
+  static name = 'Горохострел'
   health = 125
 
   bulletSpeed = 50
@@ -86,6 +88,7 @@ export class Peashooter extends Plant {
 }
 
 export class Sunflower extends Plant {
+  static name = 'Подсолнух'
   health = 150
 
   constructor(htmlElement, seedPacket) {

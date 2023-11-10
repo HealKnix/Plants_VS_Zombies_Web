@@ -44,7 +44,15 @@ let seedBar = document.querySelector('.seed_bar')
 let seedPackets = document.querySelectorAll('.seed_bar__seeds__packet')
 
 seedPackets.forEach(packet => {
+  packet.addEventListener('mouseenter', () => {
+    packet.children[2].classList.add('show')
+  })
+  packet.addEventListener('mouseleave', () => {
+    packet.children[2].classList.remove('show')
+  })
   packet.addEventListener('click', e => {
+    if (packet.classList.contains('disabled')) return
+
     if (packet.classList.contains('select')) {
       seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = false
       packet.classList.remove('select')
@@ -144,9 +152,9 @@ floor_row.forEach(row => {
 requestAnimationFrame(function selectedCeil() {
   seedPacketsList.forEach(packet => {
     if (gameStatus.suns < packet.option.cost) {
-      seedPackets[packet.option.id].setAttribute('disabled', '')
+      seedPackets[packet.option.id].classList.add('disabled')
     } else {
-      seedPackets[packet.option.id].removeAttribute('disabled')
+      seedPackets[packet.option.id].classList.remove('disabled')
     }
   })
 

@@ -19,14 +19,17 @@ export class SeedPacket {
       id: option.id
     })
 
-    document.querySelector('.seed_bar__seeds').innerHTML += /*html*/ `
+    const packetHtml = /*html*/ `
       <div class="seed_bar__seeds__packet" id='${this.option.id}'>
         <div
           class="seed_bar__seeds__packet__image"
           style='background-image: url(${this.option.image})'></div>
         <div class="seed_bar__seeds__packet__cost">${this.option.cost}</div>
+        <div class="seed_bar__seeds__packet__info">${this.option.plant.name}</div>
       </div>
     `
+
+    document.querySelector('.seed_bar__seeds').innerHTML += packetHtml
   }
 
   createPlant(htmlElement) {
