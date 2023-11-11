@@ -136,7 +136,7 @@ export class Sunflower extends Plant {
         this.pickupSound.play()
         newElement.style.position = 'absolute'
         newElement.style.transition = '0.5s ease-in-out'
-        newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh)`
+        newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh + 27.5vh)`
         newElement.style.top = `calc(${goal.getBoundingClientRect().y}px + 4.5vh)`
         newElement.style.opacity = `0.2`
         newElement.style.pointerEvents = 'none'

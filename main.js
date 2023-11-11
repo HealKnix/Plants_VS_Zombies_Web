@@ -6,13 +6,15 @@ import ZombieStart from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 
 const cursorSelectedPlant = document.querySelector('.cursor_selected_plant')
-document.addEventListener('mousemove', e => {
+document.querySelector('.main__wrapper').addEventListener('mousemove', e => {
+  let innerX = e.clientX - document.querySelector('.main__wrapper').getBoundingClientRect().x
+  let innerY = e.clientY - document.querySelector('.main__wrapper').getBoundingClientRect().y
   if (!seedPacketsList.some(packet => packet.isSelected)) return
   cursorSelectedPlant.style.left = `${
-    e.clientX - cursorSelectedPlant.getBoundingClientRect().width / 2
+    innerX - cursorSelectedPlant.getBoundingClientRect().width / 2
   }px`
   cursorSelectedPlant.style.top = `${
-    e.clientY - cursorSelectedPlant.getBoundingClientRect().height / 1.5
+    innerY - cursorSelectedPlant.getBoundingClientRect().height / 1.5
   }px`
 })
 
@@ -38,22 +40,27 @@ let preventTime = 0
 
 const map = [
   {
+    isLawnMowerActive: false,
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
+    isLawnMowerActive: false,
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
+    isLawnMowerActive: false,
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
+    isLawnMowerActive: false,
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
+    isLawnMowerActive: false,
     plantsArray: new Array(),
     zombiesArray: new Array()
   }
@@ -259,7 +266,7 @@ setInterval(() => {
   const newElement = document.createElement('div')
   newElement.classList.add('sun_from_level', 'sun')
 
-  newElement.setAttribute('style', `left: ${Math.floor(Math.random() * 100 + 50)}vh`)
+  newElement.setAttribute('style', `left: ${Math.floor(Math.random() * 100 + 25)}vh`)
 
   const timeoutToRemoveSun = setTimeout(() => {
     newElement.parentElement.removeChild(newElement)
@@ -272,7 +279,7 @@ setInterval(() => {
     pickupSound.play()
     const goal = document.querySelector('.seed_bar__suns_present__sun')
     newElement.style.transition = '0.5s ease-in-out'
-    newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh)`
+    newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh + 27.5vh)`
     newElement.style.top = `calc(${goal.getBoundingClientRect().y}px + 4.5vh)`
     newElement.style.opacity = `0.2`
     newElement.style.pointerEvents = 'none'
