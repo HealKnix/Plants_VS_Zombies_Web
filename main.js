@@ -411,12 +411,10 @@ setInterval(() => {
       goal.getBoundingClientRect().y -
       document.querySelector('.main__wrapper').getBoundingClientRect().y
     }px + 4.5vh)`
-    newElement.style.opacity = `1`
+    newElement.style.opacity = `0.2`
     newElement.style.pointerEvents = 'none'
     setTimeout(() => {
-      if (!newElement) {
-        newElement.parentElement.removeChild(newElement)
-      }
+      newElement.parentElement.removeChild(newElement)
       clearTimeout(timeoutToRemoveSun)
     }, 500)
   })
