@@ -4,6 +4,7 @@ import * as Zombie from '/src/models/Zombies'
 import SunPickupSound from '/src/music/sun_pickup.mp3'
 import ZombieStart from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
+import LawnMowerSound from '/src/music/lawn_mower.mp3'
 
 const cursorSelectedPlant = document.querySelector('.cursor_selected_plant')
 document.querySelector('.main__wrapper').addEventListener('mousemove', e => {
@@ -44,7 +45,9 @@ const map = [
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[0],
       posX: 0,
-      speedX: 30
+      speedX: 30,
+      isFirstActive: true,
+      sound: new Audio(LawnMowerSound)
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -54,7 +57,9 @@ const map = [
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[1],
       posX: 0,
-      speedX: 30
+      speedX: 30,
+      isFirstActive: true,
+      sound: new Audio(LawnMowerSound)
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -64,7 +69,9 @@ const map = [
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[2],
       posX: 0,
-      speedX: 30
+      speedX: 30,
+      isFirstActive: true,
+      sound: new Audio(LawnMowerSound)
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -74,7 +81,9 @@ const map = [
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[3],
       posX: 0,
-      speedX: 30
+      speedX: 30,
+      isFirstActive: true,
+      sound: new Audio(LawnMowerSound)
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -84,7 +93,9 @@ const map = [
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[4],
       posX: 0,
-      speedX: 30
+      speedX: 30,
+      isFirstActive: true,
+      sound: new Audio(LawnMowerSound)
     },
     plantsArray: new Array(),
     zombiesArray: new Array()

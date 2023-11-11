@@ -97,6 +97,11 @@ class Zombie {
       this.health = 0
       this.htmlElement.parentElement.removeChild(this.htmlElement)
       lawnMower.active = true
+      if (lawnMower.isFirstActive) {
+        lawnMower.sound.volume = 0.25
+        lawnMower.sound.play()
+        lawnMower.isFirstActive = false
+      }
     }
   }
 
