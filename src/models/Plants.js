@@ -146,7 +146,11 @@ export class Sunflower extends Plant {
         }, 500)
       })
 
-      document.querySelector('main').appendChild(newElement)
+      this.htmlElement.style.filter = 'brightness(1.4)'
+      setTimeout(() => {
+        this.htmlElement.style.filter = 'none'
+        document.querySelector('main').appendChild(newElement)
+      }, 1000)
 
       this.isReadyToActive = false
       setTimeout(() => {
