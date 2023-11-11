@@ -41,6 +41,7 @@ let preventTime = 0
 
 const map = [
   {
+    isActive: true,
     lawnMower: {
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[0],
@@ -53,6 +54,7 @@ const map = [
     zombiesArray: new Array()
   },
   {
+    isActive: true,
     lawnMower: {
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[1],
@@ -65,6 +67,7 @@ const map = [
     zombiesArray: new Array()
   },
   {
+    isActive: true,
     lawnMower: {
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[2],
@@ -77,6 +80,7 @@ const map = [
     zombiesArray: new Array()
   },
   {
+    isActive: true,
     lawnMower: {
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[3],
@@ -89,6 +93,7 @@ const map = [
     zombiesArray: new Array()
   },
   {
+    isActive: true,
     lawnMower: {
       active: false,
       htmlElement: document.querySelectorAll('.lawn_mower')[4],
@@ -173,6 +178,7 @@ seedPackets.forEach(packet => {
 let floor_row = document.querySelectorAll('.floor__row')
 
 floor_row.forEach(row => {
+  if (!map[parseInt(row.id)].isActive) return
   ;[...row.children].forEach(ceil => {
     ceil.addEventListener('mouseenter', e => {
       if (
