@@ -122,11 +122,13 @@ export class Sunflower extends Plant {
       newElement.classList.add('sun_from_sunflower', 'sun')
       newElement.style.position = 'absolute'
       newElement.style.left = `${
-        this.htmlElement.getBoundingClientRect().x +
-        this.htmlElement.getBoundingClientRect().width / 1.5
+        this.htmlElement.getBoundingClientRect().x -
+        document.querySelector('.main__wrapper').getBoundingClientRect().x +
+        this.htmlElement.getBoundingClientRect().width
       }px`
       newElement.style.top = `${
-        this.htmlElement.getBoundingClientRect().y +
+        this.htmlElement.getBoundingClientRect().y -
+        document.querySelector('.main__wrapper').getBoundingClientRect().y +
         this.htmlElement.getBoundingClientRect().height / 1.25
       }px`
 
@@ -139,7 +141,7 @@ export class Sunflower extends Plant {
         this.pickupSound.play()
         newElement.style.position = 'absolute'
         newElement.style.transition = '0.5s ease-in-out'
-        newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh + 27.5vh)`
+        newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh)`
         newElement.style.top = `calc(${goal.getBoundingClientRect().y}px + 4.5vh)`
         newElement.style.opacity = `0.2`
         newElement.style.pointerEvents = 'none'
