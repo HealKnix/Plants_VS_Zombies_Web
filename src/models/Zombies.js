@@ -16,15 +16,14 @@ class Zombie {
   hitSound = []
   isReadyToActive = true
   htmlElement = null
+  health = 200
   damage = 20
-  health = 100
   speedX = 3
   eatDelay = 500
   posX = 0
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
-    this.fullHealth = this.health
   }
 
   eat(plant) {
@@ -79,7 +78,8 @@ class Zombie {
     if (
       this.health <= 0 ||
       this.htmlElement.getBoundingClientRect().x <=
-        document.documentElement.getBoundingClientRect().height * 0.2
+        document.querySelector('.main__wrapper').getBoundingClientRect().x -
+          this.htmlElement.getBoundingClientRect().width
     ) {
       this.health = 0
       this.htmlElement.parentElement.removeChild(this.htmlElement)
@@ -121,14 +121,11 @@ class Zombie {
 }
 
 export class RegularZombie extends Zombie {
-  image = RegularZombieImg
-  health = 200
-  damage = 20
-  fullHealth = this.health
-
   constructor(htmlElement) {
     super(htmlElement)
+    this.image = RegularZombieImg
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.eatDelay = 650
+    this.health = 200
   }
 }
