@@ -70,7 +70,8 @@ export class Peashooter extends Plant {
       bullets[i].style.transform = `translate3d(${bulletsX}vh, 0, 0)`
       if (
         bullets[i].getBoundingClientRect().x >
-        document.querySelector('.main__wrapper').clientWidth - 50
+        document.querySelector('.main__wrapper').clientWidth +
+          document.querySelector('.main__wrapper').clientWidth / 3
       ) {
         bullets[i].parentElement.removeChild(bullets[i])
         return
@@ -121,10 +122,12 @@ export class Sunflower extends Plant {
       newElement.classList.add('sun_from_sunflower', 'sun')
       newElement.style.position = 'absolute'
       newElement.style.left = `${
-        this.htmlElement.getBoundingClientRect().x + this.htmlElement.getBoundingClientRect().width
+        this.htmlElement.getBoundingClientRect().x +
+        this.htmlElement.getBoundingClientRect().width / 1.5
       }px`
       newElement.style.top = `${
-        this.htmlElement.getBoundingClientRect().y + this.htmlElement.getBoundingClientRect().height
+        this.htmlElement.getBoundingClientRect().y +
+        this.htmlElement.getBoundingClientRect().height / 1.25
       }px`
 
       const timeoutToRemoveSun = setTimeout(() => {

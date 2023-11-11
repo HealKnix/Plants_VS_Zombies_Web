@@ -266,7 +266,8 @@ setInterval(() => {
   const newElement = document.createElement('div')
   newElement.classList.add('sun_from_level', 'sun')
 
-  newElement.setAttribute('style', `left: ${Math.floor(Math.random() * 100 + 25)}vh`)
+  const randomX = Math.floor(Math.random() * 100 + 25)
+  newElement.setAttribute('style', `left: ${randomX}vh`)
 
   const timeoutToRemoveSun = setTimeout(() => {
     newElement.parentElement.removeChild(newElement)
@@ -279,9 +280,15 @@ setInterval(() => {
     pickupSound.play()
     const goal = document.querySelector('.seed_bar__suns_present__sun')
     newElement.style.transition = '0.5s ease-in-out'
-    newElement.style.left = `calc(${goal.getBoundingClientRect().x}px + 4.5vh + 27.5vh)`
-    newElement.style.top = `calc(${goal.getBoundingClientRect().y}px + 4.5vh)`
-    newElement.style.opacity = `0.2`
+    newElement.style.left = `calc(${
+      goal.getBoundingClientRect().x -
+      document.querySelector('.main__wrapper').getBoundingClientRect().x
+    }px + 4.5vh)`
+    newElement.style.top = `calc(${
+      goal.getBoundingClientRect().y -
+      document.querySelector('.main__wrapper').getBoundingClientRect().y
+    }px + 4.5vh)`
+    newElement.style.opacity = `1`
     newElement.style.pointerEvents = 'none'
     setTimeout(() => {
       newElement.parentElement.removeChild(newElement)
