@@ -217,6 +217,11 @@ body {
 }
 
 main {
+  width: 100%;
+  height: 100%;
+}
+
+.main__wrapper {
   position: relative;
   height: 100%;
   background-image: url('/src/images/bg/level_1.png');
@@ -263,6 +268,18 @@ main {
   background-position: center 4vh;
   background-repeat: no-repeat;
   background-size: 70%;
+}
+
+.lawn_mower {
+  position: absolute;
+  width: 13.5vh;
+  height: 16.5vh;
+  left: 28vh;
+  filter: saturate(0.8);
+  background-image: url('/src/images/other/lawn_mower.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .zombie_spawner {

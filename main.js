@@ -282,5 +282,5 @@ setInterval(() => {
     }, 500)
   })
 
-  document.querySelector('main').appendChild(newElement)
+  document.querySelector('.main__wrapper').appendChild(newElement)
 }, 5000)

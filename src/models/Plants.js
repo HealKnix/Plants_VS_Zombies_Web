@@ -70,7 +70,7 @@ export class Peashooter extends Plant {
       bullets[i].style.transform = `translate3d(${bulletsX}vh, 0, 0)`
       if (
         bullets[i].getBoundingClientRect().x >
-        document.getElementsByTagName('main')[0].clientWidth - 50
+        document.querySelector('.main__wrapper').clientWidth - 50
       ) {
         bullets[i].parentElement.removeChild(bullets[i])
         return
@@ -149,7 +149,7 @@ export class Sunflower extends Plant {
       this.htmlElement.style.filter = 'brightness(1.4)'
       setTimeout(() => {
         this.htmlElement.style.filter = 'none'
-        document.querySelector('main').appendChild(newElement)
+        document.querySelector('.main__wrapper').appendChild(newElement)
       }, 1000)
 
       this.isReadyToActive = false
