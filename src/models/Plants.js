@@ -32,6 +32,7 @@ class Plant {
       clearTimeout(event)
     })
     this.health = 0
+    this.htmlElement.parentElement.classList.remove('planted')
     this.htmlElement.parentElement.removeChild(this.htmlElement)
     this.htmlElement = null
   }

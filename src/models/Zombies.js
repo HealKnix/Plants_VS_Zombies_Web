@@ -21,9 +21,19 @@ class Zombie {
   speedX = 3
   eatDelay = 500
   posX = 0
+  allTimeouts = new Array()
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
+  }
+
+  destroy() {
+    this.health = 0
+    this.htmlElement.parentElement.removeChild(this.htmlElement)
+    this.htmlElement = null
+    this.allTimeouts.forEach(event => {
+      clearTimeout(event)
+    })
   }
 
   eat(plant) {
@@ -49,6 +59,7 @@ class Zombie {
   checkHit(plantsArray, lawnMower) {
     let isHit = false
     plantsArray.forEach(plant => {
+      if (plant.htmlElement === null) return
       ;[...plant.htmlElement.children].forEach(bullet => {
         if (!bullet.classList.contains('bullet')) return
         if (
@@ -81,8 +92,8 @@ class Zombie {
         document.querySelector('.main__wrapper').getBoundingClientRect().x -
           this.htmlElement.getBoundingClientRect().width
     ) {
-      this.health = 0
-      this.htmlElement.parentElement.removeChild(this.htmlElement)
+      this.destroy()
+      return
     }
 
     if (lawnMower.htmlElement === null) return
@@ -94,14 +105,15 @@ class Zombie {
         lawnMower.htmlElement.getBoundingClientRect().width >=
         lawnMower.htmlElement.getBoundingClientRect().x
     ) {
-      this.health = 0
-      this.htmlElement.parentElement.removeChild(this.htmlElement)
       lawnMower.active = true
       if (lawnMower.isFirstActive) {
         lawnMower.sound.volume = 0.25
         lawnMower.sound.play()
         lawnMower.isFirstActive = false
       }
+
+      this.destroy()
+      return
     }
   }
 
@@ -111,6 +123,7 @@ class Zombie {
       this.htmlElement.getBoundingClientRect().x +
       this.htmlElement.getBoundingClientRect().width / 2
     plantsArray.forEach(plant => {
+      if (plant.htmlElement === null) return
       const leftSideOfPlant = plant.htmlElement.getBoundingClientRect().x
       const rightSideOfPlant =
         plant.htmlElement.getBoundingClientRect().x +
@@ -121,9 +134,11 @@ class Zombie {
           this.eat(plant)
           this.isReadyToActive = false
 
-          setTimeout(() => {
-            this.isReadyToActive = true
-          }, this.eatDelay)
+          this.allTimeouts.push(
+            setTimeout(() => {
+              this.isReadyToActive = true
+            }, this.eatDelay)
+          )
         }
       }
     })

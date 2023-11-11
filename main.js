@@ -25,8 +25,10 @@ const cursorSelected = document.querySelector('.cursor_selected')
 document.querySelector('.main__wrapper').addEventListener('mousemove', e => {
   mouse.x = e.clientX - document.querySelector('.main__wrapper').getBoundingClientRect().x
   mouse.y = e.clientY - document.querySelector('.main__wrapper').getBoundingClientRect().y
-  cursorSelected.style.left = `${mouse.x - cursorSelected.getBoundingClientRect().width / 2}px`
-  cursorSelected.style.top = `${mouse.y - cursorSelected.getBoundingClientRect().height / 1.5}px`
+  if (seedPacketsList.some(packet => packet.isSelected) || gameStatus.shovelSelected) {
+    cursorSelected.style.left = `${mouse.x - cursorSelected.getBoundingClientRect().width / 2}px`
+    cursorSelected.style.top = `${mouse.y - cursorSelected.getBoundingClientRect().height / 1.5}px`
+  }
 })
 
 document.addEventListener('mousedown', e => {
@@ -155,7 +157,6 @@ shovelPanel.addEventListener('click', () => {
   setCursor(ShovelImage)
 })
 
-let seedBar = document.querySelector('.seed_bar')
 let seedPackets = document.querySelectorAll('.seed_bar__seeds__packet')
 
 function clearSeedPackets() {
@@ -375,12 +376,12 @@ setTimeout(() => {
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  }, 12500)
+  }, 7500)
   setTimeout(() => {
     const zombieStartSound = new Audio(ZombieStart)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
-  }, 12500)
+  }, 7500)
 }, 20000)
 
 // Для спавна солнышек на уровне
@@ -413,7 +414,9 @@ setInterval(() => {
     newElement.style.opacity = `1`
     newElement.style.pointerEvents = 'none'
     setTimeout(() => {
-      newElement.parentElement.removeChild(newElement)
+      if (!newElement) {
+        newElement.parentElement.removeChild(newElement)
+      }
       clearTimeout(timeoutToRemoveSun)
     }, 500)
   })
