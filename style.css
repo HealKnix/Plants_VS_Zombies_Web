@@ -363,8 +363,9 @@ main {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  margin-left: calc(100vh - 12vh);
+  left: calc(100vh - 11.7vh);
   filter: saturate(0.8);
+  box-shadow: inset 0 0 5px 5px #77391a;
   border-radius: 1vh;
   z-index: -5;
 }
