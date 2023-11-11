@@ -40,27 +40,52 @@ let preventTime = 0
 
 const map = [
   {
-    isLawnMowerActive: false,
+    lawnMower: {
+      active: false,
+      htmlElement: document.querySelectorAll('.lawn_mower')[0],
+      posX: 0,
+      speedX: 30
+    },
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
-    isLawnMowerActive: false,
+    lawnMower: {
+      active: false,
+      htmlElement: document.querySelectorAll('.lawn_mower')[1],
+      posX: 0,
+      speedX: 30
+    },
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
-    isLawnMowerActive: false,
+    lawnMower: {
+      active: false,
+      htmlElement: document.querySelectorAll('.lawn_mower')[2],
+      posX: 0,
+      speedX: 30
+    },
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
-    isLawnMowerActive: false,
+    lawnMower: {
+      active: false,
+      htmlElement: document.querySelectorAll('.lawn_mower')[3],
+      posX: 0,
+      speedX: 30
+    },
     plantsArray: new Array(),
     zombiesArray: new Array()
   },
   {
-    isLawnMowerActive: false,
+    lawnMower: {
+      active: false,
+      htmlElement: document.querySelectorAll('.lawn_mower')[4],
+      posX: 0,
+      speedX: 30
+    },
     plantsArray: new Array(),
     zombiesArray: new Array()
   }
@@ -233,6 +258,20 @@ requestAnimationFrame(function selectedCeil() {
       lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
     if (lane.plantsArray.some(plant => plant.health === 0))
       lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0)
+
+    if (lane.lawnMower.htmlElement === null) return
+    if (lane.lawnMower.active) {
+      lane.lawnMower.posX += 25 * deltaTime
+      lane.lawnMower.htmlElement.style.left = `${lane.lawnMower.posX}vh`
+      if (
+        lane.lawnMower.htmlElement.getBoundingClientRect().x >
+        document.querySelector('.main__wrapper').clientWidth +
+          document.querySelector('.main__wrapper').clientWidth / 3
+      ) {
+        lane.lawnMower.htmlElement.parentElement.removeChild(lane.lawnMower.htmlElement)
+        lane.lawnMower.htmlElement = null
+      }
+    }
   })
 
   document.querySelector('.count_of_suns').innerText = gameStatus.suns

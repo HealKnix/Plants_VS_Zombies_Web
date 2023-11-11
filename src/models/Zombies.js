@@ -46,7 +46,7 @@ class Zombie {
     this.posX -= this.speedX * deltaTime
   }
 
-  checkHit(plantsArray) {
+  checkHit(plantsArray, lawnMower) {
     let isHit = false
     plantsArray.forEach(plant => {
       ;[...plant.htmlElement.children].forEach(bullet => {
@@ -84,6 +84,20 @@ class Zombie {
       this.health = 0
       this.htmlElement.parentElement.removeChild(this.htmlElement)
     }
+
+    if (lawnMower.htmlElement === null) return
+    if (
+      this.htmlElement.getBoundingClientRect().x <=
+        lawnMower.htmlElement.getBoundingClientRect().x +
+          lawnMower.htmlElement.getBoundingClientRect().width &&
+      this.htmlElement.getBoundingClientRect().x +
+        lawnMower.htmlElement.getBoundingClientRect().width >=
+        lawnMower.htmlElement.getBoundingClientRect().x
+    ) {
+      this.health = 0
+      this.htmlElement.parentElement.removeChild(this.htmlElement)
+      lawnMower.active = true
+    }
   }
 
   checkCollision(plantsArray) {
@@ -116,7 +130,7 @@ class Zombie {
     if (!this.checkCollision(lane.plantsArray)) {
       this.walk()
     }
-    this.checkHit(lane.plantsArray)
+    this.checkHit(lane.plantsArray, lane.lawnMower)
   }
 }
 
