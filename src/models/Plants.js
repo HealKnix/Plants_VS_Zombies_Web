@@ -15,21 +15,25 @@ class Plant {
   name = ''
   isReadyToActive = false
   health = 100
+  allTimeouts = new Array()
 
   constructor(htmlElement, image) {
     this.plantingSound.src = plantSounds[Math.floor(Math.random() * 2)]
     this.plantingSound.volume = 0.1
     this.htmlElement = htmlElement
     this.image = image
-    this.htmlElement.classList.add('planted')
     this.plantingSound.play()
   }
 
   update(lane) {}
 
   destroy() {
+    this.allTimeouts.forEach(event => {
+      clearTimeout(event)
+    })
     this.health = 0
     this.htmlElement.parentElement.removeChild(this.htmlElement)
+    this.htmlElement = null
   }
 }
 
@@ -44,18 +48,22 @@ export class Peashooter extends Plant {
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.health = 120
 
-    setTimeout(() => {
-      this.isReadyToActive = true
-    }, 1000)
+    this.allTimeouts.push(
+      setTimeout(() => {
+        this.isReadyToActive = true
+      }, 1000)
+    )
   }
 
   shoot() {
     if (this.isReadyToActive) {
       this.htmlElement.innerHTML += /*html*/ `<div class="bullet" damage="${this.bulletDamage}" posX="0"></div>`
       this.isReadyToActive = false
-      setTimeout(() => {
-        this.isReadyToActive = true
-      }, 1500)
+      this.allTimeouts.push(
+        setTimeout(() => {
+          this.isReadyToActive = true
+        }, 1500)
+      )
     }
   }
 
@@ -109,9 +117,11 @@ export class Sunflower extends Plant {
     this.pickupSound.volume = 0.25
     this.health = 120
 
-    setTimeout(() => {
-      this.isReadyToActive = true
-    }, 5000)
+    this.allTimeouts.push(
+      setTimeout(() => {
+        this.isReadyToActive = true
+      }, 5000)
+    )
   }
 
   update() {
@@ -136,6 +146,8 @@ export class Sunflower extends Plant {
         newElement.parentElement.removeChild(newElement)
       }, 8000)
 
+      this.allTimeouts.push(timeoutToRemoveSun)
+
       newElement.addEventListener('click', () => {
         gameStatus.suns += 25
         this.pickupSound.play()
@@ -151,22 +163,28 @@ export class Sunflower extends Plant {
         }px + 4.5vh)`
         newElement.style.opacity = `0.2`
         newElement.style.pointerEvents = 'none'
-        setTimeout(() => {
-          newElement.parentElement.removeChild(newElement)
-          clearTimeout(timeoutToRemoveSun)
-        }, 500)
+        this.allTimeouts.push(
+          setTimeout(() => {
+            newElement.parentElement.removeChild(newElement)
+            clearTimeout(timeoutToRemoveSun)
+          }, 500)
+        )
       })
 
       this.htmlElement.style.filter = 'brightness(1.4)'
-      setTimeout(() => {
-        this.htmlElement.style.filter = 'none'
-        document.querySelector('.main__wrapper').appendChild(newElement)
-      }, 1000)
+      this.allTimeouts.push(
+        setTimeout(() => {
+          this.htmlElement.style.filter = 'none'
+          document.querySelector('.main__wrapper').appendChild(newElement)
+        }, 1000)
+      )
 
       this.isReadyToActive = false
-      setTimeout(() => {
-        this.isReadyToActive = true
-      }, 24000)
+      this.allTimeouts.push(
+        setTimeout(() => {
+          this.isReadyToActive = true
+        }, 24000)
+      )
     }
   }
 }

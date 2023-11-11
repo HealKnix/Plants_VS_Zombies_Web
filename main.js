@@ -5,26 +5,35 @@ import SunPickupSound from '/src/music/sun_pickup.mp3'
 import ZombieStart from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 import LawnMowerSound from '/src/music/lawn_mower.mp3'
+import ShovelDiggingSound from '/src/music/planting_sound_2.mp3'
 
-const cursorSelectedPlant = document.querySelector('.cursor_selected_plant')
+import ShovelImage from '/src/images/other/shovel.png'
+
+const mouse = {
+  x: 0,
+  y: 0
+}
+
+export const gameStatus = {
+  suns: 50,
+  shovelSelected: false
+}
+export let deltaTime = 0
+let preventTime = 0
+
+const cursorSelected = document.querySelector('.cursor_selected')
 document.querySelector('.main__wrapper').addEventListener('mousemove', e => {
-  let innerX = e.clientX - document.querySelector('.main__wrapper').getBoundingClientRect().x
-  let innerY = e.clientY - document.querySelector('.main__wrapper').getBoundingClientRect().y
-  if (!seedPacketsList.some(packet => packet.isSelected)) return
-  cursorSelectedPlant.style.left = `${
-    innerX - cursorSelectedPlant.getBoundingClientRect().width / 2
-  }px`
-  cursorSelectedPlant.style.top = `${
-    innerY - cursorSelectedPlant.getBoundingClientRect().height / 1.5
-  }px`
+  mouse.x = e.clientX - document.querySelector('.main__wrapper').getBoundingClientRect().x
+  mouse.y = e.clientY - document.querySelector('.main__wrapper').getBoundingClientRect().y
+  cursorSelected.style.left = `${mouse.x - cursorSelected.getBoundingClientRect().width / 2}px`
+  cursorSelected.style.top = `${mouse.y - cursorSelected.getBoundingClientRect().height / 1.5}px`
 })
 
-function clearCursor() {
-  cursorSelectedPlant.style.display = 'none'
-  cursorSelectedPlant.style.left = '-1000px'
-  cursorSelectedPlant.style.top = '-1000px'
-  cursorSelectedPlant.style.backgroundImage = `url()`
-}
+document.addEventListener('mousedown', e => {
+  if (e.button === 2) {
+    clearCursor(document.elementFromPoint(e.clientX, e.clientY))
+  }
+})
 
 const themeAudio = document.getElementById('music')
 themeAudio.volume = 0.15
@@ -32,12 +41,6 @@ themeAudio.volume = 0.15
 document.addEventListener('click', () => {
   themeAudio.play()
 })
-
-export const gameStatus = {
-  suns: 50
-}
-export let deltaTime = 0
-let preventTime = 0
 
 const map = [
   {
@@ -107,8 +110,70 @@ const map = [
   }
 ]
 
+function setCursor(image) {
+  cursorSelected.style.display = 'block'
+  cursorSelected.style.left = `${mouse.x - cursorSelected.getBoundingClientRect().width / 2}px`
+  cursorSelected.style.top = `${mouse.y - cursorSelected.getBoundingClientRect().height / 1.5}px`
+  cursorSelected.style.backgroundImage = `url('${image}')`
+}
+
+function clearShovel() {
+  shovel.classList.remove('active')
+  gameStatus.shovelSelected = false
+}
+function clearCeil(ceil) {
+  if (ceil) {
+    if (!ceil.classList.contains('floor__ceil')) {
+      return
+    }
+    ceil.removeAttribute('style')
+  }
+}
+function clearCursor(ceil) {
+  clearShovel()
+  clearCeil(ceil)
+  clearSeedPackets()
+
+  cursorSelected.style.display = 'none'
+  cursorSelected.style.left = '-1000px'
+  cursorSelected.style.top = '-1000px'
+  cursorSelected.style.backgroundImage = `url()`
+}
+
+const shovelPanel = document.querySelector('.shovel_panel')
+const shovel = document.querySelector('.shovel')
+shovelPanel.addEventListener('click', () => {
+  clearSeedPackets()
+  if (shovel.classList.contains('active')) {
+    gameStatus.shovelSelected = false
+    shovel.classList.remove('active')
+    clearCursor()
+    return
+  }
+  gameStatus.shovelSelected = true
+  shovel.classList.add('active')
+  setCursor(ShovelImage)
+})
+
 let seedBar = document.querySelector('.seed_bar')
 let seedPackets = document.querySelectorAll('.seed_bar__seeds__packet')
+
+function clearSeedPackets() {
+  let countIndex = 0
+
+  seedPacketsList.forEach(packet => {
+    if (packet.isSelected) countIndex++
+  })
+
+  if (countIndex > 0) {
+    seedPackets.forEach(packet => {
+      packet.classList.remove('select')
+    })
+    seedPacketsList.forEach(packet => {
+      packet.isSelected = false
+    })
+  }
+}
 
 seedPackets.forEach(packet => {
   packet.addEventListener('mouseenter', () => {
@@ -137,6 +202,9 @@ seedPackets.forEach(packet => {
     packet.children[2].classList.remove('show')
   })
   packet.addEventListener('click', e => {
+    shovel.classList.remove('active')
+    gameStatus.shovelSelected = false
+
     if (packet.classList.contains('disabled')) return
 
     if (packet.classList.contains('select')) {
@@ -146,32 +214,16 @@ seedPackets.forEach(packet => {
       return
     }
 
-    let countIndex = 0
-
-    seedPacketsList.forEach(packet => {
-      if (packet.isSelected) countIndex++
-    })
-
-    if (countIndex > 0) {
-      seedPackets.forEach(packet => {
-        packet.classList.remove('select')
-      })
-      seedPacketsList.forEach(packet => {
-        packet.isSelected = false
-      })
-    }
+    clearSeedPackets()
 
     packet.classList.add('select')
     seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = true
 
-    cursorSelectedPlant.style.display = 'block'
-    cursorSelectedPlant.style.backgroundImage = `url(${
-      seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image
-    })`
+    setCursor(seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image)
 
-    let opa = new Audio(SeedPacketSound)
-    opa.volume = 0.35
-    opa.play()
+    let seedPacketSound = new Audio(SeedPacketSound)
+    seedPacketSound.volume = 0.35
+    seedPacketSound.play()
   })
 })
 
@@ -184,6 +236,7 @@ floor_row.forEach(row => {
       if (
         ceil.classList.contains('planted') ||
         ceil.classList.contains('zombie_spawner') ||
+        ceil.classList.contains('lawn_mower') ||
         !seedPacketsList.some(packet => packet.isSelected)
       )
         return
@@ -199,6 +252,7 @@ floor_row.forEach(row => {
       if (
         ceil.classList.contains('planted') ||
         ceil.classList.contains('zombie_spawner') ||
+        ceil.classList.contains('lawn_mower') ||
         !seedPacketsList.some(packet => packet.isSelected)
       )
         return
@@ -208,20 +262,39 @@ floor_row.forEach(row => {
       }
     })
     ceil.addEventListener('click', e => {
+      if (ceil.classList.contains('planted') && gameStatus.shovelSelected) {
+        const shovelDiggingSound = new Audio(ShovelDiggingSound)
+        shovelDiggingSound.volume = 0.15
+        shovelDiggingSound.play()
+
+        const indexDelete = map[parseInt(row.id)].plantsArray.findIndex(
+          plant => plant.htmlElement === ceil.children[0]
+        )
+        const plant = map[parseInt(row.id)].plantsArray[indexDelete]
+        plant.destroy()
+
+        map[parseInt(row.id)].plantsArray = map[parseInt(row.id)].plantsArray.filter(
+          plant => plant.htmlElement !== null
+        )
+
+        ceil.classList.remove('planted')
+        clearCursor()
+      }
+
       if (
         ceil.classList.contains('planted') ||
         ceil.classList.contains('zombie_spawner') ||
+        ceil.classList.contains('lawn_mower') ||
         ceil.children.length !== 0 ||
         !seedPacketsList.some(packet => packet.isSelected)
       ) {
         return
       }
 
-      ceil.removeAttribute('style')
-
       let newElement = document.createElement('div')
       newElement.classList.add('plant')
 
+      ceil.classList.add('planted')
       ceil.appendChild(newElement)
 
       map[parseInt(row.id)].plantsArray.push(
@@ -230,14 +303,7 @@ floor_row.forEach(row => {
         )
       )
 
-      seedPackets.forEach(packet => {
-        packet.classList.remove('select')
-      })
-      seedPacketsList.forEach(packet => {
-        packet.isSelected = false
-      })
-
-      clearCursor()
+      clearCursor(ceil)
 
       ceil.style.opacity = `1`
     })

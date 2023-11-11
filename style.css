@@ -38,6 +38,7 @@ body {
 }
 
 .seed_bar {
+  float: left;
   display: grid;
   grid-template-columns: 10vh 1fr;
   gap: 1vh;
@@ -263,7 +264,7 @@ main {
   background-size: 70%;
 }
 
-.floor__ceil:has(.plant.planted) {
+.floor__ceil:has(.plant) {
   background: radial-gradient(circle closest-side at 53% 70%, rgba(0, 60, 9, 0.75) 2vh, transparent 80%);
 }
 
@@ -342,7 +343,7 @@ main {
   top: 18vh;
 }
 
-.cursor_selected_plant {
+.cursor_selected {
   pointer-events: none;
   position: absolute;
   width: 13.5vh;
@@ -350,4 +351,34 @@ main {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 70%;
+  z-index: 9999;
+}
+
+.shovel_panel {
+  position: relative;
+  cursor: pointer;
+  width: 10vh;
+  height: 10vh;
+  background-image: url('src/images/ui/shovel_panel.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-left: calc(100vh - 12vh);
+  filter: saturate(0.8);
+  border-radius: 1vh;
+  z-index: -5;
+}
+
+.shovel {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  background-image: url('src/images/other/shovel.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75%;
+}
+
+.shovel.active {
+  display: none;
 }
