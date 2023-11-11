@@ -1,0 +1,81 @@
+.pause_menu__wrapper {
+  display: none;
+}
+
+.pause_menu__wrapper.paused {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+
+  font-family: HouseOfTerror;
+  font-size: 4.25vh;
+  color: #dfba61;
+  -webkit-text-stroke: 0.12vh black;
+}
+
+.pause_menu {
+  --size-pause-menu: 60vh;
+
+  position: relative;
+  width: var(--size-pause-menu);
+  height: var(--size-pause-menu);
+  background-image: url('../../images/ui/pause_menu.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.pause_menu__button,
+.pause_menu__button__shadow {
+  outline: none;
+  border: none;
+  position: absolute;
+  bottom: 3.6vh;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 40vh;
+  height: 6vh;
+
+}
+
+.pause_menu__button {
+  cursor: pointer;
+  background: url('../../images/ui/pause_menu_button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  letter-spacing: 0.2vh;
+  font-family: HouseOfTerror;
+  font-size: 3vh;
+  color: #00c600;
+}
+
+.pause_menu__button:active {
+  bottom: 3.45vh;
+  left: 50.5%;
+}
+
+.pause_menu__button__shadow {
+  background-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 1px 1px 1px black;
+  filter: blur(0.35vh);
+}
+
+.pause_menu__title {
+  text-align: center;
+  text-wrap: wrap;
+  padding: 12vh 6vh;
+}
+
+.pause_menu__title>img {
+  margin: 6% 0;
+}
+
+.pause_menu__title_help {
+  font-size: 3vh;
+}

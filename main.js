@@ -6,6 +6,8 @@ import ZombieStart from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 import LawnMowerSound from '/src/music/lawn_mower.mp3'
 import ShovelDiggingSound from '/src/music/planting_sound_2.mp3'
+import OpenPauseMenuSound from '/src/music/pause.mp3'
+import ButtonClickSound from '/src/music/button_click.mp3'
 
 import ShovelImage from '/src/images/other/shovel.png'
 
@@ -16,7 +18,8 @@ const mouse = {
 
 export const gameStatus = {
   suns: 50,
-  shovelSelected: false
+  shovelSelected: false,
+  isPaused: false
 }
 export let deltaTime = 0
 let preventTime = 0
@@ -312,57 +315,96 @@ floor_row.forEach(row => {
 })
 
 // Игровая логика
-let y = 10
-requestAnimationFrame(function selectedCeil() {
+function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
-
-  document.querySelectorAll('.sun_from_level.sun').forEach(sun => {
-    if (sun.classList.contains('fall')) return
-    sun.classList.add('fall')
-    sun.style.top = `${Math.floor(Math.random() * 70 + 20)}vh`
-  })
-
-  seedPacketsList.forEach(packet => {
-    packet.updateReload()
-    if (gameStatus.suns < packet.option.cost) {
-      seedPackets[packet.option.id].classList.add('disabled')
-    } else if (!packet.isReloaded) {
-      seedPackets[packet.option.id].classList.remove('disabled')
-    }
-  })
-
-  map.forEach(lane => {
-    lane.plantsArray.forEach(plant => {
-      plant.update(lane)
+  if (!gameStatus.isPaused) {
+    document.querySelectorAll('.sun_from_level.sun').forEach(sun => {
+      if (sun.classList.contains('fall')) return
+      sun.classList.add('fall')
+      sun.style.top = `${Math.floor(Math.random() * 70 + 20)}vh`
     })
-    lane.zombiesArray.forEach(zombie => {
-      zombie.update(lane)
-    })
-    if (lane.zombiesArray.some(zombie => zombie.health === 0))
-      lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
-    if (lane.plantsArray.some(plant => plant.health === 0))
-      lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0)
 
-    if (lane.lawnMower.htmlElement === null) return
-    if (lane.lawnMower.active) {
-      lane.lawnMower.posX += 25 * deltaTime
-      lane.lawnMower.htmlElement.style.left = `${lane.lawnMower.posX}vh`
-      if (
-        lane.lawnMower.htmlElement.getBoundingClientRect().x >
-        document.querySelector('.main__wrapper').clientWidth +
-          document.querySelector('.main__wrapper').clientWidth / 3
-      ) {
-        lane.lawnMower.htmlElement.parentElement.removeChild(lane.lawnMower.htmlElement)
-        lane.lawnMower.htmlElement = null
+    seedPacketsList.forEach(packet => {
+      packet.updateReload()
+      if (gameStatus.suns < packet.option.cost) {
+        seedPackets[packet.option.id].classList.add('disabled')
+      } else if (!packet.isReloaded) {
+        seedPackets[packet.option.id].classList.remove('disabled')
       }
-    }
-  })
+    })
 
-  document.querySelector('.count_of_suns').innerText = gameStatus.suns
+    map.forEach(lane => {
+      lane.plantsArray.forEach(plant => {
+        plant.update(lane)
+      })
+      lane.zombiesArray.forEach(zombie => {
+        zombie.update(lane)
+      })
+      if (lane.zombiesArray.some(zombie => zombie.health === 0))
+        lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0)
+      if (lane.plantsArray.some(plant => plant.health === 0))
+        lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0)
+
+      if (lane.lawnMower.htmlElement === null) return
+      if (lane.lawnMower.active) {
+        lane.lawnMower.posX += 25 * deltaTime
+        lane.lawnMower.htmlElement.style.left = `${lane.lawnMower.posX}vh`
+        if (
+          lane.lawnMower.htmlElement.getBoundingClientRect().x >
+          document.querySelector('.main__wrapper').clientWidth +
+            document.querySelector('.main__wrapper').clientWidth / 3
+        ) {
+          lane.lawnMower.htmlElement.parentElement.removeChild(lane.lawnMower.htmlElement)
+          lane.lawnMower.htmlElement = null
+        }
+      }
+    })
+
+    document.querySelector('.count_of_suns').innerText = gameStatus.suns
+  }
 
   preventTime = Date.now()
-  requestAnimationFrame(selectedCeil)
+  requestAnimationFrame(gameLogic)
+}
+// Обновление игровой логики
+const gameUpdateLogic = requestAnimationFrame(gameLogic)
+
+function openPauseMenu() {
+  if (gameStatus.isPaused) return
+  document.querySelector('.pause_menu__wrapper').classList.add('paused')
+  cancelAnimationFrame(gameUpdateLogic)
+  const openPauseMenuSound = new Audio(OpenPauseMenuSound)
+  openPauseMenuSound.volume = 0.15
+  openPauseMenuSound.play()
+  gameStatus.isPaused = true
+  themeAudio.volume = 0
+}
+
+function closePauseMenu() {
+  document.querySelector('.pause_menu__wrapper').classList.remove('paused')
+  requestAnimationFrame(gameLogic)
+  const buttonClickSound = new Audio(ButtonClickSound)
+  buttonClickSound.volume = 0.25
+  buttonClickSound.play()
+  gameStatus.isPaused = false
+  themeAudio.volume = 0.15
+}
+
+document.querySelector('.pause_menu__button').onclick = closePauseMenu
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (!gameStatus.isPaused) {
+      openPauseMenu()
+    } else {
+      closePauseMenu()
+    }
+  }
 })
+
+window.onblur = function () {
+  openPauseMenu()
+}
 
 // Для спавна зомби на уровне
 let zombieSpawners = document.querySelectorAll('.zombie_spawner')
@@ -376,12 +418,12 @@ setTimeout(() => {
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  }, 7500)
+  }, 9000)
   setTimeout(() => {
     const zombieStartSound = new Audio(ZombieStart)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
-  }, 7500)
+  }, 9000)
 }, 20000)
 
 // Для спавна солнышек на уровне

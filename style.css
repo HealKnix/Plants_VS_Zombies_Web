@@ -1,4 +1,5 @@
 @import 'src/assets/fonts/fonts.css';
+@import 'src/assets/css/pause_menu.css';
 
 :root {
   --offset-x: 0px;
@@ -11,6 +12,7 @@
 
 html,
 body {
+  user-select: none;
   width: 100%;
   height: 100%;
   overflow: hidden;
