@@ -1,4 +1,5 @@
 import RegularZombieImg from '../images/zombies/regular_zombie.png'
+import ConeheadZombieImg from '../images/zombies/conehead_zombie.png'
 
 import HitSound1 from '../music/zombies_hit_1.mp3'
 import HitSound2 from '../music/zombies_hit_2.mp3'
@@ -161,5 +162,15 @@ export class RegularZombie extends Zombie {
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.eatDelay = 650
     this.health = 200
+  }
+}
+
+export class ConeheadZombie extends Zombie {
+  constructor(htmlElement) {
+    super(htmlElement)
+    this.image = ConeheadZombieImg
+    this.htmlElement.style.backgroundImage = `url("${this.image}")`
+    this.eatDelay = 650
+    this.health = 400
   }
 }

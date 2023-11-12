@@ -1,6 +1,8 @@
 import { seedPacketsList } from '/src/models/SeedPacket'
 import * as Zombie from '/src/models/Zombies'
 
+const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
+
 import SunPickupSound from '/src/music/sun_pickup.mp3'
 import ZombieStart from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
@@ -372,7 +374,6 @@ const gameUpdateLogic = requestAnimationFrame(gameLogic)
 function openPauseMenu() {
   if (gameStatus.isPaused) return
   document.querySelector('.pause_menu__wrapper').classList.add('paused')
-  cancelAnimationFrame(gameUpdateLogic)
   const openPauseMenuSound = new Audio(OpenPauseMenuSound)
   openPauseMenuSound.volume = 0.15
   openPauseMenuSound.play()
@@ -382,7 +383,6 @@ function openPauseMenu() {
 
 function closePauseMenu() {
   document.querySelector('.pause_menu__wrapper').classList.remove('paused')
-  requestAnimationFrame(gameLogic)
   const buttonClickSound = new Audio(ButtonClickSound)
   buttonClickSound.volume = 0.25
   buttonClickSound.play()
@@ -417,13 +417,13 @@ setTimeout(() => {
 
     zombieSpawners[randomLane].appendChild(newElement)
 
-    map[randomLane].zombiesArray.push(new Zombie.RegularZombie(newElement))
-  }, 9000)
+    map[randomLane].zombiesArray.push(new zombiesArray[Math.floor(Math.random() * 2)](newElement))
+  }, 7500)
   setTimeout(() => {
     const zombieStartSound = new Audio(ZombieStart)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
-  }, 9000)
+  }, 7500)
 }, 20000)
 
 // Для спавна солнышек на уровне
