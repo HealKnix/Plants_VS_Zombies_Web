@@ -29,6 +29,7 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
   will-change: auto;
+  z-index: 9999;
 }
 
 .wrapper__seed_bar {
