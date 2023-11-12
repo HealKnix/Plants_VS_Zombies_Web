@@ -28,7 +28,10 @@ class Zombie {
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
-    this.htmlElement.setAttribute('width', '85%')
+    this.htmlElementZombie = document.createElement('img')
+    this.htmlElementZombie.setAttribute('width', '85%')
+    this.htmlElementZombie.classList.add('zombie_img')
+    this.htmlElement.appendChild(this.htmlElementZombie)
   }
 
   destroy() {
@@ -163,17 +166,41 @@ export class RegularZombie extends Zombie {
     super(htmlElement)
     this.image = RegularZombieImg
     this.health = 200
-    this.htmlElement.setAttribute('src', this.image)
+    this.htmlElementZombie.setAttribute('src', this.image)
     this.htmlElement.classList.add('zombie')
   }
 }
 
+import ComeHat from '/src/images/other/cone_hat_for_zombie.png'
 export class ConeheadZombie extends Zombie {
   constructor(htmlElement) {
     super(htmlElement)
-    this.image = ConeheadZombieImg
+    this.image = RegularZombieImg
+    this.imageUpdated = false
     this.health = 400
-    this.htmlElement.setAttribute('src', this.image)
+    this.htmlElementZombie.setAttribute('src', this.image)
     this.htmlElement.classList.add('zombie')
+
+    this.htmlElementHat = document.createElement('img')
+    this.htmlElementHat.setAttribute('src', ComeHat)
+    this.htmlElementHat.setAttribute('width', '55%')
+    this.htmlElementHat.classList.add('cone_hat')
+
+    this.htmlElement.appendChild(this.htmlElementHat)
+  }
+
+  update(lane) {
+    super.update(lane)
+    this.updateImage()
+  }
+
+  updateImage() {
+    if (this.health <= 200 && !this.imageUpdated) {
+      this.htmlElementHat.classList.add('fall')
+      this.imageUpdated = true
+      setGameTimeout(() => {
+        this.htmlElementHat.parentElement.removeChild(this.htmlElementHat)
+      }, 1000)
+    }
   }
 }

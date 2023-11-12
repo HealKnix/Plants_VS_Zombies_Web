@@ -442,7 +442,7 @@ setGameTimeout(() => {
   setGameInterval(() => {
     const randomLane = Math.floor(Math.random() * map.length)
 
-    let newElement = document.createElement('img')
+    const newElement = document.createElement('div')
     const newZombie = new zombiesArray[Math.floor(Math.random() * 2)](newElement)
 
     let zombieSpawners = document.querySelectorAll('.zombie_spawner')
@@ -456,7 +456,7 @@ setGameTimeout(() => {
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
   }, 7500)
-}, 20000)
+}, 0)
 
 // Для спавна солнышек на уровне
 setGameInterval(() => {
