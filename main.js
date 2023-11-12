@@ -456,7 +456,7 @@ setGameTimeout(() => {
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
   }, 7500)
-}, 0)
+}, 20000)
 
 // Для спавна солнышек на уровне
 setGameInterval(() => {
