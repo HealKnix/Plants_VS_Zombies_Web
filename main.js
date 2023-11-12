@@ -446,7 +446,3 @@ setInterval(() => {
 
   sunsArray.push(newSun)
 }, 5000)
-
-setInterval(() => {
-  console.log(sunsArray)
-}, 500)
