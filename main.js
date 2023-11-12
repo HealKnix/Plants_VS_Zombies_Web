@@ -4,14 +4,18 @@ import * as Zombie from '/src/models/Zombies'
 const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
 
 import SunPickupSound from '/src/music/sun_pickup.mp3'
-import ZombieStart from '/src/music/zombies_start.mp3'
+import ZombieStartSound from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 import LawnMowerSound from '/src/music/lawn_mower.mp3'
 import ShovelDiggingSound from '/src/music/planting_sound_2.mp3'
 import OpenPauseMenuSound from '/src/music/pause.mp3'
 import ButtonClickSound from '/src/music/button_click.mp3'
 
+import ShovelSound from '/src/music/shovel.mp3'
 import ShovelImage from '/src/images/other/shovel.png'
+
+const shovelSound = new Audio(ShovelSound)
+shovelSound.volume = 0.25
 
 const mouse = {
   x: 0,
@@ -159,6 +163,7 @@ shovelPanel.addEventListener('click', () => {
   }
   gameStatus.shovelSelected = true
   shovel.classList.add('active')
+  shovelSound.play()
   setCursor(ShovelImage)
 })
 
@@ -420,7 +425,7 @@ setTimeout(() => {
     map[randomLane].zombiesArray.push(newZombie)
   }, 7500)
   setTimeout(() => {
-    const zombieStartSound = new Audio(ZombieStart)
+    const zombieStartSound = new Audio(ZombieStartSound)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
   }, 7500)
