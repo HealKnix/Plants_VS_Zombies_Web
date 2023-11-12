@@ -9,6 +9,10 @@ export class GameInterval {
     })
   }
 
+  clear() {
+    this.option = null
+  }
+
   method() {
     this.durationTime += deltaTime * 1000
     if (this.durationTime >= this.option.goalTime) {
@@ -18,13 +22,15 @@ export class GameInterval {
   }
 }
 
-export const gameIntervalsArray = new Array()
+export const gameIntervalsArray = {
+  array: new Array()
+}
 
 export function setGameInterval(callback, ms) {
-  gameIntervalsArray.push(
-    new GameInterval({
-      callback: callback,
-      goalTime: ms
-    })
-  )
+  const newGameInterval = new GameInterval({
+    callback: callback,
+    goalTime: ms
+  })
+  gameIntervalsArray.array.push(newGameInterval)
+  return newGameInterval
 }

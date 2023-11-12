@@ -329,10 +329,13 @@ floor_row.forEach(row => {
 function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
   if (!gameStatus.isPaused) {
-    gameTimeoutsArray.forEach(item => {
+    gameTimeoutsArray.array = gameTimeoutsArray.array.filter(item => item.option !== null)
+    gameIntervalsArray.array = gameIntervalsArray.array.filter(item => item.option !== null)
+
+    gameTimeoutsArray.array.forEach(item => {
       item.method()
     })
-    gameIntervalsArray.forEach(item => {
+    gameIntervalsArray.array.forEach(item => {
       item.method()
     })
 
@@ -457,3 +460,7 @@ setGameInterval(() => {
 
   sunsArray.push(newSun)
 }, 5000)
+
+setInterval(() => {
+  console.log(gameTimeoutsArray.array)
+}, 500)

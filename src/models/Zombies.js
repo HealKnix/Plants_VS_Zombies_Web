@@ -8,6 +8,7 @@ import ChompSound1 from '../music/zombie_chomp_1.mp3'
 import ChompSound2 from '../music/zombie_chomp_2.mp3'
 
 import { deltaTime } from '/main'
+import { setGameTimeout } from '/src/models/GameTimeout'
 
 const hitSounds = [HitSound1, HitSound2]
 const chompSounds = [ChompSound1, ChompSound2]
@@ -35,7 +36,7 @@ class Zombie {
     this.htmlElement.parentElement.removeChild(this.htmlElement)
     this.htmlElement = null
     this.allTimeouts.forEach(event => {
-      clearTimeout(event)
+      event.clear()
     })
   }
 
@@ -138,7 +139,7 @@ class Zombie {
           this.isReadyToActive = false
 
           this.allTimeouts.push(
-            setTimeout(() => {
+            setGameTimeout(() => {
               this.isReadyToActive = true
             }, this.eatDelay)
           )

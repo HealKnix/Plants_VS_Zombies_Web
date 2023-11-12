@@ -1,7 +1,7 @@
 import SunPickupSound from '/src/music/sun_pickup.mp3'
 
 import { gameStatus } from '../../main'
-
+import { setGameTimeout } from '/src/models/GameTimeout'
 import { deltaTime } from '/main'
 
 export class Sun {
@@ -47,7 +47,7 @@ export class Sun {
       this.isClicked = true
       this.isFall = false
 
-      setTimeout(() => {
+      setGameTimeout(() => {
         this.destroy()
       }, 500)
     })

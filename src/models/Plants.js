@@ -6,6 +6,7 @@ import PlantingSound2 from '/src/music/planting_sound_2.mp3'
 
 import { sunsArray } from '../../main'
 import { deltaTime } from '/main'
+import { setGameTimeout } from '/src/models/GameTimeout'
 
 const plantSounds = [PlantingSound1, PlantingSound2]
 
@@ -31,7 +32,7 @@ class Plant {
 
   destroy() {
     this.allTimeouts.forEach(event => {
-      clearTimeout(event)
+      event.clear()
     })
     this.health = 0
     this.htmlElement.parentElement.classList.remove('planted')
@@ -52,7 +53,7 @@ export class Peashooter extends Plant {
     this.health = 120
 
     this.allTimeouts.push(
-      setTimeout(() => {
+      setGameTimeout(() => {
         this.isReadyToActive = true
       }, 1000)
     )
@@ -63,7 +64,7 @@ export class Peashooter extends Plant {
       this.htmlElement.innerHTML += /*html*/ `<div class="bullet" damage="${this.bulletDamage}" posX="0"></div>`
       this.isReadyToActive = false
       this.allTimeouts.push(
-        setTimeout(() => {
+        setGameTimeout(() => {
           this.isReadyToActive = true
         }, 1500)
       )
@@ -121,7 +122,7 @@ export class Sunflower extends Plant {
     this.health = 120
 
     this.allTimeouts.push(
-      setTimeout(() => {
+      setGameTimeout(() => {
         this.isReadyToActive = true
       }, 5000)
     )
@@ -141,14 +142,14 @@ export class Sunflower extends Plant {
         (document.querySelector('.main__wrapper').getBoundingClientRect().height * 2)
 
       this.allTimeouts.push(
-        setTimeout(() => {
+        setGameTimeout(() => {
           sunsArray.push(new Sun(newElement, posX, posY, 25))
         }, 1000)
       )
 
       this.htmlElement.style.filter = 'brightness(1.4)'
       this.allTimeouts.push(
-        setTimeout(() => {
+        setGameTimeout(() => {
           this.htmlElement.style.filter = 'none'
           document.querySelector('.main__wrapper').appendChild(newElement)
         }, 1000)
@@ -156,7 +157,7 @@ export class Sunflower extends Plant {
 
       this.isReadyToActive = false
       this.allTimeouts.push(
-        setTimeout(() => {
+        setGameTimeout(() => {
           this.isReadyToActive = true
         }, 24000)
       )

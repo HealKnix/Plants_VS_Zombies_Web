@@ -10,22 +10,29 @@ export class GameTimeout {
     })
   }
 
+  clear() {
+    this.option = null
+  }
+
   method() {
     if (this.isComplete) return
     this.durationTime += deltaTime * 1000
     if (this.durationTime <= this.option.goalTime) return
     this.option.callback()
     this.isComplete = true
+    this.clear()
   }
 }
 
-export const gameTimeoutsArray = new Array()
+export const gameTimeoutsArray = {
+  array: new Array()
+}
 
 export function setGameTimeout(callback, ms) {
-  gameTimeoutsArray.push(
-    new GameTimeout({
-      callback: callback,
-      goalTime: ms
-    })
-  )
+  const newGameTimeout = new GameTimeout({
+    callback: callback,
+    goalTime: ms
+  })
+  gameTimeoutsArray.array.push(newGameTimeout)
+  return newGameTimeout
 }
