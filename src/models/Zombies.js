@@ -22,13 +22,12 @@ class Zombie {
   speedX = 3
   eatDelay = 650
   posX = 0
+  image = ''
   allTimeouts = new Array()
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
     this.htmlElement.setAttribute('width', '85%')
-    this.htmlElement.setAttribute('src', this.image)
-    this.htmlElement.classList.add('zombie')
   }
 
   destroy() {
@@ -163,6 +162,8 @@ export class RegularZombie extends Zombie {
     super(htmlElement)
     this.image = RegularZombieImg
     this.health = 200
+    this.htmlElement.setAttribute('src', this.image)
+    this.htmlElement.classList.add('zombie')
   }
 }
 
@@ -171,5 +172,7 @@ export class ConeheadZombie extends Zombie {
     super(htmlElement)
     this.image = ConeheadZombieImg
     this.health = 400
+    this.htmlElement.setAttribute('src', this.image)
+    this.htmlElement.classList.add('zombie')
   }
 }

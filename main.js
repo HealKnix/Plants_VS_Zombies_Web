@@ -418,13 +418,13 @@ setTimeout(() => {
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(newZombie)
-  }, 1000)
+  }, 7500)
   setTimeout(() => {
     const zombieStartSound = new Audio(ZombieStart)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
-  }, 1000)
-}, 0)
+  }, 7500)
+}, 20000)
 
 // Для спавна солнышек на уровне
 setInterval(() => {
