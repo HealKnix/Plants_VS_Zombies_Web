@@ -24,6 +24,8 @@ const mouse = {
   y: 0
 }
 
+const countOfSunsHtml = document.querySelector('.count_of_suns')
+
 export let sunsArray = new Array()
 
 export const gameStatus = {
@@ -325,24 +327,32 @@ floor_row.forEach(row => {
   })
 })
 
+function timeoutsAndIntervalsUpdate() {
+  if (gameTimeoutsArray.array.some(item => item.option === null)) {
+    gameTimeoutsArray.array = gameTimeoutsArray.array.filter(item => item.option !== null)
+  }
+  if (gameIntervalsArray.array.some(item => item.option === null)) {
+    gameIntervalsArray.array = gameIntervalsArray.array.filter(item => item.option !== null)
+  }
+
+  gameTimeoutsArray.array.forEach(item => {
+    item.method()
+  })
+  gameIntervalsArray.array.forEach(item => {
+    item.method()
+  })
+}
+
 // Игровая логика
 function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
   if (!gameStatus.isPaused) {
-    gameTimeoutsArray.array = gameTimeoutsArray.array.filter(item => item.option !== null)
-    gameIntervalsArray.array = gameIntervalsArray.array.filter(item => item.option !== null)
+    timeoutsAndIntervalsUpdate()
 
-    gameTimeoutsArray.array.forEach(item => {
-      item.method()
-    })
-    gameIntervalsArray.array.forEach(item => {
-      item.method()
-    })
-
+    sunsArray = sunsArray.filter(sun => sun.htmlElement !== null)
     sunsArray.forEach(sun => {
       sun.update()
     })
-    sunsArray = sunsArray.filter(sun => sun.htmlElement !== null)
 
     seedPacketsList.forEach(packet => {
       packet.updateReload()
@@ -380,7 +390,9 @@ function gameLogic() {
       }
     })
 
-    document.querySelector('.count_of_suns').innerText = gameStatus.suns
+    if (parseInt(countOfSunsHtml.innerText) !== gameStatus.suns) {
+      countOfSunsHtml.innerText = gameStatus.suns
+    }
   }
 
   preventTime = Date.now()
@@ -460,7 +472,3 @@ setGameInterval(() => {
 
   sunsArray.push(newSun)
 }, 5000)
-
-setInterval(() => {
-  console.log(gameTimeoutsArray.array)
-}, 500)
