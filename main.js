@@ -1,6 +1,8 @@
 import { seedPacketsList } from '/src/models/SeedPacket'
 import * as Zombie from '/src/models/Zombies'
 import { Sun } from '/src/models/Sun'
+import { setGameTimeout, gameTimeoutsArray } from '/src/models/GameTimeout'
+import { setGameInterval, gameIntervalsArray } from '/src/models/GameInterval'
 
 const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
 
@@ -327,6 +329,13 @@ floor_row.forEach(row => {
 function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
   if (!gameStatus.isPaused) {
+    gameTimeoutsArray.forEach(item => {
+      item.method()
+    })
+    gameIntervalsArray.forEach(item => {
+      item.method()
+    })
+
     sunsArray.forEach(sun => {
       sun.update()
     })
@@ -408,24 +417,26 @@ window.addEventListener('keydown', e => {
   }
 })
 
-// window.onblur = function () {
-//   openPauseMenu()
-// }
+window.onblur = function () {
+  openPauseMenu()
+}
 
-// Для спавна зомби на уровне
-let zombieSpawners = document.querySelectorAll('.zombie_spawner')
-setTimeout(() => {
-  setInterval(() => {
+// Для начала волны Зомби
+setGameTimeout(() => {
+  // Для спавна зомби на уровне
+  setGameInterval(() => {
     const randomLane = Math.floor(Math.random() * map.length)
 
     let newElement = document.createElement('img')
     const newZombie = new zombiesArray[Math.floor(Math.random() * 2)](newElement)
 
+    let zombieSpawners = document.querySelectorAll('.zombie_spawner')
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(newZombie)
   }, 7500)
-  setTimeout(() => {
+  // Для проигрывания звука перед началом атаки Зомби
+  setGameTimeout(() => {
     const zombieStartSound = new Audio(ZombieStartSound)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
@@ -433,7 +444,7 @@ setTimeout(() => {
 }, 20000)
 
 // Для спавна солнышек на уровне
-setInterval(() => {
+setGameInterval(() => {
   const newElement = document.createElement('div')
   newElement.classList.add('sun_from_level', 'sun')
 
