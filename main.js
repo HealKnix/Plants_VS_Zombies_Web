@@ -1,9 +1,9 @@
 import { seedPacketsList } from '/src/models/SeedPacket'
 import * as Zombie from '/src/models/Zombies'
+import { Sun } from '/src/models/Sun'
 
 const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
 
-import SunPickupSound from '/src/music/sun_pickup.mp3'
 import ZombieStartSound from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 import LawnMowerSound from '/src/music/lawn_mower.mp3'
@@ -22,13 +22,15 @@ const mouse = {
   y: 0
 }
 
+export let sunsArray = new Array()
+
 export const gameStatus = {
   suns: 50,
   shovelSelected: false,
   isPaused: false
 }
 export let deltaTime = 0
-let preventTime = 0
+let preventTime = Date.now()
 
 const cursorSelected = document.querySelector('.cursor_selected')
 document.querySelector('.main__wrapper').addEventListener('mousemove', e => {
@@ -325,11 +327,10 @@ floor_row.forEach(row => {
 function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
   if (!gameStatus.isPaused) {
-    document.querySelectorAll('.sun_from_level.sun').forEach(sun => {
-      if (sun.classList.contains('fall')) return
-      sun.classList.add('fall')
-      sun.style.top = `${Math.floor(Math.random() * 70 + 20)}vh`
+    sunsArray.forEach(sun => {
+      sun.update()
     })
+    sunsArray = sunsArray.filter(sun => sun.htmlElement !== null)
 
     seedPacketsList.forEach(packet => {
       packet.updateReload()
@@ -407,9 +408,9 @@ window.addEventListener('keydown', e => {
   }
 })
 
-window.onblur = function () {
-  openPauseMenu()
-}
+// window.onblur = function () {
+//   openPauseMenu()
+// }
 
 // Для спавна зомби на уровне
 let zombieSpawners = document.querySelectorAll('.zombie_spawner')
@@ -437,34 +438,15 @@ setInterval(() => {
   newElement.classList.add('sun_from_level', 'sun')
 
   const randomX = Math.floor(Math.random() * 100 + 25)
-  newElement.setAttribute('style', `left: ${randomX}vh`)
 
-  const timeoutToRemoveSun = setTimeout(() => {
-    newElement.parentElement.removeChild(newElement)
-  }, 18000)
+  const newSun = new Sun(newElement, randomX, 18, 25)
 
-  newElement.addEventListener('click', () => {
-    gameStatus.suns += 25
-    const pickupSound = new Audio(SunPickupSound)
-    pickupSound.volume = 0.25
-    pickupSound.play()
-    const goal = document.querySelector('.seed_bar__suns_present__sun')
-    newElement.style.transition = '0.5s ease-in-out'
-    newElement.style.left = `calc(${
-      goal.getBoundingClientRect().x -
-      document.querySelector('.main__wrapper').getBoundingClientRect().x
-    }px + 4.5vh)`
-    newElement.style.top = `calc(${
-      goal.getBoundingClientRect().y -
-      document.querySelector('.main__wrapper').getBoundingClientRect().y
-    }px + 4.5vh)`
-    newElement.style.opacity = `0.2`
-    newElement.style.pointerEvents = 'none'
-    setTimeout(() => {
-      newElement.parentElement.removeChild(newElement)
-      clearTimeout(timeoutToRemoveSun)
-    }, 500)
-  })
+  newSun.goalY = Math.floor(Math.random() * 70 + 20)
+  newSun.isFall = true
 
-  document.querySelector('.main__wrapper').appendChild(newElement)
+  sunsArray.push(newSun)
 }, 5000)
+
+setInterval(() => {
+  console.log(sunsArray)
+}, 500)

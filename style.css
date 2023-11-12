@@ -331,12 +331,10 @@ main {
 }
 
 .sun_from_sunflower.sun {
-  transition: 4s linear;
   position: absolute;
 }
 
 .sun_from_level.sun {
-  transition: 4s linear;
   top: 18vh;
 }
 

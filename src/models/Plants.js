@@ -1,8 +1,10 @@
+import { Sun } from '/src/models/Sun'
+
 import SunPickupSound from '/src/music/sun_pickup.mp3'
 import PlantingSound1 from '/src/music/planting_sound_1.mp3'
 import PlantingSound2 from '/src/music/planting_sound_2.mp3'
 
-import { gameStatus } from '../../main'
+import { sunsArray } from '../../main'
 import { deltaTime } from '/main'
 
 const plantSounds = [PlantingSound1, PlantingSound2]
@@ -127,50 +129,22 @@ export class Sunflower extends Plant {
 
   update() {
     if (this.isReadyToActive) {
-      const goal = document.querySelector('.seed_bar__suns_present__sun')
-
       const newElement = document.createElement('div')
       newElement.classList.add('sun_from_sunflower', 'sun')
-      newElement.style.position = 'absolute'
-      newElement.style.left = `${
-        this.htmlElement.getBoundingClientRect().x -
-        document.querySelector('.main__wrapper').getBoundingClientRect().x +
-        this.htmlElement.getBoundingClientRect().width
-      }px`
-      newElement.style.top = `${
-        this.htmlElement.getBoundingClientRect().y -
-        document.querySelector('.main__wrapper').getBoundingClientRect().y +
-        this.htmlElement.getBoundingClientRect().height / 1.25
-      }px`
 
-      const timeoutToRemoveSun = setTimeout(() => {
-        newElement.parentElement.removeChild(newElement)
-      }, 8000)
+      const posX =
+        (this.htmlElement.getBoundingClientRect().x * 90) /
+        document.querySelector('.main__wrapper').getBoundingClientRect().height
 
-      this.allTimeouts.push(timeoutToRemoveSun)
+      const posY =
+        (this.htmlElement.getBoundingClientRect().y * 220) /
+        (document.querySelector('.main__wrapper').getBoundingClientRect().height * 2)
 
-      newElement.addEventListener('click', () => {
-        gameStatus.suns += 25
-        this.pickupSound.play()
-        newElement.style.position = 'absolute'
-        newElement.style.transition = '0.5s ease-in-out'
-        newElement.style.left = `calc(${
-          goal.getBoundingClientRect().x -
-          document.querySelector('.main__wrapper').getBoundingClientRect().x
-        }px + 4.5vh)`
-        newElement.style.top = `calc(${
-          goal.getBoundingClientRect().y -
-          document.querySelector('.main__wrapper').getBoundingClientRect().y
-        }px + 4.5vh)`
-        newElement.style.opacity = `0.2`
-        newElement.style.pointerEvents = 'none'
-        this.allTimeouts.push(
-          setTimeout(() => {
-            newElement.parentElement.removeChild(newElement)
-            clearTimeout(timeoutToRemoveSun)
-          }, 500)
-        )
-      })
+      this.allTimeouts.push(
+        setTimeout(() => {
+          sunsArray.push(new Sun(newElement, posX, posY, 25))
+        }, 1000)
+      )
 
       this.htmlElement.style.filter = 'brightness(1.4)'
       this.allTimeouts.push(
