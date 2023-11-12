@@ -300,15 +300,10 @@ main {
   background-color: red;
 }
 
-.zombie_spawner>.zombie {
+.zombie_spawner>img.zombie {
   pointer-events: none;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: -2vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  bottom: 1vh;
   will-change: auto;
   z-index: 9999;
 }

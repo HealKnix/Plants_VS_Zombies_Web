@@ -412,19 +412,19 @@ setTimeout(() => {
   setInterval(() => {
     const randomLane = Math.floor(Math.random() * map.length)
 
-    let newElement = document.createElement('div')
-    newElement.classList.add('zombie')
+    let newElement = document.createElement('img')
+    const newZombie = new zombiesArray[Math.floor(Math.random() * 2)](newElement)
 
     zombieSpawners[randomLane].appendChild(newElement)
 
-    map[randomLane].zombiesArray.push(new zombiesArray[Math.floor(Math.random() * 2)](newElement))
-  }, 7500)
+    map[randomLane].zombiesArray.push(newZombie)
+  }, 1000)
   setTimeout(() => {
     const zombieStartSound = new Audio(ZombieStart)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
-  }, 7500)
-}, 20000)
+  }, 1000)
+}, 0)
 
 // Для спавна солнышек на уровне
 setInterval(() => {
