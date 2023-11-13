@@ -101,7 +101,6 @@ input[type="checkbox"]:checked {
 
 .menu__title__button {
   cursor: pointer;
-  outline: none;
   border: none;
   width: 100%;
   height: 7vh;
@@ -126,7 +125,6 @@ input[type="checkbox"]:checked {
 
 .menu__button {
   cursor: pointer;
-  outline: none;
   border: none;
   position: absolute;
   bottom: 2vh;

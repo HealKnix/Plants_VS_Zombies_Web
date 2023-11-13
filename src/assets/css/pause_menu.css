@@ -31,7 +31,6 @@
 
 .pause_menu__button,
 .pause_menu__button__shadow {
-  outline: none;
   border: none;
   position: absolute;
   bottom: 3.6vh;

@@ -3,6 +3,7 @@ import * as Zombie from '/src/models/Zombies'
 import { Sun } from '/src/models/Sun'
 import { setGameTimeout, gameTimeoutsArray } from '/src/models/GameTimeout'
 import { setGameInterval, gameIntervalsArray } from '/src/models/GameInterval'
+import { rel } from '/src/models/Relation'
 
 const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
 
@@ -53,11 +54,20 @@ document.addEventListener('mousedown', e => {
   }
 })
 
-const themeAudio = document.getElementById('music')
-themeAudio.volume = 0.15
+const musicLevelHtml = document.getElementById('music_level')
+const musicSliderHtml = document.querySelector('#Music')
+
+musicLevelHtml.volume = musicSliderHtml.value
+
+const musicLevel = rel(musicLevelHtml, 'volume', function () {
+  musicSliderHtml.value = musicLevel.value
+})
+musicSliderHtml.addEventListener('change', () => {
+  musicLevel.value = musicSliderHtml.value
+})
 
 document.addEventListener('click', () => {
-  themeAudio.play()
+  musicLevel.object.play()
 })
 
 const map = [
@@ -408,7 +418,8 @@ function openPauseMenu() {
   const openPauseMenuSound = new Audio(OpenPauseMenuSound)
   openPauseMenuSound.volume = 0.15
   openPauseMenuSound.play()
-  themeAudio.volume = 0
+
+  musicLevel.object.pause()
 }
 
 function closePauseMenu() {
@@ -417,7 +428,6 @@ function closePauseMenu() {
   const buttonClickSound = new Audio(ButtonClickSound)
   buttonClickSound.volume = 0.25
   buttonClickSound.play()
-  themeAudio.volume = 0.15
 }
 
 function openMenu() {
@@ -427,7 +437,8 @@ function openMenu() {
   const openPauseMenuSound = new Audio(OpenPauseMenuSound)
   openPauseMenuSound.volume = 0.15
   openPauseMenuSound.play()
-  themeAudio.volume = 0
+
+  musicLevel.object.pause()
 }
 
 function closeMenu() {
@@ -436,7 +447,6 @@ function closeMenu() {
   const buttonClickSound = new Audio(ButtonClickSound)
   buttonClickSound.volume = 0.25
   buttonClickSound.play()
-  themeAudio.volume = 0.15
 }
 
 document.querySelector('.pause_menu__button').onclick = closePauseMenu
@@ -453,6 +463,9 @@ window.addEventListener('keydown', e => {
     } else {
       closeMenu()
     }
+  }
+  if (e.key === 'm') {
+    musicLevel.value = 0
   }
 })
 
@@ -480,7 +493,7 @@ setGameTimeout(() => {
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
   }, 7500)
-}, 20000)
+}, 15000)
 
 // Для спавна солнышек на уровне
 setGameInterval(() => {

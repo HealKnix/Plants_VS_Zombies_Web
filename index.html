@@ -16,12 +16,12 @@
           <div class="menu__title">
             <label for="Music">
               <span>Music</span>
-              <input type="range" id="Music" />
+              <input type="range" min="0" max="0.75" step="0.01" value="0.25" id="Music" />
             </label>
             <br />
             <label for="SoundFX">
               <span>Sound FX</span>
-              <input type="range" id="SoundFX" />
+              <input type="range" min="0" max="0.75" step="0.01" id="SoundFX" />
             </label>
             <br />
             <label for="3DAcceleration">
@@ -154,7 +154,7 @@
       </div>
     </main>
 
-    <audio id="music" loop>
+    <audio id="music_level" loop>
       <source src="/src/music/daytime_theme.mp3" type="audio/mpeg" />
       Ваш браузер не поддерживает воспроизведение аудио.
     </audio>
