@@ -62,7 +62,8 @@ musicLevelHtml.volume = musicSliderHtml.value
 const musicLevel = rel(musicLevelHtml, 'volume', function () {
   musicSliderHtml.value = musicLevel.value
 })
-musicSliderHtml.addEventListener('change', () => {
+
+musicSliderHtml.addEventListener('mousemove', () => {
   musicLevel.value = musicSliderHtml.value
 })
 
