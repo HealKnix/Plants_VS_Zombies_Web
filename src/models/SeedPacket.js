@@ -4,6 +4,7 @@ import { deltaTime } from '/main'
 import PeashooterImg from '../images/plants/peashooter.png'
 import SunflowerImg from '../images/plants/sunflower.png'
 import WallNutImg from '../images/plants/wall_nut.png'
+import RepeaterImg from '../images/plants/repeater.png'
 
 import * as Plants from '../models/Plants'
 
@@ -88,5 +89,12 @@ export const seedPacketsList = [
     cost: 50,
     reloadTime: 25000,
     id: 2
+  }),
+  new SeedPacket({
+    plant: Plants.Repeater,
+    image: RepeaterImg,
+    cost: 200,
+    reloadTime: 8000,
+    id: 3
   })
 ]

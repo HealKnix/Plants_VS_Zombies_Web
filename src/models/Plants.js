@@ -111,6 +111,36 @@ export class Peashooter extends Plant {
   }
 }
 
+export class Repeater extends Peashooter {
+  static name = 'Повторитель'
+
+  currentNumberOfBullet = 1
+
+  shoot() {
+    if (this.isReadyToActive) {
+      this.isReadyToActive = false
+      this.htmlElement.innerHTML += /*html*/ `
+        <div class="bullet" damage="${this.bulletDamage}" posX="0"></div>
+      `
+      if (this.currentNumberOfBullet >= 2) {
+        this.currentNumberOfBullet = 1
+        this.allTimeouts.push(
+          setGameTimeout(() => {
+            this.isReadyToActive = true
+          }, 1000)
+        )
+      } else {
+        this.currentNumberOfBullet++
+        this.allTimeouts.push(
+          setGameTimeout(() => {
+            this.isReadyToActive = true
+          }, 200)
+        )
+      }
+    }
+  }
+}
+
 export class Sunflower extends Plant {
   pickupSound = new Audio(SunPickupSound)
   static name = 'Подсолнух'
