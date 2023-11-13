@@ -346,7 +346,7 @@ function timeoutsAndIntervalsUpdate() {
 // Игровая логика
 function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
-  if (!gameStatus.isPaused) {
+  if (!gameStatus.isPaused && !gameStatus.isMenu) {
     timeoutsAndIntervalsUpdate()
 
     sunsArray = sunsArray.filter(sun => sun.htmlElement !== null)
