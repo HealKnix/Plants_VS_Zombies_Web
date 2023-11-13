@@ -444,6 +444,10 @@ document.querySelector('.menu__button').onclick = closeMenu
 
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    if (gameStatus.isPaused) {
+      closePauseMenu()
+      return
+    }
     if (!gameStatus.isMenu) {
       openMenu()
     } else {
