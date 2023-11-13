@@ -1,0 +1,165 @@
+.menu__wrapper {
+  display: none;
+}
+
+.menu__wrapper.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+
+  font-family: HouseOfTerror;
+  font-size: 3.5vh;
+  color: #dfba61;
+  -webkit-text-stroke: 0.12vh black;
+}
+
+.menu {
+  --size-menu: 80vh;
+
+  position: relative;
+  width: var(--size-menu);
+  height: var(--size-menu);
+  background-image: url('../../images/ui/menu.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.menu__title {
+  text-align: right;
+  width: 38vh;
+  margin: 21vh auto;
+  height: 48%;
+  color: #6c6e92;
+  -webkit-text-stroke: 0.2vh black;
+}
+
+.menu__title>label {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  height: 0.6vh;
+}
+
+.menu__title>label>span {
+  margin-right: 2vh;
+}
+
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none !important;
+  background: linear-gradient(to top, #212229, #121216);
+  width: 50%;
+  height: 0.75vh;
+  border-radius: 1000vh;
+  box-shadow: 0 0.4vh 5px #45475d;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  cursor: grab;
+  appearance: none;
+  -webkit-appearance: none !important;
+  background: url('/src/images/ui/slider.png');
+  height: 4.5vh;
+  width: 4.5vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none !important;
+  background: url('/src/images/ui/checkbox.png');
+  width: 5vh;
+  height: 5vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+input[type="checkbox"]:checked {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none !important;
+  background: url('/src/images/ui/checkbox_checked.png');
+  width: 5vh;
+  height: 5vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.menu__title__buttons__wrapper {
+  margin-top: 4.25vh;
+}
+
+.menu__title__button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 7vh;
+
+  background: url('../../images/ui/menu_title_button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.menu__title__button>span {
+  display: block;
+  margin-top: -1vh;
+
+  letter-spacing: 0.2vh;
+  font-family: HouseOfTerror;
+  font-size: 4vh;
+  color: #00c600;
+
+  -webkit-text-stroke: 0.12vh black;
+}
+
+.menu__button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  position: absolute;
+  bottom: 2vh;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 54vh;
+  height: 15vh;
+
+  background: url('../../images/ui/menu_button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.menu__button>span {
+  display: block;
+  margin-top: -2vh;
+
+  letter-spacing: 0.2vh;
+  font-family: HouseOfTerror;
+  font-size: 8vh;
+  color: #00c600;
+}
+
+.menu__button>span:hover,
+.menu__title__button>span:hover {
+  color: #00e400;
+}
+
+.menu__title__button:active {
+  transform: translate3d(0, 0.3vh, 0);
+}
+
+.menu__button:active {
+  bottom: 1.8vh;
+}

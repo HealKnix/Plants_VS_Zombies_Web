@@ -55,6 +55,10 @@
   color: #00c600;
 }
 
+.pause_menu__button:hover {
+  color: #00e400;
+}
+
 .pause_menu__button:active {
   bottom: 3.45vh;
   left: 50.5%;

@@ -31,7 +31,8 @@ export let sunsArray = new Array()
 export const gameStatus = {
   suns: 50,
   shovelSelected: false,
-  isPaused: false
+  isPaused: false,
+  isMenu: false
 }
 export let deltaTime = 0
 let preventTime = Date.now()
@@ -245,7 +246,6 @@ seedPackets.forEach(packet => {
 })
 
 let floor_row = document.querySelectorAll('.floor__row')
-
 floor_row.forEach(row => {
   if (!map[parseInt(row.id)].isActive) return
   ;[...row.children].forEach(ceil => {
@@ -402,32 +402,52 @@ function gameLogic() {
 const gameUpdateLogic = requestAnimationFrame(gameLogic)
 
 function openPauseMenu() {
-  if (gameStatus.isPaused) return
+  if (gameStatus.isPaused || gameStatus.isMenu) return
   document.querySelector('.pause_menu__wrapper').classList.add('paused')
+  gameStatus.isPaused = true
   const openPauseMenuSound = new Audio(OpenPauseMenuSound)
   openPauseMenuSound.volume = 0.15
   openPauseMenuSound.play()
-  gameStatus.isPaused = true
   themeAudio.volume = 0
 }
 
 function closePauseMenu() {
   document.querySelector('.pause_menu__wrapper').classList.remove('paused')
+  gameStatus.isPaused = false
   const buttonClickSound = new Audio(ButtonClickSound)
   buttonClickSound.volume = 0.25
   buttonClickSound.play()
-  gameStatus.isPaused = false
+  themeAudio.volume = 0.15
+}
+
+function openMenu() {
+  if (gameStatus.isMenu) return
+  document.querySelector('.menu__wrapper').classList.add('active')
+  gameStatus.isMenu = true
+  const openPauseMenuSound = new Audio(OpenPauseMenuSound)
+  openPauseMenuSound.volume = 0.15
+  openPauseMenuSound.play()
+  themeAudio.volume = 0
+}
+
+function closeMenu() {
+  document.querySelector('.menu__wrapper').classList.remove('active')
+  gameStatus.isMenu = false
+  const buttonClickSound = new Audio(ButtonClickSound)
+  buttonClickSound.volume = 0.25
+  buttonClickSound.play()
   themeAudio.volume = 0.15
 }
 
 document.querySelector('.pause_menu__button').onclick = closePauseMenu
+document.querySelector('.menu__button').onclick = closeMenu
 
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    if (!gameStatus.isPaused) {
-      openPauseMenu()
+    if (!gameStatus.isMenu) {
+      openMenu()
     } else {
-      closePauseMenu()
+      closeMenu()
     }
   }
 })
