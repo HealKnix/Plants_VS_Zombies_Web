@@ -196,7 +196,7 @@ export class ConeheadZombie extends Zombie {
 
   updateImage() {
     if (this.health <= 200 && !this.imageUpdated) {
-      this.htmlElementHat.classList.add('fall')
+      this.htmlElementHat.classList.add('armor_broken')
       this.imageUpdated = true
       setGameTimeout(() => {
         this.htmlElementHat.parentElement.removeChild(this.htmlElementHat)

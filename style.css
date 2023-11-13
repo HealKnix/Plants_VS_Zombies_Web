@@ -56,7 +56,7 @@ body {
   border-radius: 1vh;
   box-shadow: inset 0 0 2px 2px #5726107c;
   z-index: -1;
-  transform: translate3d(0, -105%, 0);
+  transform: translate3d(0, 0, 0);
   animation: seedDown 0.5s ease-in-out both;
   animation-delay: 8s;
 }
@@ -67,7 +67,6 @@ body {
   }
 
   100% {
-
     transform: translate3d(0, 0, 0);
   }
 }
@@ -325,7 +324,7 @@ main {
   position: absolute;
   width: 13.5vh;
   height: 16.5vh;
-  left: -15vh;
+  left: 0vh;
   filter: saturate(0.8);
   background-image: url('/src/images/other/lawn_mower.png');
   background-position: center;
@@ -374,7 +373,7 @@ main {
   top: -6.5vh;
 }
 
-.zombie_spawner>.zombie>.cone_hat.fall {
+.zombie_spawner>.zombie>.cone_hat.armor_broken {
   animation: conehatFall 1s ease-in-out both;
 }
 
@@ -445,7 +444,7 @@ main {
   box-shadow: inset 0 0 5px 5px #77391a;
   border-radius: 1vh;
   z-index: -5;
-  transform: translate3d(0, -105%, 0);
+  transform: translate3d(0, 0, 0);
   animation: shovelPanelDown 0.5s ease-in-out both;
   animation-delay: 8s;
 }
@@ -456,7 +455,6 @@ main {
   }
 
   100% {
-
     transform: translate3d(0, 0, 0);
   }
 }

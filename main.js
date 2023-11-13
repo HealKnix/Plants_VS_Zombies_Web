@@ -1,33 +1,35 @@
 import { seedPacketsList } from '/src/models/SeedPacket'
-import * as Zombie from '/src/models/Zombies'
-import { Sun } from '/src/models/Sun'
 import { setGameTimeout, gameTimeoutsArray } from '/src/models/GameTimeout'
-import { setGameInterval, gameIntervalsArray } from '/src/models/GameInterval'
+import { gameIntervalsArray } from '/src/models/GameInterval'
 import { rel } from '/src/models/Relation'
 
-const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
-
-import ZombieStartSound from '/src/music/zombies_start.mp3'
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
+let seedPacketSound = new Audio(SeedPacketSound)
+seedPacketSound.volume = 0.35
+
 import LawnMowerSound from '/src/music/lawn_mower.mp3'
 import ShovelDiggingSound from '/src/music/planting_sound_2.mp3'
-import OpenPauseMenuSound from '/src/music/pause.mp3'
-import ButtonClickSound from '/src/music/button_click.mp3'
-import ReadySetPlantSound from '/src/music/ready_set_plant.mp3'
 
 import ShovelSound from '/src/music/shovel.mp3'
-import ShovelImage from '/src/images/other/shovel.png'
-
-const startDelay = 8000
-const readySetPlantSound = new Audio(ReadySetPlantSound)
-
 const shovelSound = new Audio(ShovelSound)
 shovelSound.volume = 0.25
+
+import ShovelImage from '/src/images/other/shovel.png'
+
+import * as StartLevelText from '/src/assets/js/StartLevelText'
+
+import StartSpawnZombie from '/src/assets/js/StartSpawnZombie.js'
+
+import StartSpawnSun from '/src/assets/js/StartSpawnSun.js'
+
+import Menu from '/src/assets/js/Menu.js'
 
 const mouse = {
   x: 0,
   y: 0
 }
+
+const startDelay = 10000
 
 const countOfSunsHtml = document.querySelector('.count_of_suns')
 
@@ -42,13 +44,20 @@ export const gameStatus = {
 export let deltaTime = 0
 let preventTime = Date.now()
 
-const cursorSelected = document.querySelector('.cursor_selected')
-document.querySelector('.main__wrapper').addEventListener('mousemove', e => {
-  mouse.x = e.clientX - document.querySelector('.main__wrapper').getBoundingClientRect().x
-  mouse.y = e.clientY - document.querySelector('.main__wrapper').getBoundingClientRect().y
+StartLevelText.start(startDelay)
+
+const cursorSelectedHtml = document.querySelector('.cursor_selected')
+const mainWrapperHtml = document.querySelector('.main__wrapper')
+mainWrapperHtml.addEventListener('mousemove', e => {
+  mouse.x = e.clientX - mainWrapperHtml.getBoundingClientRect().x
+  mouse.y = e.clientY - mainWrapperHtml.getBoundingClientRect().y
   if (seedPacketsList.some(packet => packet.isSelected) || gameStatus.shovelSelected) {
-    cursorSelected.style.left = `${mouse.x - cursorSelected.getBoundingClientRect().width / 2}px`
-    cursorSelected.style.top = `${mouse.y - cursorSelected.getBoundingClientRect().height / 1.5}px`
+    cursorSelectedHtml.style.left = `${
+      mouse.x - cursorSelectedHtml.getBoundingClientRect().width / 2
+    }px`
+    cursorSelectedHtml.style.top = `${
+      mouse.y - cursorSelectedHtml.getBoundingClientRect().height / 1.5
+    }px`
   }
 })
 
@@ -63,17 +72,17 @@ const musicSliderHtml = document.querySelector('#Music')
 
 musicLevelHtml.volume = musicSliderHtml.value
 
-const musicLevel = rel(musicLevelHtml, 'volume', function () {
+export const musicLevel = rel(musicLevelHtml, 'volume', function () {
   musicSliderHtml.value = musicLevel.value
 })
 
-musicSliderHtml.addEventListener('mousemove', () => {
+musicSliderHtml.addEventListener('change', () => {
   musicLevel.value = musicSliderHtml.value
 })
 
 setGameTimeout(() => {
   musicLevel.object.play()
-}, 12500)
+}, startDelay)
 
 const map = [
   {
@@ -144,16 +153,21 @@ const map = [
 ]
 
 function setCursor(image) {
-  cursorSelected.style.display = 'block'
-  cursorSelected.style.left = `${mouse.x - cursorSelected.getBoundingClientRect().width / 2}px`
-  cursorSelected.style.top = `${mouse.y - cursorSelected.getBoundingClientRect().height / 1.5}px`
-  cursorSelected.style.backgroundImage = `url('${image}')`
+  cursorSelectedHtml.style.display = 'block'
+  cursorSelectedHtml.style.left = `${
+    mouse.x - cursorSelectedHtml.getBoundingClientRect().width / 2
+  }px`
+  cursorSelectedHtml.style.top = `${
+    mouse.y - cursorSelectedHtml.getBoundingClientRect().height / 1.5
+  }px`
+  cursorSelectedHtml.style.backgroundImage = `url('${image}')`
 }
 
 function clearShovel() {
   shovel.classList.remove('active')
   gameStatus.shovelSelected = false
 }
+
 function clearCeil(ceil) {
   if (ceil) {
     if (!ceil.classList.contains('floor__ceil')) {
@@ -162,15 +176,16 @@ function clearCeil(ceil) {
     ceil.removeAttribute('style')
   }
 }
+
 function clearCursor(ceil) {
   clearShovel()
   clearCeil(ceil)
   clearSeedPackets()
 
-  cursorSelected.style.display = 'none'
-  cursorSelected.style.left = '-1000px'
-  cursorSelected.style.top = '-1000px'
-  cursorSelected.style.backgroundImage = `url()`
+  cursorSelectedHtml.style.display = 'none'
+  cursorSelectedHtml.style.left = '-1000px'
+  cursorSelectedHtml.style.top = '-1000px'
+  cursorSelectedHtml.style.backgroundImage = `url()`
 }
 
 const shovelPanel = document.querySelector('.shovel_panel')
@@ -254,8 +269,6 @@ seedPackets.forEach(packet => {
 
     setCursor(seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image)
 
-    let seedPacketSound = new Audio(SeedPacketSound)
-    seedPacketSound.volume = 0.35
     seedPacketSound.play()
   })
 })
@@ -416,122 +429,26 @@ function gameLogic() {
 // Обновление игровой логики
 const gameUpdateLogic = requestAnimationFrame(gameLogic)
 
-function openPauseMenu() {
-  if (gameStatus.isPaused || gameStatus.isMenu) return
-  document.querySelector('.pause_menu__wrapper').classList.add('paused')
-  gameStatus.isPaused = true
-  const openPauseMenuSound = new Audio(OpenPauseMenuSound)
-  openPauseMenuSound.volume = 0.15
-  openPauseMenuSound.play()
-
-  musicLevel.object.pause()
-}
-
-function closePauseMenu() {
-  document.querySelector('.pause_menu__wrapper').classList.remove('paused')
-  gameStatus.isPaused = false
-  const buttonClickSound = new Audio(ButtonClickSound)
-  buttonClickSound.volume = 0.25
-  buttonClickSound.play()
-}
-
-function openMenu() {
-  if (gameStatus.isMenu) return
-  document.querySelector('.menu__wrapper').classList.add('active')
-  gameStatus.isMenu = true
-  const openPauseMenuSound = new Audio(OpenPauseMenuSound)
-  openPauseMenuSound.volume = 0.15
-  openPauseMenuSound.play()
-
-  musicLevel.object.pause()
-}
-
-function closeMenu() {
-  document.querySelector('.menu__wrapper').classList.remove('active')
-  gameStatus.isMenu = false
-  const buttonClickSound = new Audio(ButtonClickSound)
-  buttonClickSound.volume = 0.25
-  buttonClickSound.play()
-}
-
-document.querySelector('.pause_menu__button').onclick = closePauseMenu
-document.querySelector('.menu__button').onclick = closeMenu
-
-setGameTimeout(() => {
-  window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      if (gameStatus.isPaused) {
-        closePauseMenu()
-        return
-      }
-      if (!gameStatus.isMenu) {
-        openMenu()
-      } else {
-        closeMenu()
-      }
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (gameStatus.isPaused) {
+      Menu.closePauseMenu()
+      return
     }
-    if (e.key === 'm') {
-      musicLevel.value = 0
+    if (!gameStatus.isMenu) {
+      Menu.openMenu()
+    } else {
+      Menu.closeMenu()
     }
-  })
-}, startDelay)
-
-setGameTimeout(() => {
-  window.onblur = function () {
-    openPauseMenu()
   }
-  readySetPlantSound.play()
-  const startWrapperText = document.querySelector('.ready_set_plant')
-  const startText = document.querySelector('.ready_set_plant__text')
-  startText.style.animationName = 'scaleStartText1'
-  startText.style.opacity = '1'
-  setGameTimeout(() => {
-    startText.style.animationName = 'scaleStartText2'
-    startText.innerText = 'Set...'
-    setGameTimeout(() => {
-      startText.style.animationName = 'scaleStartText3'
-      startText.innerText = 'PLANT!'
-      setGameTimeout(() => {
-        startText.style.display = 'none'
-        startWrapperText.style.display = 'none'
-      }, 650)
-    }, 650)
-  }, 650)
-}, startDelay + 500)
+})
+
+window.onblur = function () {
+  Menu.openPauseMenu()
+}
 
 // Для начала волны Зомби
-setGameTimeout(() => {
-  // Для спавна зомби на уровне
-  setGameInterval(() => {
-    const randomLane = Math.floor(Math.random() * map.length)
-
-    const newElement = document.createElement('div')
-    const newZombie = new zombiesArray[Math.floor(Math.random() * 2)](newElement)
-
-    let zombieSpawners = document.querySelectorAll('.zombie_spawner')
-    zombieSpawners[randomLane].appendChild(newElement)
-
-    map[randomLane].zombiesArray.push(newZombie)
-  }, startDelay + 7500)
-  // Для проигрывания звука перед началом атаки Зомби
-  setGameTimeout(() => {
-    const zombieStartSound = new Audio(ZombieStartSound)
-    zombieStartSound.volume = 0.5
-    zombieStartSound.play()
-  }, startDelay + 7500)
-}, startDelay + 15000)
+StartSpawnZombie(startDelay, map)
 
 // Для спавна солнышек на уровне
-setGameInterval(() => {
-  const newElement = document.createElement('div')
-  newElement.classList.add('sun_from_level', 'sun')
-
-  const randomX = Math.floor(Math.random() * 100 + 25)
-
-  const newSun = new Sun(newElement, randomX, 18, 25)
-
-  newSun.goalY = Math.floor(Math.random() * 70 + 20)
-  newSun.isFall = true
-
-  sunsArray.push(newSun)
-}, startDelay + 5000)
+StartSpawnSun(startDelay)
