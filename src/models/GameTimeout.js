@@ -20,7 +20,6 @@ export class GameTimeout {
     if (this.durationTime <= this.option.goalTime) return
     this.option.callback()
     this.isComplete = true
-    this.clear()
   }
 }
 

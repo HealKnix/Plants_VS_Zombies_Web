@@ -13,9 +13,13 @@ import LawnMowerSound from '/src/music/lawn_mower.mp3'
 import ShovelDiggingSound from '/src/music/planting_sound_2.mp3'
 import OpenPauseMenuSound from '/src/music/pause.mp3'
 import ButtonClickSound from '/src/music/button_click.mp3'
+import ReadySetPlantSound from '/src/music/ready_set_plant.mp3'
 
 import ShovelSound from '/src/music/shovel.mp3'
 import ShovelImage from '/src/images/other/shovel.png'
+
+const startDelay = 8000
+const readySetPlantSound = new Audio(ReadySetPlantSound)
 
 const shovelSound = new Audio(ShovelSound)
 shovelSound.volume = 0.25
@@ -67,9 +71,9 @@ musicSliderHtml.addEventListener('mousemove', () => {
   musicLevel.value = musicSliderHtml.value
 })
 
-document.addEventListener('click', () => {
+setGameTimeout(() => {
   musicLevel.object.play()
-})
+}, 12500)
 
 const map = [
   {
@@ -453,26 +457,47 @@ function closeMenu() {
 document.querySelector('.pause_menu__button').onclick = closePauseMenu
 document.querySelector('.menu__button').onclick = closeMenu
 
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (gameStatus.isPaused) {
-      closePauseMenu()
-      return
+setGameTimeout(() => {
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (gameStatus.isPaused) {
+        closePauseMenu()
+        return
+      }
+      if (!gameStatus.isMenu) {
+        openMenu()
+      } else {
+        closeMenu()
+      }
     }
-    if (!gameStatus.isMenu) {
-      openMenu()
-    } else {
-      closeMenu()
+    if (e.key === 'm') {
+      musicLevel.value = 0
     }
-  }
-  if (e.key === 'm') {
-    musicLevel.value = 0
-  }
-})
+  })
+}, startDelay)
 
-window.onblur = function () {
-  openPauseMenu()
-}
+setGameTimeout(() => {
+  window.onblur = function () {
+    openPauseMenu()
+  }
+  readySetPlantSound.play()
+  const startWrapperText = document.querySelector('.ready_set_plant')
+  const startText = document.querySelector('.ready_set_plant__text')
+  startText.style.animationName = 'scaleStartText1'
+  startText.style.opacity = '1'
+  setGameTimeout(() => {
+    startText.style.animationName = 'scaleStartText2'
+    startText.innerText = 'Set...'
+    setGameTimeout(() => {
+      startText.style.animationName = 'scaleStartText3'
+      startText.innerText = 'PLANT!'
+      setGameTimeout(() => {
+        startText.style.display = 'none'
+        startWrapperText.style.display = 'none'
+      }, 650)
+    }, 650)
+  }, 650)
+}, startDelay + 500)
 
 // Для начала волны Зомби
 setGameTimeout(() => {
@@ -487,14 +512,14 @@ setGameTimeout(() => {
     zombieSpawners[randomLane].appendChild(newElement)
 
     map[randomLane].zombiesArray.push(newZombie)
-  }, 7500)
+  }, startDelay + 7500)
   // Для проигрывания звука перед началом атаки Зомби
   setGameTimeout(() => {
     const zombieStartSound = new Audio(ZombieStartSound)
     zombieStartSound.volume = 0.5
     zombieStartSound.play()
-  }, 7500)
-}, 15000)
+  }, startDelay + 7500)
+}, startDelay + 15000)
 
 // Для спавна солнышек на уровне
 setGameInterval(() => {
@@ -509,4 +534,4 @@ setGameInterval(() => {
   newSun.isFall = true
 
   sunsArray.push(newSun)
-}, 5000)
+}, startDelay + 5000)

@@ -1,0 +1,51 @@
+.ready_set_plant {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+.ready_set_plant>span {
+  opacity: 0;
+  color: red;
+  font-size: 15vh;
+  font-family: HouseOfTerror;
+  -webkit-text-stroke: 0.5vh black;
+  text-shadow: 0.5vh 0.5vh 0.25vh black;
+  animation: scaleStartText 0.65s linear;
+}
+
+@keyframes scaleStartText1 {
+  0% {
+    font-size: 15vh;
+  }
+
+  100% {
+    font-size: 17vh;
+  }
+}
+
+@keyframes scaleStartText2 {
+  0% {
+    font-size: 15vh;
+  }
+
+  100% {
+    font-size: 17vh;
+  }
+}
+
+@keyframes scaleStartText3 {
+  0% {
+    font-size: 22vh;
+  }
+
+  100% {
+    font-size: 24vh;
+  }
+}
