@@ -211,11 +211,20 @@ shovelPanel.addEventListener('click', () => {
   setCursor(ShovelImage)
 })
 
+let floor_row = document.querySelectorAll('.floor__row')
 const shovelSelected = rel(false, '', value => {
   if (value) {
     shovel.classList.add('active')
   } else {
     shovel.classList.remove('active')
+    floor_row.forEach(row => {
+      if (!map[parseInt(row.id)].isActive) return
+      ;[...row.children].forEach(ceil => {
+        if (ceil.classList.contains('planted')) {
+          ceil.style.filter = 'brightness(1)'
+        }
+      })
+    })
   }
 })
 
@@ -288,7 +297,6 @@ seedPackets.forEach(packet => {
   })
 })
 
-let floor_row = document.querySelectorAll('.floor__row')
 floor_row.forEach(row => {
   if (!map[parseInt(row.id)].isActive) return
   ;[...row.children].forEach(ceil => {
