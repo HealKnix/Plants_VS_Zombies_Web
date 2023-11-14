@@ -87,6 +87,7 @@ const musicSliderHtml = document.querySelector('#Music')
 export const musicLevel = rel(musicLevelHtml, 'volume', value => {
   musicSliderHtml.value = value
 })
+musicLevel.value = 0.35
 
 musicSliderHtml.addEventListener('change', () => {
   musicLevel.value = musicSliderHtml.value
