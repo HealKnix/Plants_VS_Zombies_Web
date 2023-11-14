@@ -472,3 +472,16 @@ main {
 .shovel.active {
   display: none;
 }
+
+.bomb_explode {
+  position: absolute;
+  left: -50%;
+  top: -50%;
+  background-color: rgba(0, 0, 0, 0);
+  filter: blur(25px);
+  scale: 1;
+  border-radius: 50%;
+  z-index: 99999;
+  transition: 0.5s ease-in-out;
+  will-change: auto;
+}

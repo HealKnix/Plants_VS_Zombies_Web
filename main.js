@@ -99,7 +99,7 @@ setGameTimeout(() => {
   gameStatus.isStart = true
 }, startDelay)
 
-const map = [
+export const map = [
   {
     isActive: true,
     lawnMower: {

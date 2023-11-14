@@ -3,6 +3,7 @@ import { deltaTime } from '/main'
 
 import PeashooterImg from '../images/plants/peashooter.png'
 import SunflowerImg from '../images/plants/sunflower.png'
+import CherryBombImg from '../images/plants/cherry_bomb.png'
 import WallNutImg from '../images/plants/wall_nut.png'
 import RepeaterImg from '../images/plants/repeater.png'
 
@@ -84,17 +85,24 @@ export const seedPacketsList = [
     id: 1
   }),
   new SeedPacket({
+    plant: Plants.CherryBomb,
+    image: CherryBombImg,
+    cost: 150,
+    reloadTime: 500,
+    id: 2
+  }),
+  new SeedPacket({
     plant: Plants.WallNut,
     image: WallNutImg,
     cost: 50,
     reloadTime: 25000,
-    id: 2
+    id: 3
   }),
   new SeedPacket({
     plant: Plants.Repeater,
     image: RepeaterImg,
     cost: 200,
     reloadTime: 8000,
-    id: 3
+    id: 4
   })
 ]

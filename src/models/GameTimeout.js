@@ -15,7 +15,7 @@ export class GameTimeout {
   }
 
   method() {
-    if (this.isComplete) return
+    if (this.isComplete || !this.option) return
     this.durationTime += deltaTime * 1000
     if (this.durationTime <= this.option.goalTime) return
     this.option.callback()

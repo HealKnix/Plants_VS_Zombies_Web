@@ -14,6 +14,7 @@ export class GameInterval {
   }
 
   method() {
+    if (!this.option) return
     this.durationTime += deltaTime * 1000
     if (this.durationTime >= this.option.goalTime) {
       this.option.callback()

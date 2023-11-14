@@ -153,6 +153,7 @@ class Zombie {
   }
 
   update(lane) {
+    if (!this.htmlElement) return
     if (!this.checkCollision(lane.plantsArray)) {
       this.walk()
     }
