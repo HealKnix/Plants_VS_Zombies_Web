@@ -293,13 +293,18 @@ floor_row.forEach(row => {
   if (!map[parseInt(row.id)].isActive) return
   ;[...row.children].forEach(ceil => {
     ceil.addEventListener('mouseenter', e => {
+      if (ceil.classList.contains('planted') && shovelSelected.value) {
+        ceil.style.filter = `brightness(1.25)`
+      }
+
       if (
         ceil.classList.contains('planted') ||
         ceil.classList.contains('zombie_spawner') ||
         ceil.classList.contains('lawn_mower') ||
         !seedPacketsList.some(packet => packet.isSelected)
-      )
+      ) {
         return
+      }
 
       if (ceil.children.length === 0) {
         ceil.style.backgroundImage = `url("${
@@ -309,6 +314,10 @@ floor_row.forEach(row => {
       }
     })
     ceil.addEventListener('mouseleave', e => {
+      if (ceil.classList.contains('planted') && shovelSelected.value) {
+        ceil.style.filter = `brightness(1)`
+      }
+
       if (
         ceil.classList.contains('planted') ||
         ceil.classList.contains('zombie_spawner') ||
