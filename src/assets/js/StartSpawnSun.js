@@ -8,7 +8,7 @@ export default startDelay => {
     setGameInterval(() => {
       const newElement = document.createElement('div')
       newElement.classList.add('sun_from_level', 'sun')
-      const randomX = Math.floor(Math.random() * 100 + 25)
+      const randomX = Math.floor(Math.random() * 97 + 20)
       const newSun = new Sun(newElement, randomX, 18, 25)
       newSun.goalY = Math.floor(Math.random() * 70 + 20)
       newSun.isFall = true

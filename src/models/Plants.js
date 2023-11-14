@@ -234,7 +234,7 @@ export class CherryBomb extends Plant {
       y:
         this.htmlElement.getBoundingClientRect().y - this.htmlElement.getBoundingClientRect().height
     }
-    this.bombHtml.style.left = `calc(${this.bombCenter.x}px - 27.5vh)`
+    this.bombHtml.style.left = `calc(${this.bombCenter.x}px - 35.5vh)`
     this.bombHtml.style.top = `${this.bombCenter.y}px`
     if (this.isExplode) {
       this.explode()
