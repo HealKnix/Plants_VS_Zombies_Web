@@ -31,17 +31,30 @@ const mouse = {
 
 const startDelay = 10000
 
-const countOfSunsHtml = document.querySelector('.count_of_suns')
-
 export let sunsArray = new Array()
 
 export const gameStatus = {
-  suns: 50,
+  suns: rel(50, '', value => {
+    document.querySelector('.count_of_suns').innerText = value
+  }),
   shovelSelected: false,
   isStart: false,
-  isPaused: false,
-  isMenu: false
+  isPaused: rel(false, '', value => {
+    if (value) {
+      document.querySelector('.pause_menu__wrapper').classList.add('paused')
+    } else {
+      document.querySelector('.pause_menu__wrapper').classList.remove('paused')
+    }
+  }),
+  isMenu: rel(false, '', value => {
+    if (value) {
+      document.querySelector('.menu__wrapper').classList.add('active')
+    } else {
+      document.querySelector('.menu__wrapper').classList.remove('active')
+    }
+  })
 }
+
 export let deltaTime = 0
 let preventTime = Date.now()
 
@@ -71,10 +84,8 @@ document.addEventListener('mousedown', e => {
 const musicLevelHtml = document.getElementById('music_level')
 const musicSliderHtml = document.querySelector('#Music')
 
-musicLevelHtml.volume = musicSliderHtml.value
-
-export const musicLevel = rel(musicLevelHtml, 'volume', function () {
-  musicSliderHtml.value = musicLevel.value
+export const musicLevel = rel(musicLevelHtml, 'volume', value => {
+  musicSliderHtml.value = value
 })
 
 musicSliderHtml.addEventListener('change', () => {
@@ -239,7 +250,7 @@ seedPackets.forEach(packet => {
       return
     }
 
-    if (gameStatus.suns < seedPacket.option.cost) {
+    if (gameStatus.suns.value < seedPacket.option.cost) {
       packet.children[2].innerHTML = /*html*/ `
         <span style="font-size: 1.5vh; color: red">недостаточно солнышек</span>
         <span>${seedPacket.option.plant.name}</span>
@@ -376,7 +387,7 @@ function timeoutsAndIntervalsUpdate() {
 // Игровая логика
 function gameLogic() {
   deltaTime = (Date.now() - preventTime) / 1000
-  if (!gameStatus.isPaused && !gameStatus.isMenu) {
+  if (!gameStatus.isPaused.value && !gameStatus.isMenu.value) {
     timeoutsAndIntervalsUpdate()
 
     sunsArray = sunsArray.filter(sun => sun.htmlElement !== null)
@@ -386,7 +397,7 @@ function gameLogic() {
 
     seedPacketsList.forEach(packet => {
       packet.updateReload()
-      if (gameStatus.suns < packet.option.cost) {
+      if (gameStatus.suns.value < packet.option.cost) {
         seedPackets[packet.option.id].classList.add('disabled')
       } else if (!packet.isReloaded) {
         seedPackets[packet.option.id].classList.remove('disabled')
@@ -419,10 +430,6 @@ function gameLogic() {
         }
       }
     })
-
-    if (parseInt(countOfSunsHtml.innerText) !== gameStatus.suns) {
-      countOfSunsHtml.innerText = gameStatus.suns
-    }
   }
 
   preventTime = Date.now()
@@ -433,11 +440,11 @@ const gameUpdateLogic = requestAnimationFrame(gameLogic)
 
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    if (gameStatus.isPaused) {
+    if (gameStatus.isPaused.value) {
       Menu.closePauseMenu()
       return
     }
-    if (!gameStatus.isMenu) {
+    if (!gameStatus.isMenu.value) {
       Menu.openMenu()
     } else {
       Menu.closeMenu()

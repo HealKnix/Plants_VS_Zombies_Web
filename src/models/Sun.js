@@ -1,8 +1,7 @@
 import SunPickupSound from '/src/music/sun_pickup.mp3'
 
-import { gameStatus } from '../../main'
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { deltaTime } from '/main'
+import { deltaTime, gameStatus } from '/main'
 
 export class Sun {
   pickupSound = new Audio(SunPickupSound)
@@ -21,11 +20,12 @@ export class Sun {
     this.posX = x
     this.posY = y
     this.capacity = capacity
+    this.pickupSound.volume = 0.25
 
     this.htmlElement.setAttribute('style', `left: ${this.posX}vh; top: ${this.posY}vh`)
 
     this.htmlElement.addEventListener('click', () => {
-      gameStatus.suns += this.capacity
+      gameStatus.suns.value += this.capacity
       const goal = document.querySelector('.seed_bar__suns_present__sun')
       this.htmlElement.style.transition = '0.5s ease-in-out'
 
@@ -41,7 +41,6 @@ export class Sun {
       this.htmlElement.style.opacity = `0.2`
       this.htmlElement.style.pointerEvents = 'none'
 
-      this.pickupSound.volume = 0.25
       this.pickupSound.play()
 
       this.isClicked = true

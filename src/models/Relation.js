@@ -1,6 +1,7 @@
 class Relation {
   constructor(objTarget, propName, callback) {
     if (propName === '') {
+      callback(objTarget)
       return new Proxy(
         {
           value: objTarget
@@ -9,13 +10,14 @@ class Relation {
           set(target, prop, value) {
             if (prop) {
               target[prop] = value
-              callback()
+              callback(value)
               return true
             }
           }
         }
       )
     } else {
+      callback(objTarget[propName])
       return new Proxy(
         {
           object: objTarget,
@@ -26,7 +28,7 @@ class Relation {
             if (prop) {
               target[prop] = value
               objTarget[propName] = value
-              callback()
+              callback(value)
               return true
             }
           }

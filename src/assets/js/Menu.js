@@ -22,9 +22,9 @@ setGameTimeout(() => {
 }, 12000)
 
 function openPauseMenu() {
-  if (gameStatus.isPaused || gameStatus.isMenu) return
-  document.querySelector('.pause_menu__wrapper').classList.add('paused')
-  gameStatus.isPaused = true
+  if (gameStatus.isPaused.value || gameStatus.isMenu.value) return
+
+  gameStatus.isPaused.value = true
 
   openMenuSound.play()
 
@@ -39,8 +39,7 @@ function openPauseMenu() {
 }
 
 function closePauseMenu() {
-  document.querySelector('.pause_menu__wrapper').classList.remove('paused')
-  gameStatus.isPaused = false
+  gameStatus.isPaused.value = false
 
   buttonClickSound.play()
 
@@ -55,9 +54,8 @@ function closePauseMenu() {
 }
 
 function openMenu() {
-  if (gameStatus.isMenu) return
-  document.querySelector('.menu__wrapper').classList.add('active')
-  gameStatus.isMenu = true
+  if (gameStatus.isMenu.value) return
+  gameStatus.isMenu.value = true
 
   openMenuSound.play()
 
@@ -73,8 +71,7 @@ function openMenu() {
 }
 
 function closeMenu() {
-  document.querySelector('.menu__wrapper').classList.remove('active')
-  gameStatus.isMenu = false
+  gameStatus.isMenu.value = false
 
   buttonClickSound.play()
 

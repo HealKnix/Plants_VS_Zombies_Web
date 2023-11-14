@@ -1,12 +1,13 @@
 import { Sun } from '/src/models/Sun'
 
 import SunPickupSound from '/src/music/sun_pickup.mp3'
+const pickupSound = new Audio(SunPickupSound)
+pickupSound.volume = 0.25
 import PlantingSound1 from '/src/music/planting_sound_1.mp3'
 import PlantingSound2 from '/src/music/planting_sound_2.mp3'
 
-import { sunsArray } from '../../main'
-import { deltaTime } from '/main'
 import { setGameTimeout } from '/src/models/GameTimeout'
+import { deltaTime, sunsArray } from '/main'
 
 const plantSounds = [PlantingSound1, PlantingSound2]
 
@@ -142,13 +143,12 @@ export class Repeater extends Peashooter {
 }
 
 export class Sunflower extends Plant {
-  pickupSound = new Audio(SunPickupSound)
   static name = 'Подсолнух'
+  sunCharge = 25
 
   constructor(htmlElement, image) {
     super(htmlElement, image)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
-    this.pickupSound.volume = 0.25
     this.health = 120
 
     this.allTimeouts.push(
@@ -173,7 +173,7 @@ export class Sunflower extends Plant {
 
       this.allTimeouts.push(
         setGameTimeout(() => {
-          sunsArray.push(new Sun(newElement, posX, posY, 25))
+          sunsArray.push(new Sun(newElement, posX, posY, this.sunCharge))
         }, 1000)
       )
 

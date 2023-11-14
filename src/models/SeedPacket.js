@@ -59,7 +59,7 @@ export class SeedPacket {
   }
 
   createPlant(htmlElement) {
-    gameStatus.suns -= this.option.cost
+    gameStatus.suns.value -= this.option.cost
     this.isReloaded = true
     this.currentReloadTime = this.option.reloadTime
     this.htmlElement.classList.add('disabled')
