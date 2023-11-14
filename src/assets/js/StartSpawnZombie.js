@@ -18,12 +18,12 @@ export default (startDelay, map) => {
       zombieSpawners[randomLane].appendChild(newElement)
 
       map[randomLane].zombiesArray.push(newZombie)
-    }, startDelay + 7500)
+    }, 11500)
     // Для проигрывания звука перед началом атаки Зомби
     setGameTimeout(() => {
       const zombieStartSound = new Audio(ZombieStartSound)
       zombieStartSound.volume = 0.5
       zombieStartSound.play()
-    }, startDelay + 7500)
-  }, startDelay + 15000)
+    }, 11500)
+  }, startDelay + 17000)
 }
