@@ -38,6 +38,7 @@ export let sunsArray = new Array()
 export const gameStatus = {
   suns: 50,
   shovelSelected: false,
+  isStart: false,
   isPaused: false,
   isMenu: false
 }
@@ -82,6 +83,7 @@ musicSliderHtml.addEventListener('change', () => {
 
 setGameTimeout(() => {
   musicLevel.object.play()
+  gameStatus.isStart = true
 }, startDelay)
 
 const map = [

@@ -51,7 +51,7 @@ function closePauseMenu() {
     if (isReady) readySetPlantSound.play()
   }
 
-  musicLevel.object.play()
+  if (gameStatus.isStart) musicLevel.object.play()
 }
 
 function openMenu() {
@@ -85,7 +85,7 @@ function closeMenu() {
     if (isReady) readySetPlantSound.play()
   }
 
-  musicLevel.object.play()
+  if (gameStatus.isStart) musicLevel.object.play()
 }
 
 document.querySelector('.pause_menu__button').onclick = closePauseMenu
