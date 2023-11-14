@@ -1,7 +1,8 @@
 @import 'src/assets/fonts/fonts.css';
 @import 'src/assets/css/menu.css';
 @import 'src/assets/css/pause_menu.css';
-@import 'src/assets/css/ready-set_plant.css';
+@import 'src/assets/css/ready_set_plant.css';
+@import 'src/assets/css/level_menu_button.css';
 
 :root {
   --offset-x: 0px;
@@ -56,19 +57,12 @@ body {
   border-radius: 1vh;
   box-shadow: inset 0 0 2px 2px #5726107c;
   z-index: -1;
-  transform: translate3d(0, 0, 0);
-  animation: seedDown 0.5s ease-in-out both;
-  animation-delay: 8s;
+  transform: translate3d(0, -105%, 0);
 }
 
-@keyframes seedDown {
-  0% {
-    transform: translate3d(0, -105%, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
+.seed_bar.show {
+  transition: 0.5s ease-in-out;
+  transform: translate3d(0, 0, 0);
 }
 
 .seed_bar__suns {
@@ -250,12 +244,15 @@ main {
   position: relative;
   margin: 0 auto;
   height: 100%;
-  max-width: 145vh;
+  width: 145vh;
   background-image: url('/src/images/bg/level_1.png');
   background-repeat: no-repeat;
   background-position-x: -27.5vh;
   background-size: cover;
-  animation: trans 8s ease-in-out both;
+}
+
+.main__wrapper.play_animation {
+  animation: 8s ease-in-out both;
 }
 
 @keyframes trans {
@@ -324,24 +321,17 @@ main {
   position: absolute;
   width: 13.5vh;
   height: 16.5vh;
-  left: 0vh;
+  left: -15vh;
   filter: saturate(0.8);
   background-image: url('/src/images/other/lawn_mower.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  animation: rightStart 0.5s ease-in-out both;
-  animation-delay: 8s;
 }
 
-@keyframes rightStart {
-  0% {
-    left: -15vh;
-  }
-
-  100% {
-    left: 0vh;
-  }
+.lawn_mower.show {
+  transition: 0.5s ease-in-out;
+  left: 0vh;
 }
 
 .zombie_spawner {
@@ -444,19 +434,12 @@ main {
   box-shadow: inset 0 0 5px 5px #77391a;
   border-radius: 1vh;
   z-index: -5;
-  transform: translate3d(0, 0, 0);
-  animation: shovelPanelDown 0.5s ease-in-out both;
-  animation-delay: 8s;
+  transform: translate3d(0, -105%, 0);
 }
 
-@keyframes shovelPanelDown {
-  0% {
-    transform: translate3d(0, -105%, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
+.shovel_panel.show {
+  transition: 0.5s ease-in-out;
+  transform: translate3d(0, 0, 0);
 }
 
 .shovel {

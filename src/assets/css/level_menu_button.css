@@ -1,0 +1,36 @@
+.level_menu_button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  width: 15vh;
+  height: 5vh;
+  right: 0;
+  top: -0.1vh;
+  background-image: url('/src/images/ui/level_menu_button.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: translate3d(0, -100%, 0);
+}
+
+.level_menu_button.show {
+  transition: 0.5s ease-in-out;
+  transform: translate3d(0, 0, 0);
+}
+
+.level_menu_button:hover>span {
+  color: #00e400;
+}
+
+.level_menu_button>span {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: -0.45vh;
+  letter-spacing: 0.2vh;
+  font-family: HouseOfTerror;
+  font-size: 3vh;
+  color: #00c600;
+  -webkit-text-stroke: 0.12vh black;
+}

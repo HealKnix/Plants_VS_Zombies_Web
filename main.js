@@ -24,12 +24,21 @@ import StartSpawnSun from '/src/assets/js/StartSpawnSun.js'
 
 import Menu from '/src/assets/js/Menu.js'
 
+const musicLevelHtml = document.getElementById('music_level')
+const musicSliderHtml = document.querySelector('#Music')
+
+export const musicLevel = rel(musicLevelHtml, 'volume', value => {
+  musicSliderHtml.value = value
+})
+musicLevel.value = 0.35
+
 const mouse = {
   x: 0,
   y: 0
 }
 
-const startDelay = 10000
+export const startLevelDelay = 0
+StartLevelText.start(startLevelDelay, musicLevel)
 
 export let sunsArray = new Array()
 
@@ -58,8 +67,6 @@ export const gameStatus = {
 export let deltaTime = 0
 let preventTime = Date.now()
 
-StartLevelText.start(startDelay)
-
 const cursorSelectedHtml = document.querySelector('.cursor_selected')
 
 const mainWrapperHtml = document.querySelector('.main__wrapper')
@@ -82,22 +89,9 @@ document.addEventListener('mousedown', e => {
   }
 })
 
-const musicLevelHtml = document.getElementById('music_level')
-const musicSliderHtml = document.querySelector('#Music')
-
-export const musicLevel = rel(musicLevelHtml, 'volume', value => {
-  musicSliderHtml.value = value
-})
-musicLevel.value = 0.35
-
 musicSliderHtml.addEventListener('change', () => {
   musicLevel.value = musicSliderHtml.value
 })
-
-setGameTimeout(() => {
-  musicLevel.object.play()
-  gameStatus.isStart = true
-}, startDelay)
 
 export const map = [
   {
@@ -476,7 +470,7 @@ window.onblur = function () {
 }
 
 // Для начала волны Зомби
-StartSpawnZombie(startDelay, map)
+StartSpawnZombie(startLevelDelay, map)
 
 // Для спавна солнышек на уровне
-StartSpawnSun(startDelay)
+StartSpawnSun(startLevelDelay)

@@ -1,7 +1,7 @@
 import OpenPauseMenuSound from '/src/music/pause.mp3'
 import ButtonClickSound from '/src/music/button_click.mp3'
 
-import { readySetPlantSound, isReady } from '/src/assets/js/StartLevelText'
+import { readySetPlantSound } from '/src/assets/js/StartLevelText'
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { gameStatus, musicLevel } from '/main'
 
@@ -17,9 +17,13 @@ setGameTimeout(() => {
   allAnimationsOnLevel.forEach(animation => {
     animation.style.animation = 'none'
   })
-
   isAllAnimationStylesDelete = true
-}, 12000)
+  setGameTimeout(() => {
+    allAnimationsOnLevel.forEach(animation => {
+      animation.style.transition = 'none'
+    })
+  }, 500)
+}, 2000)
 
 function openPauseMenu() {
   if (gameStatus.isPaused.value || gameStatus.isMenu.value) return
@@ -47,7 +51,7 @@ function closePauseMenu() {
     allAnimationsOnLevel.forEach(animation => {
       animation.style.animationPlayState = 'running'
     })
-    if (isReady) readySetPlantSound.play()
+    if (!gameStatus.isStart) readySetPlantSound.play()
   }
 
   if (gameStatus.isStart) musicLevel.object.play()
@@ -79,12 +83,13 @@ function closeMenu() {
     allAnimationsOnLevel.forEach(animation => {
       animation.style.animationPlayState = 'running'
     })
-    if (isReady) readySetPlantSound.play()
+    if (!gameStatus.isStart) readySetPlantSound.play()
   }
 
   if (gameStatus.isStart) musicLevel.object.play()
 }
 
+document.querySelector('.level_menu_button').onclick = openMenu
 document.querySelector('.pause_menu__button').onclick = closePauseMenu
 document.querySelector('.menu__button').onclick = closeMenu
 
