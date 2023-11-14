@@ -61,11 +61,12 @@ let preventTime = Date.now()
 StartLevelText.start(startDelay)
 
 const cursorSelectedHtml = document.querySelector('.cursor_selected')
+
 const mainWrapperHtml = document.querySelector('.main__wrapper')
 mainWrapperHtml.addEventListener('mousemove', e => {
   mouse.x = e.clientX - mainWrapperHtml.getBoundingClientRect().x
   mouse.y = e.clientY - mainWrapperHtml.getBoundingClientRect().y
-  if (seedPacketsList.some(packet => packet.isSelected) || gameStatus.shovelSelected) {
+  if (seedPacketsList.some(packet => packet.isSelected) || shovelSelected.value) {
     cursorSelectedHtml.style.left = `${
       mouse.x - cursorSelectedHtml.getBoundingClientRect().width / 2
     }px`
@@ -177,11 +178,6 @@ function setCursor(image) {
   cursorSelectedHtml.style.backgroundImage = `url('${image}')`
 }
 
-function clearShovel() {
-  shovel.classList.remove('active')
-  gameStatus.shovelSelected = false
-}
-
 function clearCeil(ceil) {
   if (ceil) {
     if (!ceil.classList.contains('floor__ceil')) {
@@ -192,7 +188,7 @@ function clearCeil(ceil) {
 }
 
 function clearCursor(ceil) {
-  clearShovel()
+  shovelSelected.value = false
   clearCeil(ceil)
   clearSeedPackets()
 
@@ -202,20 +198,25 @@ function clearCursor(ceil) {
   cursorSelectedHtml.style.backgroundImage = `url()`
 }
 
-const shovelPanel = document.querySelector('.shovel_panel')
 const shovel = document.querySelector('.shovel')
+const shovelPanel = document.querySelector('.shovel_panel')
 shovelPanel.addEventListener('click', () => {
   clearSeedPackets()
-  if (shovel.classList.contains('active')) {
-    gameStatus.shovelSelected = false
-    shovel.classList.remove('active')
+  if (shovelSelected.value) {
     clearCursor()
     return
   }
-  gameStatus.shovelSelected = true
-  shovel.classList.add('active')
+  shovelSelected.value = true
   shovelSound.play()
   setCursor(ShovelImage)
+})
+
+const shovelSelected = rel(false, '', value => {
+  if (value) {
+    shovel.classList.add('active')
+  } else {
+    shovel.classList.remove('active')
+  }
 })
 
 let seedPackets = document.querySelectorAll('.seed_bar__seeds__packet')
@@ -264,17 +265,17 @@ seedPackets.forEach(packet => {
     packet.children[2].classList.remove('show')
   })
   packet.addEventListener('click', e => {
-    shovel.classList.remove('active')
-    gameStatus.shovelSelected = false
-
-    if (packet.classList.contains('disabled')) return
+    if (packet.classList.contains('disabled')) {
+      return
+    }
 
     if (packet.classList.contains('select')) {
       seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = false
       packet.classList.remove('select')
-      clearCursor()
       return
     }
+
+    clearCursor()
 
     clearSeedPackets()
 
@@ -321,7 +322,7 @@ floor_row.forEach(row => {
       }
     })
     ceil.addEventListener('click', e => {
-      if (ceil.classList.contains('planted') && gameStatus.shovelSelected) {
+      if (ceil.classList.contains('planted') && shovelSelected.value) {
         const shovelDiggingSound = new Audio(ShovelDiggingSound)
         shovelDiggingSound.volume = 0.15
         shovelDiggingSound.play()
