@@ -31,8 +31,6 @@ class Plant {
     this.plantingSound.play()
   }
 
-  update(lane) {}
-
   destroy() {
     this.allTimeouts.forEach(event => {
       event.clear()
@@ -99,6 +97,7 @@ export class Peashooter extends Plant {
   }
 
   update(lane) {
+    if (!this.htmlElement) return
     if (
       lane.zombiesArray.length > 0 &&
       lane.zombiesArray.some(zombie => {
@@ -132,17 +131,32 @@ export class Sunflower extends Plant {
   }
 
   update() {
+    if (!this.htmlElement) return
     if (this.isReadyToActive) {
       const newElement = document.createElement('div')
       newElement.classList.add('sun_from_sunflower', 'sun')
 
+      let offsetX =
+        (document.documentElement.getBoundingClientRect().width -
+          document.querySelector('.main__wrapper').getBoundingClientRect().width) /
+        2
+
+      if (offsetX <= 0) {
+        offsetX = 0
+      }
+
       const posX =
-        (this.htmlElement.getBoundingClientRect().x * 90) /
-        document.querySelector('.main__wrapper').getBoundingClientRect().height
+        ((this.htmlElement.getBoundingClientRect().x +
+          this.htmlElement.getBoundingClientRect().width -
+          offsetX) /
+          document.querySelector('.main__wrapper').getBoundingClientRect().width) *
+        100
 
       const posY =
-        (this.htmlElement.getBoundingClientRect().y * 220) /
-        (document.querySelector('.main__wrapper').getBoundingClientRect().height * 2)
+        ((this.htmlElement.getBoundingClientRect().y +
+          this.htmlElement.getBoundingClientRect().height / 1.5) /
+          document.querySelector('.main__wrapper').getBoundingClientRect().height) *
+        100
 
       this.allTimeouts.push(
         setGameTimeout(() => {
@@ -186,56 +200,85 @@ export class CherryBomb extends Plant {
 
     this.bombCenter = 0
     this.bombRadius = 55
+  }
+
+  destroy() {
+    super.destroy()
+    this.allTimeouts.push(
+      setGameTimeout(() => {
+        this.bombHtml.parentElement.removeChild(this.bombHtml)
+        this.bombHtml = null
+      }, 500)
+    )
+  }
+
+  explode() {
+    this.isExplode = false
+
     this.bombHtml = document.createElement('div')
     this.bombHtml.classList.add('bomb_explode')
     this.bombHtml.style.width = `${this.bombRadius}vh`
     this.bombHtml.style.height = `${this.bombRadius}vh`
-  }
 
-  explode() {
     document.querySelector('.main__wrapper').appendChild(this.bombHtml)
-    this.isExplode = false
     this.htmlElement.style.backgroundSize = '100%'
 
-    setGameTimeout(() => {
-      map.forEach(lane => {
-        lane.zombiesArray.forEach(zombie => {
-          const distanceX =
-            zombie.htmlElement.getBoundingClientRect().x +
-            zombie.htmlElement.getBoundingClientRect().width / 2 -
-            (this.bombHtml.getBoundingClientRect().x +
-              this.bombHtml.getBoundingClientRect().width / 2)
-          const distanceY =
-            zombie.htmlElement.getBoundingClientRect().y +
-            zombie.htmlElement.getBoundingClientRect().height / 2 -
-            (this.bombHtml.getBoundingClientRect().y +
-              this.bombHtml.getBoundingClientRect().height / 2)
-          const length = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2))
-          if (length <= this.bombHtml.getBoundingClientRect().width / 2) {
-            zombie.health -= this.explodeDamage
-          }
-        })
-      })
-      this.cherryExplodeSound.play()
-      this.destroy()
-      this.bombHtml.style.backgroundColor = 'rgb(0, 0, 0, 0.5)'
+    let offsetX =
+      (document.documentElement.getBoundingClientRect().width -
+        document.querySelector('.main__wrapper').getBoundingClientRect().width) /
+      2
+
+    if (offsetX <= 0) {
+      offsetX = 0
+    }
+
+    const posX =
+      ((this.htmlElement.getBoundingClientRect().x -
+        this.htmlElement.getBoundingClientRect().width * 1.5 -
+        offsetX) /
+        document.querySelector('.main__wrapper').getBoundingClientRect().width) *
+      100
+
+    const posY =
+      ((this.htmlElement.getBoundingClientRect().y -
+        this.htmlElement.getBoundingClientRect().height) /
+        document.querySelector('.main__wrapper').getBoundingClientRect().height) *
+      100
+
+    this.bombHtml.style.left = `${posX}%`
+    this.bombHtml.style.top = `${posY}%`
+
+    this.allTimeouts.push(
       setGameTimeout(() => {
-        this.bombHtml.parentElement.removeChild(this.bombHtml)
-      }, 500)
-    }, 1000)
+        map.forEach(lane => {
+          lane.zombiesArray.forEach(zombie => {
+            const distanceX =
+              zombie.htmlElement.getBoundingClientRect().x +
+              zombie.htmlElement.getBoundingClientRect().width / 2 -
+              (this.bombHtml.getBoundingClientRect().x +
+                this.bombHtml.getBoundingClientRect().width / 2)
+            const distanceY =
+              zombie.htmlElement.getBoundingClientRect().y +
+              zombie.htmlElement.getBoundingClientRect().height / 2 -
+              (this.bombHtml.getBoundingClientRect().y +
+                this.bombHtml.getBoundingClientRect().height / 2)
+            const length = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2))
+            if (length <= this.bombHtml.getBoundingClientRect().width / 2) {
+              zombie.health -= this.explodeDamage
+            }
+          })
+        })
+
+        this.cherryExplodeSound.play()
+        this.bombHtml.style.backgroundColor = 'rgb(0, 0, 0, 0.5)'
+
+        this.destroy()
+      }, 1000)
+    )
   }
 
-  update(lane) {
+  update() {
     if (!this.htmlElement) return
-    this.bombCenter = {
-      x:
-        this.htmlElement.getBoundingClientRect().x -
-        this.htmlElement.getBoundingClientRect().width / 0.75,
-      y:
-        this.htmlElement.getBoundingClientRect().y - this.htmlElement.getBoundingClientRect().height
-    }
-    this.bombHtml.style.left = `calc(${this.bombCenter.x}px - 35.5vh)`
-    this.bombHtml.style.top = `${this.bombCenter.y}px`
     if (this.isExplode) {
       this.explode()
     }

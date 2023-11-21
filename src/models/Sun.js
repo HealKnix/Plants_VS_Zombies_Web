@@ -22,7 +22,7 @@ export class Sun {
     this.capacity = capacity
     this.pickupSound.volume = 0.25
 
-    this.htmlElement.setAttribute('style', `left: ${this.posX}vh; top: ${this.posY}vh`)
+    this.htmlElement.setAttribute('style', `left: ${this.posX}%; top: ${this.posY}%`)
 
     this.htmlElement.addEventListener('click', () => {
       gameStatus.suns.value += this.capacity

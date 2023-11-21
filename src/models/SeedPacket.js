@@ -88,7 +88,7 @@ export const seedPacketsList = [
     plant: Plants.CherryBomb,
     image: CherryBombImg,
     cost: 150,
-    reloadTime: 500,
+    reloadTime: 15000,
     id: 2
   }),
   new SeedPacket({
