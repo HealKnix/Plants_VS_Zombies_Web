@@ -1,9 +1,8 @@
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { gameStatus } from '/main'
+import { soundFX } from '/src/assets/js/Music'
 
-import ReadySetPlantSound from '/src/music/ready_set_plant.mp3'
-
-export const readySetPlantSound = new Audio(ReadySetPlantSound)
+export const readySetPlantSound = soundFX.object.sounds.readySetPlantSound
 
 export function start(startLevelDelay, musicLevel) {
   setGameTimeout(() => {

@@ -1,19 +1,13 @@
 import RegularZombieImg from '../images/zombies/regular_zombie.png'
 import CoinSilverGif from '../images/other/coin_silver.gif'
 
-import HitSound1 from '../music/zombies_hit_1.mp3'
-import HitSound2 from '../music/zombies_hit_2.mp3'
-
-import ChompSound1 from '../music/zombie_chomp_1.mp3'
-import ChompSound2 from '../music/zombie_chomp_2.mp3'
-
 import { deltaTime } from '/main'
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { getRandomJewel } from './Jewels'
+import { soundFX } from '/src/assets/js/Music'
 
-const hitSounds = [HitSound1, HitSound2]
-const chompSounds = [ChompSound1, ChompSound2]
-const chompSound = []
+const hitSounds = [soundFX.object.sounds.hitSound1, soundFX.object.sounds.hitSound2]
+const chompSounds = [soundFX.object.sounds.chompSound1, soundFX.object.sounds.chompSound2]
 
 class Zombie {
   hitSound = new Array() // Массив звуков попадания
@@ -97,15 +91,7 @@ class Zombie {
       plant.destroy()
     }
 
-    chompSound.push(new Audio(chompSounds[Math.floor(Math.random() * 2)]))
-    chompSound[chompSound.length - 1].volume = 0.075 / chompSound.length
-    chompSound[chompSound.length - 1].play()
-
-    for (let i = 0; i < chompSound.length; i++) {
-      chompSound[i].addEventListener('ended', () => {
-        chompSound.splice(i, 1)
-      })
-    }
+    chompSounds[Math.floor(Math.random() * chompSounds.length)].play()
   }
 
   walk() {
@@ -126,9 +112,8 @@ class Zombie {
             this.htmlElement.getBoundingClientRect().x +
               this.htmlElement.getBoundingClientRect().width
         ) {
-          this.hitSound.push(new Audio(hitSounds[Math.floor(Math.random() * 2)]))
-          this.hitSound[this.hitSound.length - 1].volume = 0.1
-          this.hitSound[this.hitSound.length - 1].play()
+          hitSounds[Math.floor(Math.random() * hitSounds.length)].play()
+
           for (let i = 0; i < this.hitSound.length; i++) {
             this.hitSound[i].addEventListener('ended', () => {
               this.hitSound.splice(i, 1)

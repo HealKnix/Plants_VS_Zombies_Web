@@ -3,14 +3,13 @@ import CoinGoldGif from '/src/images/other/coin_gold.gif'
 import MoneyBagImg from '/src/images/other/moneybag.png'
 import DiamondGif from '/src/images/other/diamond.gif'
 
-import CoinSound from '/src/music/coin.mp3'
-
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { coinbank } from '/src/store/gameStore'
+import { soundFX } from '/src/assets/js/Music'
 
 export class Jewel {
   name = ''
-  pickupSound = new Audio(CoinSound)
+  pickupSound = soundFX.object.sounds.coinSound
   value = 0
   htmlElement = null
   gameTimeout = null

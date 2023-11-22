@@ -1,14 +1,11 @@
-import OpenPauseMenuSound from '/src/music/pause.mp3'
-import ButtonClickSound from '/src/music/button_click.mp3'
+import { Howler } from 'howler'
 
-import { readySetPlantSound } from '/src/assets/js/StartLevelText'
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { gameStatus, musicLevel } from '/main'
+import { gameStatus } from '/main'
+import { music, soundFX } from '/src/assets/js/Music'
 
-const openMenuSound = new Audio(OpenPauseMenuSound)
-openMenuSound.volume = 0.15
-const buttonClickSound = new Audio(ButtonClickSound)
-buttonClickSound.volume = 0.25
+const openMenuSound = soundFX.object.sounds.openMenuSound
+const buttonClickSound = soundFX.object.sounds.buttonClickSound
 
 const allAnimationsOnLevel = document.querySelectorAll('.animated')
 
@@ -36,10 +33,11 @@ function openPauseMenu() {
     allAnimationsOnLevel.forEach(animation => {
       animation.style.animationPlayState = 'paused'
     })
-    readySetPlantSound.pause()
   }
 
-  musicLevel.object.pause()
+  Howler.mute(true)
+
+  music.object.pause()
 }
 
 function closePauseMenu() {
@@ -51,10 +49,11 @@ function closePauseMenu() {
     allAnimationsOnLevel.forEach(animation => {
       animation.style.animationPlayState = 'running'
     })
-    if (!gameStatus.isStart) readySetPlantSound.play()
   }
 
-  if (gameStatus.isStart) musicLevel.object.play()
+  Howler.mute(false)
+
+  if (gameStatus.isStart) music.object.play()
 }
 
 function openMenu() {
@@ -67,11 +66,11 @@ function openMenu() {
     allAnimationsOnLevel.forEach(animation => {
       animation.style.animationPlayState = 'paused'
     })
-    readySetPlantSound.pause()
   }
 
-  readySetPlantSound.pause()
-  musicLevel.object.pause()
+  Howler.mute(true)
+
+  music.object.pause()
 }
 
 function closeMenu() {
@@ -83,10 +82,11 @@ function closeMenu() {
     allAnimationsOnLevel.forEach(animation => {
       animation.style.animationPlayState = 'running'
     })
-    if (!gameStatus.isStart) readySetPlantSound.play()
   }
 
-  if (gameStatus.isStart) musicLevel.object.play()
+  Howler.mute(false)
+
+  if (gameStatus.isStart) music.object.play()
 }
 
 document.querySelector('.level_menu_button').onclick = openMenu

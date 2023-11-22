@@ -1,9 +1,10 @@
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { setGameInterval } from '/src/models/GameInterval'
-import ZombieStartSound from '/src/music/zombies_start.mp3'
 import * as Zombie from '/src/models/Zombies'
+import { soundFX } from '/src/assets/js/Music'
 
 const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
+const zombieStartSound = soundFX.object.sounds.zombieStartSound
 
 export default (startDelay, map) => {
   setGameTimeout(() => {
@@ -21,8 +22,6 @@ export default (startDelay, map) => {
     }, 11500)
     // Для проигрывания звука перед началом атаки Зомби
     setGameTimeout(() => {
-      const zombieStartSound = new Audio(ZombieStartSound)
-      zombieStartSound.volume = 0.5
       zombieStartSound.play()
     }, 11500)
   }, startDelay + 17000)

@@ -1,5 +1,5 @@
-import { gameStatus } from '../../main'
-import { deltaTime } from '/main'
+import { deltaTime, gameStatus } from '/main'
+import { soundFX } from '/src/assets/js/Music'
 
 import PeashooterImg from '../images/plants/peashooter.png'
 import SnowPeaImg from '../images/plants/snow_pea.png'
@@ -11,10 +11,8 @@ import RepeaterImg from '../images/plants/repeater.png'
 import * as Plants from '../models/Plants'
 import RechargeTime from '../models/RechargeTime'
 
-import SelectSeedPacketSound from '../music/seed_packet_sound.mp3'
-
 export class SeedPacket {
-  selectSound = new Audio(SelectSeedPacketSound)
+  selectSound = soundFX.object.sounds.selectSound
   htmlElement = null
   isSelected = false
   isRecharged = false

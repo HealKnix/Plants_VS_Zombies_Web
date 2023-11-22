@@ -1,10 +1,9 @@
-import SunPickupSound from '/src/music/sun_pickup.mp3'
-
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { deltaTime, gameStatus } from '/main'
+import { soundFX } from '/src/assets/js/Music'
 
 export class Sun {
-  pickupSound = new Audio(SunPickupSound)
+  pickupSound = soundFX.object.sounds.sunPickupSound
   currentTime = 0
   lifeTime = 8000
   capacity = 0
@@ -21,7 +20,6 @@ export class Sun {
     this.posX = x
     this.posY = y
     this.capacity = capacity
-    this.pickupSound.volume = 0.25
 
     this.htmlElement.setAttribute('style', `left: ${this.posX}%; top: ${this.posY}%`)
 

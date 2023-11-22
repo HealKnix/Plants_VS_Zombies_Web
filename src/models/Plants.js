@@ -1,20 +1,14 @@
 import { Sun } from '/src/models/Sun'
 
-import SunPickupSound from '/src/music/sun_pickup.mp3'
-const pickupSound = new Audio(SunPickupSound)
-pickupSound.volume = 0.25
-import PlantingSound1 from '/src/music/planting_sound_1.mp3'
-import PlantingSound2 from '/src/music/planting_sound_2.mp3'
-
-import CherryExplodeSound from '/src/music/cherry_explode.mp3'
-
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { map, deltaTime, sunsArray } from '/main'
 
-const plantSounds = [PlantingSound1, PlantingSound2]
+import { soundFX } from '/src/assets/js/Music'
+
+const plantSounds = [soundFX.object.sounds.plantingSound1, soundFX.object.sounds.plantingSound2]
 
 class Plant {
-  plantingSound = new Audio()
+  plantingSound = null
   seedPacket = null
   htmlElement = null
   image = ''
@@ -26,8 +20,7 @@ class Plant {
   allTimeouts = new Array()
 
   constructor(htmlElement, image) {
-    this.plantingSound.src = plantSounds[Math.floor(Math.random() * 2)]
-    this.plantingSound.volume = 0.1
+    this.plantingSound = plantSounds[Math.floor(Math.random() * plantSounds.length)]
     this.htmlElement = htmlElement
     this.image = image
     this.plantingSound.play()
@@ -140,16 +133,14 @@ export class Peashooter extends Plant {
 }
 
 import SnowPeaBulletImg from '/src/images/plants/snow_pea_bullet.png'
-import SnowPeaSparklesSound from '/src/music/snow_pea_sparkles.mp3'
 export class SnowPea extends Peashooter {
   static name = 'Морозный горох'
   bulletImage = SnowPeaBulletImg
   effectName = 'freeze'
-  sparklesSound = new Audio(SnowPeaSparklesSound)
+  sparklesSound = soundFX.object.sounds.snowPeaSparklesSound
 
   constructor(htmlElement, image) {
     super(htmlElement, image)
-    this.sparklesSound.volume = 0.25
   }
 
   shoot() {
@@ -243,8 +234,7 @@ export class CherryBomb extends Plant {
     this.damage = 1800
     this.attackInterval = 1200
 
-    this.cherryExplodeSound = new Audio(CherryExplodeSound)
-    this.cherryExplodeSound.volume = 0.5
+    this.cherryExplodeSound = soundFX.object.sounds.cherryExplodeSound
 
     this.bombCenter = 0
     this.bombRadius = 55

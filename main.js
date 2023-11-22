@@ -2,17 +2,10 @@ import { seedPacketsList } from '/src/models/SeedPacket'
 import { setGameTimeout, gameTimeoutsArray } from '/src/models/GameTimeout'
 import { gameIntervalsArray } from '/src/models/GameInterval'
 import { rel } from '/src/models/Relation'
+import { music, soundFX } from '/src/assets/js/Music'
 
-import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
-let seedPacketSound = new Audio(SeedPacketSound)
-seedPacketSound.volume = 0.35
-
-import LawnMowerSound from '/src/music/lawn_mower.mp3'
-import ShovelDiggingSound from '/src/music/planting_sound_2.mp3'
-
-import ShovelSound from '/src/music/shovel.mp3'
-const shovelSound = new Audio(ShovelSound)
-shovelSound.volume = 0.25
+const seedPacketSound = soundFX.object.sounds.seedPacketSound
+const shovelSound = soundFX.object.sounds.shovelSound
 
 import ShovelImage from '/src/images/other/shovel.png'
 
@@ -24,26 +17,18 @@ import StartSpawnSun from '/src/assets/js/StartSpawnSun.js'
 
 import Menu from '/src/assets/js/Menu.js'
 
-const musicLevelHtml = document.getElementById('music_level')
-const musicSliderHtml = document.querySelector('#Music')
-
-export const musicLevel = rel(musicLevelHtml, 'volume', value => {
-  musicSliderHtml.value = value
-})
-musicLevel.value = 0.35
-
 const mouse = {
   x: 0,
   y: 0
 }
 
 export const startLevelDelay = 0
-StartLevelText.start(startLevelDelay, musicLevel)
+StartLevelText.start(startLevelDelay, music)
 
 export let sunsArray = new Array()
 
 export const gameStatus = {
-  suns: rel(50, '', value => {
+  suns: rel(5000, '', value => {
     document.querySelector('.count_of_suns').innerText = value
   }),
   shovelSelected: false,
@@ -89,10 +74,6 @@ document.addEventListener('mousedown', e => {
   }
 })
 
-musicSliderHtml.addEventListener('change', () => {
-  musicLevel.value = musicSliderHtml.value
-})
-
 export const map = [
   {
     isActive: true,
@@ -102,7 +83,7 @@ export const map = [
       posX: 0,
       speedX: 30,
       isFirstActive: true,
-      sound: new Audio(LawnMowerSound)
+      sound: soundFX.object.sounds.lawnMowerSound
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -115,7 +96,7 @@ export const map = [
       posX: 0,
       speedX: 30,
       isFirstActive: true,
-      sound: new Audio(LawnMowerSound)
+      sound: soundFX.object.sounds.lawnMowerSound
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -128,7 +109,7 @@ export const map = [
       posX: 0,
       speedX: 30,
       isFirstActive: true,
-      sound: new Audio(LawnMowerSound)
+      sound: soundFX.object.sounds.lawnMowerSound
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -141,7 +122,7 @@ export const map = [
       posX: 0,
       speedX: 30,
       isFirstActive: true,
-      sound: new Audio(LawnMowerSound)
+      sound: soundFX.object.sounds.lawnMowerSound
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -154,7 +135,7 @@ export const map = [
       posX: 0,
       speedX: 30,
       isFirstActive: true,
-      sound: new Audio(LawnMowerSound)
+      sound: soundFX.object.sounds.lawnMowerSound
     },
     plantsArray: new Array(),
     zombiesArray: new Array()
@@ -291,6 +272,8 @@ seedPackets.forEach(packet => {
   })
 })
 
+const shovelDiggingSound = soundFX.object.sounds.shovelDiggingSound
+
 floor_row.forEach(row => {
   if (!map[parseInt(row.id)].isActive) return
   ;[...row.children].forEach(ceil => {
@@ -334,8 +317,6 @@ floor_row.forEach(row => {
     })
     ceil.addEventListener('click', e => {
       if (ceil.classList.contains('planted') && shovelSelected.value) {
-        const shovelDiggingSound = new Audio(ShovelDiggingSound)
-        shovelDiggingSound.volume = 0.15
         shovelDiggingSound.play()
 
         const indexDelete = map[parseInt(row.id)].plantsArray.findIndex(
