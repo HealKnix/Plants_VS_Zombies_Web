@@ -1,5 +1,7 @@
 @import 'src/assets/fonts/fonts.css';
 @import 'src/assets/css/menu.css';
+@import 'src/assets/css/jewel.css';
+@import 'src/assets/css/coinbank.css';
 @import 'src/assets/css/pause_menu.css';
 @import 'src/assets/css/ready_set_plant.css';
 @import 'src/assets/css/level_menu_button.css';
@@ -249,6 +251,7 @@ main {
   background-repeat: no-repeat;
   background-position-x: -35vh;
   background-size: cover;
+  overflow: hidden;
 }
 
 .main__wrapper.play_animation {

@@ -13,6 +13,7 @@ export class GameTimeout {
 
   clear() {
     this.option = null
+    this.isComplete = true
   }
 
   method() {

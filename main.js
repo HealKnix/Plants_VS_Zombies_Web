@@ -247,7 +247,7 @@ seedPackets.forEach(packet => {
 
     const seedPacket = seedPacketsList[parseInt(packet.getAttribute('id'))]
 
-    if (seedPacket.isReloaded) {
+    if (seedPacket.isRecharged) {
       packet.children[2].innerHTML = /*html*/ `
         <span style="font-size: 1.5vh; color: red">перезарядка...</span>
         <span>${seedPacket.option.plant.name}</span>
@@ -412,7 +412,7 @@ function gameLogic() {
       packet.updateReload()
       if (gameStatus.suns.value < packet.option.cost) {
         seedPackets[packet.option.id].classList.add('disabled')
-      } else if (!packet.isReloaded) {
+      } else if (!packet.isRecharged) {
         seedPackets[packet.option.id].classList.remove('disabled')
       }
     })

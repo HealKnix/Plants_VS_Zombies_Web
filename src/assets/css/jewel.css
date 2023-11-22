@@ -1,0 +1,24 @@
+.jewel {
+  cursor: pointer;
+  position: absolute;
+  z-index: 99999;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.coin_silver,
+.coin_gold {
+  width: 4.5vh;
+  height: 4.5vh;
+}
+
+.diamond {
+  width: 7vh;
+  height: 4.5vh;
+}
+
+.money_bag {
+  width: 10vh;
+  height: 7vh;
+}

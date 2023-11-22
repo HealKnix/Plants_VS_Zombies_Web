@@ -1,4 +1,5 @@
 import RegularZombieImg from '../images/zombies/regular_zombie.png'
+import CoinSilverGif from '../images/other/coin_silver.gif'
 
 import HitSound1 from '../music/zombies_hit_1.mp3'
 import HitSound2 from '../music/zombies_hit_2.mp3'
@@ -8,27 +9,33 @@ import ChompSound2 from '../music/zombie_chomp_2.mp3'
 
 import { deltaTime } from '/main'
 import { setGameTimeout } from '/src/models/GameTimeout'
+import { getRandomJewel } from './Jewels'
 
 const hitSounds = [HitSound1, HitSound2]
 const chompSounds = [ChompSound1, ChompSound2]
 const chompSound = []
 
 class Zombie {
-  hitSound = []
-  isReadyToActive = true
+  hitSound = new Array() // Массив звуков попадания
+
+  isReadyToActive = true // Готовность что-либо сделать
+
   htmlElement = null
-  health = 181
-  damage = 100
-  maxSpeedX = 3
-  speedX = this.maxSpeedX
-  eatDelay = 650
-  posX = 0
-  image = ''
 
-  allTimeouts = new Array()
+  health = 181 // Здоровье
+  damage = 100 // Урон
+  maxSpeedX = 3 // Макс скорость передвижения
+  speedX = this.maxSpeedX // Текущая скорость передвижения
 
-  effectDuration = 0
-  isEffect = false
+  eatDelay = 650 // Задержка между укусами
+  offsetPosX = 0 // Смещение Зомби по X
+
+  image = '' // Картинка Зомби
+
+  allTimeouts = new Array() // Пул таймаутов
+
+  effectDuration = 0 // Продолжительность эффекта
+  isEffect = false // Есть ли эффект
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
@@ -38,7 +45,44 @@ class Zombie {
     this.htmlElement.appendChild(this.htmlElementZombie)
   }
 
+  getScreenPos() {
+    let offsetX =
+      (document.documentElement.getBoundingClientRect().width -
+        document.querySelector('.main__wrapper').getBoundingClientRect().width) /
+      2
+
+    if (offsetX <= 0) {
+      offsetX = 0
+    }
+
+    return {
+      x:
+        ((this.htmlElement.getBoundingClientRect().x - offsetX) /
+          document.querySelector('.main__wrapper').getBoundingClientRect().width) *
+        100,
+      y:
+        (this.htmlElement.getBoundingClientRect().y /
+          document.querySelector('.main__wrapper').getBoundingClientRect().height) *
+        100
+    }
+  }
+
+  dropCoin() {
+    const newCoinHtml = document.createElement('img')
+    newCoinHtml.classList.add('coin')
+    newCoinHtml.setAttribute('src', CoinSilverGif)
+    newCoinHtml.style.left = `${this.getScreenPos().x}%`
+    newCoinHtml.style.top = `${this.getScreenPos().y}%`
+
+    document.querySelector('.main__wrapper').appendChild(newCoinHtml)
+  }
+
   destroy() {
+    const random = Math.random()
+    if (random <= 0.25) {
+      getRandomJewel(this.getScreenPos().x, this.getScreenPos().y)
+    }
+
     this.health = 0
     this.htmlElement.parentElement.removeChild(this.htmlElement)
     this.htmlElement = null
@@ -52,9 +96,11 @@ class Zombie {
     if (plant.health <= 0) {
       plant.destroy()
     }
+
     chompSound.push(new Audio(chompSounds[Math.floor(Math.random() * 2)]))
     chompSound[chompSound.length - 1].volume = 0.075 / chompSound.length
     chompSound[chompSound.length - 1].play()
+
     for (let i = 0; i < chompSound.length; i++) {
       chompSound[i].addEventListener('ended', () => {
         chompSound.splice(i, 1)
@@ -63,8 +109,8 @@ class Zombie {
   }
 
   walk() {
-    this.htmlElement.style.transform = `translate3d(${this.posX}vh, 0, 0)`
-    this.posX -= this.speedX * deltaTime
+    this.htmlElement.style.transform = `translate3d(${this.offsetPosX}vh, 0, 0)`
+    this.offsetPosX -= this.speedX * deltaTime
   }
 
   checkHit(plantsArray, lawnMower) {
@@ -89,6 +135,7 @@ class Zombie {
             })
           }
 
+          // Если пуля содержит в себе эффект, то накладываем его
           if (bullet.getAttribute('effect')) {
             if (!this.isEffect) {
               this.isEffect = true
@@ -99,19 +146,26 @@ class Zombie {
             }
           }
 
+          // При попадании сбрасываем время эффекта
           this.effectDuration = 0
 
+          // При попадании отнимаем хп, в зависимости от дамага
           this.health -= parseInt(bullet.getAttribute('damage'))
+
+          // Удаляем пулю
           bullet.parentElement.removeChild(bullet)
 
           if (this.isEffect) {
+            // Если есть эффект, то делаем подсветку с изменённой ротацией цвета
             this.htmlElementZombie.style.filter = 'brightness(1.15) hue-rotate(180deg)'
           } else {
+            // Иначе просто делаем подсветку
             this.htmlElementZombie.style.filter = 'brightness(1.15)'
           }
 
           this.allTimeouts.push(
             setGameTimeout(
+              // Убираем подсветку через 100 мс.
               () => {
                 this.htmlElementZombie.style.filter = this.htmlElementZombie.style.filter.replace(
                   'brightness(1.15)',
@@ -123,6 +177,7 @@ class Zombie {
             )
           )
 
+          // Подтверждаем попадание и выходим из цикла
           isHit = true
           return
         }
@@ -131,6 +186,7 @@ class Zombie {
     })
 
     if (
+      // Уничтожаем, если хп < 0 или позиция меньше X начала экрана
       this.health <= 0 ||
       this.htmlElement.getBoundingClientRect().x <=
         document.querySelector('.main__wrapper').getBoundingClientRect().x -
@@ -140,7 +196,8 @@ class Zombie {
       return
     }
 
-    if (lawnMower.htmlElement === null) return
+    if (!lawnMower.htmlElement) return
+
     if (
       this.htmlElement.getBoundingClientRect().x <=
         lawnMower.htmlElement.getBoundingClientRect().x +
@@ -162,18 +219,25 @@ class Zombie {
   }
 
   checkCollision(plantsArray) {
-    let result = false
+    let isCollision = false
+
+    // Центр по X
     const centerPositionOfZombie =
       this.htmlElement.getBoundingClientRect().x +
       this.htmlElement.getBoundingClientRect().width / 2
+
     plantsArray.forEach(plant => {
-      if (plant.htmlElement === null) return
+      if (!plant.htmlElement) return
+
+      // Левая сторона растения по X
       const leftSideOfPlant = plant.htmlElement.getBoundingClientRect().x
+      // Правая сторона растения по X
       const rightSideOfPlant =
         plant.htmlElement.getBoundingClientRect().x +
         plant.htmlElement.getBoundingClientRect().width
+
+      // Если попали в этот диапазон, то едим растение
       if (centerPositionOfZombie >= leftSideOfPlant && centerPositionOfZombie <= rightSideOfPlant) {
-        result = true
         if (this.isReadyToActive) {
           this.eat(plant)
           this.isReadyToActive = false
@@ -188,10 +252,11 @@ class Zombie {
             )
           )
         }
+        isCollision = true
       }
     })
 
-    return result
+    return isCollision
   }
 
   update(lane) {

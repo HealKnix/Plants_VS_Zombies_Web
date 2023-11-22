@@ -1,0 +1,25 @@
+.coinbank {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: absolute;
+  left: 7.5%;
+  bottom: -6vh;
+  width: 25vh;
+  height: 6vh;
+  transition: 0.25s ease-in-out;
+  background-image: url("/src/images/ui/coinbank.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.coinbank__value {
+  position: absolute;
+  color: #dcff6f;
+  margin-top: 1.1vh;
+  margin-right: 1.4vh;
+
+  font-family: Cornerita;
+  font-size: 3vh;
+}
