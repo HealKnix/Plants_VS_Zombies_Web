@@ -359,16 +359,16 @@ main {
   bottom: 0;
 }
 
-.zombie_spawner>.zombie>.cone_hat {
+.zombie_spawner>.zombie>.hat {
   position: absolute;
   top: -6.5vh;
 }
 
-.zombie_spawner>.zombie>.cone_hat.armor_broken {
-  animation: conehatFall 1s ease-in-out both;
+.zombie_spawner>.zombie>.hat.armor_broken {
+  animation: hatFall 1s ease-in-out both;
 }
 
-@keyframes conehatFall {
+@keyframes hatFall {
   0% {
     top: -6.5vh;
     left: 0;
@@ -391,12 +391,9 @@ main {
   top: 30%;
   left: 75%;
   transform: translate3d(-85%, -30%, 0);
-  background-image: url('src/images/plants/peashooter_bullet.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border-radius: 50%;
-  outline: calc(1vh / 6) solid #333;
   will-change: auto;
 
   z-index: 99999;

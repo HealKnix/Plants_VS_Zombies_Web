@@ -2,12 +2,14 @@ import { gameStatus } from '../../main'
 import { deltaTime } from '/main'
 
 import PeashooterImg from '../images/plants/peashooter.png'
+import SnowPeaImg from '../images/plants/snow_pea.png'
 import SunflowerImg from '../images/plants/sunflower.png'
 import CherryBombImg from '../images/plants/cherry_bomb.png'
 import WallNutImg from '../images/plants/wall_nut.png'
 import RepeaterImg from '../images/plants/repeater.png'
 
 import * as Plants from '../models/Plants'
+import RechargeTime from '../models/RechargeTime'
 
 import SelectSeedPacketSound from '../music/seed_packet_sound.mp3'
 
@@ -23,7 +25,7 @@ export class SeedPacket {
       plant: option.plant,
       image: option.image,
       cost: option.cost,
-      reloadTime: option.reloadTime,
+      rechargeTime: option.rechargeTime,
       id: option.id
     })
 
@@ -54,7 +56,7 @@ export class SeedPacket {
       }
       this.htmlElement.setAttribute(
         'style',
-        `--reloaded-height: ${(this.currentReloadTime / this.option.reloadTime) * 100}%`
+        `--reloaded-height: ${(this.currentReloadTime / this.option.rechargeTime) * 100}%`
       )
     }
   }
@@ -62,7 +64,7 @@ export class SeedPacket {
   createPlant(htmlElement) {
     gameStatus.suns.value -= this.option.cost
     this.isReloaded = true
-    this.currentReloadTime = this.option.reloadTime
+    this.currentReloadTime = this.option.rechargeTime
     this.htmlElement.classList.add('disabled')
     this.htmlElement.children[3].classList.add('show')
     return new this.option.plant(htmlElement, this.option.image)
@@ -74,35 +76,42 @@ export const seedPacketsList = [
     plant: Plants.Peashooter,
     image: PeashooterImg,
     cost: 100,
-    reloadTime: 8000,
+    rechargeTime: RechargeTime.fast,
     id: 0
   }),
   new SeedPacket({
     plant: Plants.Sunflower,
     image: SunflowerImg,
     cost: 50,
-    reloadTime: 7500,
+    rechargeTime: RechargeTime.fast,
     id: 1
   }),
   new SeedPacket({
     plant: Plants.CherryBomb,
     image: CherryBombImg,
     cost: 150,
-    reloadTime: 15000,
+    rechargeTime: RechargeTime.verySlow,
     id: 2
   }),
   new SeedPacket({
     plant: Plants.WallNut,
     image: WallNutImg,
     cost: 50,
-    reloadTime: 25000,
+    rechargeTime: RechargeTime.slow,
     id: 3
   }),
   new SeedPacket({
-    plant: Plants.Repeater,
-    image: RepeaterImg,
-    cost: 200,
-    reloadTime: 8000,
+    plant: Plants.SnowPea,
+    image: SnowPeaImg,
+    cost: 175,
+    rechargeTime: RechargeTime.fast,
     id: 4
   })
+  // new SeedPacket({
+  //   plant: Plants.Repeater,
+  //   image: RepeaterImg,
+  //   cost: 200,
+  //   rechargeTime: RechargeTime.fast,
+  //   id: 4
+  // }),
 ]

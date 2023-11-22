@@ -12,6 +12,7 @@ export class Sun {
   isFall = false
   htmlElement = null
   isClicked = false
+  allTimeouts = new Array()
   posX = 0
   posY = 0
 
@@ -46,9 +47,11 @@ export class Sun {
       this.isClicked = true
       this.isFall = false
 
-      setGameTimeout(() => {
-        this.destroy()
-      }, 500)
+      this.allTimeouts.push(
+        setGameTimeout(() => {
+          this.destroy()
+        }, 500)
+      )
     })
 
     document.querySelector('.main__wrapper').appendChild(this.htmlElement)
@@ -57,6 +60,9 @@ export class Sun {
   destroy() {
     this.htmlElement.parentElement.removeChild(this.htmlElement)
     this.htmlElement = null
+    this.allTimeouts.forEach(item => {
+      item.clear()
+    })
   }
 
   update() {

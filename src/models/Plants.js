@@ -20,7 +20,9 @@ class Plant {
   image = ''
   name = ''
   isReadyToActive = false
-  health = 100
+  health = 300
+  attackInterval = 1500
+  damage = 20
   allTimeouts = new Array()
 
   constructor(htmlElement, image) {
@@ -43,16 +45,20 @@ class Plant {
   }
 }
 
+import PeashooterBulletImg from '/src/images/plants/peashooter_bullet.png'
 export class Peashooter extends Plant {
   static name = 'Горохострел'
-  bulletDamage = 20
+
+  bulletImage = PeashooterBulletImg
 
   bulletSpeed = 50
 
   constructor(htmlElement, image) {
     super(htmlElement, image)
+
+    this.attackInterval = 1425
+
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
-    this.health = 120
 
     this.allTimeouts.push(
       setGameTimeout(() => {
@@ -61,16 +67,34 @@ export class Peashooter extends Plant {
     )
   }
 
-  shoot() {
-    if (this.isReadyToActive) {
-      this.htmlElement.innerHTML += /*html*/ `<div class="bullet" damage="${this.bulletDamage}" posX="0"></div>`
-      this.isReadyToActive = false
-      this.allTimeouts.push(
-        setGameTimeout(() => {
-          this.isReadyToActive = true
-        }, 1500)
-      )
+  createBullet() {
+    const newBulletHtml = document.createElement('div')
+    newBulletHtml.classList.add('bullet')
+    newBulletHtml.setAttribute('damage', this.damage)
+    newBulletHtml.setAttribute('posX', 0)
+    newBulletHtml.style.backgroundImage = `url(${this.bulletImage})`
+
+    if (this.effectName) {
+      newBulletHtml.setAttribute('effect', this.effectName)
     }
+
+    this.htmlElement.appendChild(newBulletHtml)
+  }
+
+  shoot() {
+    this.createBullet()
+
+    this.isReadyToActive = false
+
+    this.allTimeouts.push(
+      setGameTimeout(
+        () => {
+          this.isReadyToActive = true
+        },
+        this.attackInterval,
+        true
+      )
+    )
   }
 
   updateBullet() {
@@ -106,11 +130,31 @@ export class Peashooter extends Plant {
           zombie.htmlElement.getBoundingClientRect().width / 3
         const plantPosX = this.htmlElement.getBoundingClientRect().x
         return centerOfZombie > plantPosX
-      })
+      }) &&
+      this.isReadyToActive
     ) {
       this.shoot()
     }
     this.updateBullet()
+  }
+}
+
+import SnowPeaBulletImg from '/src/images/plants/snow_pea_bullet.png'
+import SnowPeaSparklesSound from '/src/music/snow_pea_sparkles.mp3'
+export class SnowPea extends Peashooter {
+  static name = 'Морозный горох'
+  bulletImage = SnowPeaBulletImg
+  effectName = 'freeze'
+  sparklesSound = new Audio(SnowPeaSparklesSound)
+
+  constructor(htmlElement, image) {
+    super(htmlElement, image)
+    this.sparklesSound.volume = 0.25
+  }
+
+  shoot() {
+    super.shoot()
+    this.sparklesSound.play()
   }
 }
 
@@ -120,8 +164,10 @@ export class Sunflower extends Plant {
 
   constructor(htmlElement, image) {
     super(htmlElement, image)
+
+    this.attackInterval = 24250
+
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
-    this.health = 120
 
     this.allTimeouts.push(
       setGameTimeout(() => {
@@ -176,7 +222,7 @@ export class Sunflower extends Plant {
       this.allTimeouts.push(
         setGameTimeout(() => {
           this.isReadyToActive = true
-        }, 24000)
+        }, this.attackInterval)
       )
     }
   }
@@ -187,13 +233,15 @@ export class CherryBomb extends Plant {
 
   constructor(htmlElement, image) {
     super(htmlElement, image)
+    this.health = Infinity
+
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
     this.htmlElement.style.transition = `1s ease-in-out`
     this.htmlElement.style.scale = '1'
-    this.health = 100
     this.isExplode = true
 
-    this.explodeDamage = 1800
+    this.damage = 1800
+    this.attackInterval = 1200
 
     this.cherryExplodeSound = new Audio(CherryExplodeSound)
     this.cherryExplodeSound.volume = 0.5
@@ -208,6 +256,9 @@ export class CherryBomb extends Plant {
       setGameTimeout(() => {
         this.bombHtml.parentElement.removeChild(this.bombHtml)
         this.bombHtml = null
+        this.allTimeouts.forEach(item => {
+          item.clear()
+        })
       }, 500)
     )
   }
@@ -264,7 +315,15 @@ export class CherryBomb extends Plant {
                 this.bombHtml.getBoundingClientRect().height / 2)
             const length = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2))
             if (length <= this.bombHtml.getBoundingClientRect().width / 2) {
-              zombie.health -= this.explodeDamage
+              zombie.htmlElement.style.filter = 'brightness(0)'
+              zombie.speedX = 0
+              setGameTimeout(
+                () => {
+                  zombie.health -= this.damage
+                },
+                1200,
+                true
+              )
             }
           })
         })
@@ -273,7 +332,7 @@ export class CherryBomb extends Plant {
         this.bombHtml.style.backgroundColor = 'rgb(0, 0, 0, 0.5)'
 
         this.destroy()
-      }, 1000)
+      }, this.attackInterval)
     )
   }
 
@@ -291,36 +350,43 @@ export class WallNut extends Plant {
   constructor(htmlElement, image) {
     super(htmlElement, image)
     this.htmlElement.style.backgroundImage = `url("${this.image}")`
-    this.health = 2120
+    this.health = 4000
   }
+
+  update() {}
 }
 
 export class Repeater extends Peashooter {
   static name = 'Повторитель'
+  bulletImage = PeashooterBulletImg
 
   currentNumberOfBullet = 1
 
   shoot() {
-    if (this.isReadyToActive) {
-      this.isReadyToActive = false
-      this.htmlElement.innerHTML += /*html*/ `
-        <div class="bullet" damage="${this.bulletDamage}" posX="0"></div>
-      `
-      if (this.currentNumberOfBullet >= 2) {
-        this.currentNumberOfBullet = 1
-        this.allTimeouts.push(
-          setGameTimeout(() => {
+    this.createBullet()
+    this.isReadyToActive = false
+    if (this.currentNumberOfBullet >= 2) {
+      this.currentNumberOfBullet = 1
+      this.allTimeouts.push(
+        setGameTimeout(
+          () => {
             this.isReadyToActive = true
-          }, 1000)
+          },
+          this.attackInterval,
+          true
         )
-      } else {
-        this.currentNumberOfBullet++
-        this.allTimeouts.push(
-          setGameTimeout(() => {
+      )
+    } else {
+      this.currentNumberOfBullet++
+      this.allTimeouts.push(
+        setGameTimeout(
+          () => {
             this.isReadyToActive = true
-          }, 200)
+          },
+          200,
+          true
         )
-      }
+      )
     }
   }
 }

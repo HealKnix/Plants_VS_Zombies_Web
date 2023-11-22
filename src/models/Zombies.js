@@ -17,13 +17,18 @@ class Zombie {
   hitSound = []
   isReadyToActive = true
   htmlElement = null
-  health = 200
-  damage = 20
-  speedX = 3
+  health = 181
+  damage = 100
+  maxSpeedX = 3
+  speedX = this.maxSpeedX
   eatDelay = 650
   posX = 0
   image = ''
+
   allTimeouts = new Array()
+
+  effectDuration = 0
+  isEffect = false
 
   constructor(htmlElement) {
     this.htmlElement = htmlElement
@@ -83,8 +88,41 @@ class Zombie {
               this.hitSound.splice(i, 1)
             })
           }
+
+          if (bullet.getAttribute('effect')) {
+            if (!this.isEffect) {
+              this.isEffect = true
+              if (bullet.getAttribute('effect') === 'freeze') {
+                this.htmlElementZombie.style.filter = 'hue-rotate(180deg)'
+                this.speedX = this.maxSpeedX / 2
+              }
+            }
+          }
+
+          this.effectDuration = 0
+
           this.health -= parseInt(bullet.getAttribute('damage'))
           bullet.parentElement.removeChild(bullet)
+
+          if (this.isEffect) {
+            this.htmlElementZombie.style.filter = 'brightness(1.15) hue-rotate(180deg)'
+          } else {
+            this.htmlElementZombie.style.filter = 'brightness(1.15)'
+          }
+
+          this.allTimeouts.push(
+            setGameTimeout(
+              () => {
+                this.htmlElementZombie.style.filter = this.htmlElementZombie.style.filter.replace(
+                  'brightness(1.15)',
+                  ''
+                )
+              },
+              100,
+              true
+            )
+          )
+
           isHit = true
           return
         }
@@ -141,9 +179,13 @@ class Zombie {
           this.isReadyToActive = false
 
           this.allTimeouts.push(
-            setGameTimeout(() => {
-              this.isReadyToActive = true
-            }, this.eatDelay)
+            setGameTimeout(
+              () => {
+                this.isReadyToActive = true
+              },
+              this.eatDelay,
+              true
+            )
           )
         }
       }
@@ -157,6 +199,14 @@ class Zombie {
     if (!this.checkCollision(lane.plantsArray)) {
       this.walk()
     }
+    if (this.isEffect) {
+      this.effectDuration += deltaTime * 1000
+      if (this.effectDuration >= 3000) {
+        this.htmlElementZombie.style.filter = 'none'
+        this.speedX = this.maxSpeedX
+        this.isEffect = false
+      }
+    }
     this.checkHit(lane.plantsArray, lane.lawnMower)
   }
 }
@@ -165,42 +215,49 @@ export class RegularZombie extends Zombie {
   constructor(htmlElement) {
     super(htmlElement)
     this.image = RegularZombieImg
-    this.health = 200
     this.htmlElementZombie.setAttribute('src', this.image)
     this.htmlElement.classList.add('zombie')
   }
 }
 
-import ComeHat from '/src/images/other/cone_hat_for_zombie.png'
+import ConeHat from '/src/images/other/cone_hat_for_zombie.png'
 export class ConeheadZombie extends Zombie {
   constructor(htmlElement) {
     super(htmlElement)
     this.image = RegularZombieImg
     this.imageUpdated = false
-    this.health = 400
+    this.health = 551
     this.htmlElementZombie.setAttribute('src', this.image)
     this.htmlElement.classList.add('zombie')
 
     this.htmlElementHat = document.createElement('img')
-    this.htmlElementHat.setAttribute('src', ComeHat)
+    this.htmlElementHat.setAttribute('src', ConeHat)
     this.htmlElementHat.setAttribute('width', '55%')
-    this.htmlElementHat.classList.add('cone_hat')
+    this.htmlElementHat.classList.add('hat')
 
     this.htmlElement.appendChild(this.htmlElementHat)
   }
 
   update(lane) {
     super.update(lane)
-    this.updateImage()
+    if (this.health > 0) {
+      this.updateImage()
+    }
   }
 
   updateImage() {
-    if (this.health <= 200 && !this.imageUpdated) {
+    if (this.health <= 181 && !this.imageUpdated) {
       this.htmlElementHat.classList.add('armor_broken')
       this.imageUpdated = true
-      setGameTimeout(() => {
-        this.htmlElementHat.parentElement.removeChild(this.htmlElementHat)
-      }, 1000)
+      this.allTimeouts.push(
+        setGameTimeout(
+          () => {
+            this.htmlElementHat.parentElement.removeChild(this.htmlElementHat)
+          },
+          1000,
+          true
+        )
+      )
     }
   }
 }
