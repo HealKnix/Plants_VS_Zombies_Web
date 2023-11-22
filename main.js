@@ -28,7 +28,7 @@ StartLevelText.start(startLevelDelay, music)
 export let sunsArray = new Array()
 
 export const gameStatus = {
-  suns: rel(5000, '', value => {
+  suns: rel(50, '', value => {
     document.querySelector('.count_of_suns').innerText = value
   }),
   shovelSelected: false,
