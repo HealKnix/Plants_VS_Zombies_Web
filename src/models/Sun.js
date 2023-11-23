@@ -24,9 +24,8 @@ export class Sun {
     this.htmlElement.setAttribute('style', `left: ${this.posX}%; top: ${this.posY}%`)
 
     this.htmlElement.addEventListener('click', () => {
-      gameStatus.suns.value += this.capacity
       const goal = document.querySelector('.seed_bar__suns_present__sun')
-      this.htmlElement.style.transition = '0.5s ease-in-out'
+      this.htmlElement.style.transition = '0.75s ease-in-out'
 
       this.htmlElement.style.left = `calc(${
         goal.getBoundingClientRect().x -
@@ -47,8 +46,9 @@ export class Sun {
 
       this.allTimeouts.push(
         setGameTimeout(() => {
+          gameStatus.suns.value += this.capacity
           this.destroy()
-        }, 500)
+        }, 750)
       )
     })
 

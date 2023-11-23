@@ -28,14 +28,16 @@ export class Jewel {
     this.htmlElement.classList.add('jewel')
     this.htmlElement.addEventListener('click', () => {
       this.pickupSound.play()
-      coinbank.value += this.value
+      coinbank.value += 0
 
       const goal = document.querySelector('.coinbank')
       this.htmlElement.style.transition = '0.75s ease-in-out'
 
       this.htmlElement.style.left = `${
-        goal.getBoundingClientRect().x -
-        document.querySelector('.main__wrapper').getBoundingClientRect().x
+        goal.getBoundingClientRect().x +
+        goal.getBoundingClientRect().width / 6 -
+        document.querySelector('.main__wrapper').getBoundingClientRect().x -
+        this.htmlElement.getBoundingClientRect().width / 2
       }px`
       this.htmlElement.style.top = 'calc(100% - 6vh)'
 
@@ -43,6 +45,7 @@ export class Jewel {
       this.htmlElement.style.pointerEvents = 'none'
 
       this.browserTimeout = setTimeout(() => {
+        coinbank.value += this.value
         this.destroy()
       }, 750)
     })
