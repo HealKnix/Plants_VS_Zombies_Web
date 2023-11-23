@@ -4,11 +4,12 @@ import MoneyBagImg from '/src/images/other/moneybag.png'
 import DiamondGif from '/src/images/other/diamond.gif'
 
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { coinbank } from '/src/store/gameStore'
+import { currentSaveData } from '/src/store/gameStore'
 import { soundFX } from '/src/assets/js/Music'
 
 export class Jewel {
   name = ''
+  dropSound = soundFX.object.sounds.moneyfalls
   pickupSound = soundFX.object.sounds.coinSound
   value = 0
   htmlElement = null
@@ -16,19 +17,25 @@ export class Jewel {
   browserTimeout = null
 
   destroy() {
-    this.htmlElement.parentElement.removeChild(this.htmlElement)
+    if (this.htmlElement) {
+      this.htmlElement.parentElement.removeChild(this.htmlElement)
+    }
     this.htmlElement = null
     this.gameTimeout.clear()
     clearTimeout(this.browserTimeout)
   }
 
+  playDropSound() {
+    this.dropSound.play()
+  }
+
   constructor(x, y) {
-    this.pickupSound.volume = 0.25
+    this.playDropSound()
     this.htmlElement = document.createElement('div')
     this.htmlElement.classList.add('jewel')
     this.htmlElement.addEventListener('click', () => {
       this.pickupSound.play()
-      coinbank.value += 0
+      currentSaveData.coinbank.value += 0
 
       const goal = document.querySelector('.coinbank')
       this.htmlElement.style.transition = '0.75s ease-in-out'
@@ -45,7 +52,7 @@ export class Jewel {
       this.htmlElement.style.pointerEvents = 'none'
 
       this.browserTimeout = setTimeout(() => {
-        coinbank.value += this.value
+        currentSaveData.coinbank.value += this.value
         this.destroy()
       }, 750)
     })
@@ -83,6 +90,11 @@ export class CoinGold extends Jewel {
 }
 
 export class Diamond extends Jewel {
+  playDropSound() {
+    this.dropSound = soundFX.object.sounds.diamond
+    this.dropSound.play()
+  }
+
   constructor(x, y) {
     super(x, y)
     this.htmlElement.classList.add('diamond')
@@ -102,7 +114,7 @@ export class MoneyBag extends Jewel {
   }
 }
 
-export function getRandomJewel(x, y) {
+export function dropRandomJewel(x, y) {
   const random = Math.random()
   let jewel = null
 

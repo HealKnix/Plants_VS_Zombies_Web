@@ -2,7 +2,8 @@ import { rel } from '/src/models/Relation'
 
 import { Howl, Howler } from 'howler'
 
-import Music from '/src/music/daytime_theme.mp3'
+import MusicMainTheme from '/src/music/main_theme.mp3'
+import MusicDayTimeTheme from '/src/music/daytime_theme.mp3'
 
 import SeedPacketSound from '/src/music/seed_packet_sound.mp3'
 import ShovelSound from '/src/music/shovel.mp3'
@@ -23,18 +24,29 @@ import HitSound1 from '/src/music/zombies_hit_1.mp3'
 import HitSound2 from '/src/music/zombies_hit_2.mp3'
 import ChompSound1 from '/src/music/zombie_chomp_1.mp3'
 import ChompSound2 from '/src/music/zombie_chomp_2.mp3'
+import Moneyfalls from '/src/music/moneyfalls.mp3'
+import Diamond from '/src/music/diamond.mp3'
+import Tap from '/src/music/tap.mp3'
 
+////////? Music ////////
 const musicSliderHtml = document.querySelector('#Music')
 
-export const music = rel(new Audio(Music), 'volume', value => {
+export const music = rel(new Audio(MusicMainTheme), 'volume', value => {
   musicSliderHtml.value = value
 })
 music.value = 0.25
+music.object.play()
+
+music.object.addEventListener('ended', () => {
+  music.object.play()
+})
 
 musicSliderHtml.addEventListener('change', () => {
   music.value = musicSliderHtml.value
 })
+//////////////////////////?END Music
 
+////////? SoundFX ////////
 const soundFXSliderHtml = document.querySelector('#SoundFX')
 
 export const soundFX = rel(
@@ -94,6 +106,15 @@ export const soundFX = rel(
       }),
       chompSound2: new Howl({
         src: [ChompSound2]
+      }),
+      moneyfalls: new Howl({
+        src: [Moneyfalls]
+      }),
+      diamond: new Howl({
+        src: [Diamond]
+      }),
+      tap: new Howl({
+        src: [Tap]
       })
     },
     volume: 0.185
@@ -111,3 +132,4 @@ soundFXSliderHtml.addEventListener('change', () => {
 })
 
 soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value
+//////////////////////////?END SoundFX

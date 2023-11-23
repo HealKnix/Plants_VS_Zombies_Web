@@ -3,7 +3,7 @@ import CoinSilverGif from '../images/other/coin_silver.gif'
 
 import { deltaTime } from '/main'
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { getRandomJewel } from './Jewels'
+import { dropRandomJewel } from './Jewels'
 import { soundFX } from '/src/assets/js/Music'
 
 const hitSounds = [soundFX.object.sounds.hitSound1, soundFX.object.sounds.hitSound2]
@@ -74,7 +74,7 @@ class Zombie {
   destroy() {
     const random = Math.random()
     if (random <= 0.25) {
-      getRandomJewel(this.getScreenPos().x, this.getScreenPos().y)
+      dropRandomJewel(this.getScreenPos().x, this.getScreenPos().y)
     }
 
     this.health = 0
@@ -193,7 +193,6 @@ class Zombie {
     ) {
       lawnMower.active = true
       if (lawnMower.isFirstActive) {
-        lawnMower.sound.volume = 0.25
         lawnMower.sound.play()
         lawnMower.isFirstActive = false
       }

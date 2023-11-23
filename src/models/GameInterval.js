@@ -35,3 +35,7 @@ export function setGameInterval(callback, ms) {
   gameIntervalsArray.array.push(newGameInterval)
   return newGameInterval
 }
+
+export function clearAllGameIntervals() {
+  gameIntervalsArray.array = new Array()
+}

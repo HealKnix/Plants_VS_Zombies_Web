@@ -16,6 +16,7 @@ export class SeedPacket {
   htmlElement = null
   isSelected = false
   isRecharged = false
+  defaultRecharge = this.isRecharged
   currentRechargedTime = 0
 
   constructor(option) {
@@ -27,6 +28,16 @@ export class SeedPacket {
       isRecharged: option.isRecharged,
       id: option.id
     })
+
+    this.defaultRecharge = this.option.isRecharged
+
+    this.createNewHtmlElement()
+  }
+
+  createNewHtmlElement() {
+    this.isSelected = false
+    this.isRecharged = this.defaultRecharge
+    this.currentRechargedTime = 0
 
     this.htmlElement = document.createElement('div')
     this.htmlElement.setAttribute('class', 'seed_bar__seeds__packet')
@@ -41,9 +52,7 @@ export class SeedPacket {
       <div class="seed_bar__seeds__packet__reloaded_wrapper"></div>
     `
 
-    document.querySelector('.seed_bar__seeds').appendChild(this.htmlElement)
-
-    if (option.isRecharged) {
+    if (this.option.isRecharged) {
       this.startRecharge()
     }
   }

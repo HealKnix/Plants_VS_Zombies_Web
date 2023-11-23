@@ -2,6 +2,7 @@
 @import 'src/assets/css/menu.css';
 @import 'src/assets/css/jewel.css';
 @import 'src/assets/css/coinbank.css';
+@import 'src/assets/css/selector_screen.css';
 @import 'src/assets/css/pause_menu.css';
 @import 'src/assets/css/ready_set_plant.css';
 @import 'src/assets/css/level_menu_button.css';
@@ -14,6 +15,10 @@
   margin: 0;
   padding: 0;
   outline: none;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,

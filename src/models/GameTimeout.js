@@ -41,3 +41,7 @@ export function setGameTimeout(callback, ms, clearAfterEnd = false) {
   gameTimeoutsArray.array.push(newGameTimeout)
   return newGameTimeout
 }
+
+export function clearAllGameTimeouts() {
+  gameTimeoutsArray.array = new Array()
+}

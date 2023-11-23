@@ -5,6 +5,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  filter: drop-shadow(0 0 1vh rgb(255, 232, 131)) drop-shadow(0 0 1vh rgb(253, 253, 253));
 }
 
 .coin_silver,

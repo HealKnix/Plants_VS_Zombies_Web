@@ -1,26 +1,21 @@
 import { Howler } from 'howler'
 
-import { setGameTimeout } from '/src/models/GameTimeout'
-import { gameStatus } from '/main'
+import { rel } from '/src/models/Relation'
+import { currentSaveData } from '/src/store/gameStore'
+
+import Menu from '/src/assets/js/Menu'
+import { setGameTimeout, clearAllGameTimeouts } from '/src/models/GameTimeout'
+import { clearAllGameIntervals } from '/src/models/GameInterval'
+import { gameStatus, startGame, resetGame, gameUpdateLogic } from '/main'
 import { music, soundFX } from '/src/assets/js/Music'
+import { isAllAnimationStylesDelete } from '/src/assets/js/StartLevelText'
+
+import MusicMainTheme from '/src/music/main_theme.mp3'
 
 const openMenuSound = soundFX.object.sounds.openMenuSound
 const buttonClickSound = soundFX.object.sounds.buttonClickSound
 
 const allAnimationsOnLevel = document.querySelectorAll('.animated')
-
-let isAllAnimationStylesDelete = false
-setGameTimeout(() => {
-  allAnimationsOnLevel.forEach(animation => {
-    animation.style.animation = 'none'
-  })
-  isAllAnimationStylesDelete = true
-  setGameTimeout(() => {
-    allAnimationsOnLevel.forEach(animation => {
-      animation.style.transition = 'none'
-    })
-  }, 500)
-}, 2000)
 
 function openPauseMenu() {
   if (gameStatus.isPaused.value || gameStatus.isMenu.value) return
@@ -89,9 +84,96 @@ function closeMenu() {
   if (gameStatus.isStart) music.object.play()
 }
 
-document.querySelector('.level_menu_button').onclick = openMenu
 document.querySelector('.pause_menu__button').onclick = closePauseMenu
 document.querySelector('.menu__button').onclick = closeMenu
+
+document.querySelector('#FullScreen').addEventListener('change', () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    document.documentElement.requestFullscreen()
+  }
+})
+
+document.querySelector('.button__main_menu').onclick = () => {
+  clearAllGameTimeouts()
+  clearAllGameIntervals()
+
+  resetGame()
+  gameStatus.isExit = true
+
+  music.object.src = MusicMainTheme
+
+  closePauseMenu()
+  closeMenu()
+
+  cancelAnimationFrame(gameUpdateLogic)
+
+  document.querySelector('.main__wrapper').removeChild(document.querySelector('.game'))
+
+  document.querySelector('.main__wrapper').innerHTML = /*html*/ `
+    <div class='selector_screen' id='selector_screen'>
+      <div class='selector_screen__center'></div>
+      <div class='selector_screen__left'>
+        <a class='achievements_pedestal' href='#achievement_section'></a>
+      </div>
+      <div class='selector_screen__right'>
+        <div class='selector_screen_button_adventure btn_press'></div>
+        <div class='selector_screen_button_minigames btn_press disabled'></div>
+        <div class='selector_screen_button_challenges btn_press disabled'></div>
+        <div class='selector_screen_button_survival btn_press disabled'></div>
+        <div class='selector_screen_options'></div>
+        <div class='selector_screen_help'></div>
+        <div class='selector_screen_quit'></div>
+        <div class='selector_screen__leaves'></div>
+      </div>
+      <div class="selector_screen_woodsign__wrapper">
+        <div class="selector_screen_woodsign_welcome">
+          <span class='selector_screen_woodsign_welcome__user-name'>${
+            currentSaveData.userName.value + '!'
+          }</span>
+        </div>
+        <div class="selector_screen_woodsign_user"></div>
+      </div>
+      <div id='achievement_section' class='selector_screen_achievement_section'>
+        <div class="selector_screen_achievement_top">
+          <a class="selector_screen_achievement_back" href='#selector_screen'></a>
+        </div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_tile"></div>
+        <div class="selector_screen_achievement_china"></div>
+      </div>
+    </div>
+  `
+
+  // Для всех ссылок делаем плавный скролл до якоря
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault()
+      document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' })
+    })
+  })
+
+  document.querySelector('.selector_screen_button_adventure').onclick = startGame
+}
 
 export default {
   openPauseMenu,
