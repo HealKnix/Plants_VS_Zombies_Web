@@ -52,9 +52,7 @@ export const soundFX = rel(
       shovelDiggingSound: new Howl({
         src: [ShovelDiggingSound]
       }),
-      openMenuSound: new Howl({
-        src: [OpenPauseMenuSound]
-      }),
+      openMenuSound: new Audio(OpenPauseMenuSound),
       buttonClickSound: new Howl({
         src: [ButtonClickSound]
       }),
@@ -108,5 +106,8 @@ export const soundFX = rel(
 )
 
 soundFXSliderHtml.addEventListener('change', () => {
+  soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value
   Howler.volume(soundFXSliderHtml.value)
 })
+
+soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value
