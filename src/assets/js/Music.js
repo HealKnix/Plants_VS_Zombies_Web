@@ -35,7 +35,13 @@ export const music = rel(new Audio(MusicMainTheme), 'volume', value => {
   musicSliderHtml.value = value
 })
 music.value = 0.25
-music.object.play()
+
+addEventListener('click', startMusicOnClick)
+
+function startMusicOnClick() {
+  music.object.play()
+  removeEventListener('click', startMusicOnClick)
+}
 
 music.object.addEventListener('ended', () => {
   music.object.play()
