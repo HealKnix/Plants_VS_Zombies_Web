@@ -1,4 +1,4 @@
-import { deltaTime, gameStatus } from '/main'
+import { gameStatus, deltaTime } from '/src/views/Game'
 import { soundFX } from '/src/assets/js/Music'
 
 import PeashooterImg from '../images/plants/peashooter.png'

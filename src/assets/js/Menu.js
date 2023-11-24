@@ -4,9 +4,11 @@ import { rel } from '/src/models/Relation'
 import { currentSaveData } from '/src/store/gameStore'
 
 import Menu from '/src/assets/js/Menu'
+import * as Game from '/src/views/Game'
+import { mainHTML } from '/main'
 import { setGameTimeout, clearAllGameTimeouts } from '/src/models/GameTimeout'
 import { clearAllGameIntervals } from '/src/models/GameInterval'
-import { gameStatus, startGame, resetGame, gameUpdateLogic } from '/main'
+import { gameStatus, render, resetGame, gameUpdateLogic } from '/src/views/Game'
 import { music, soundFX } from '/src/assets/js/Music'
 import { isAllAnimationStylesDelete } from '/src/assets/js/StartLevelText'
 
@@ -96,22 +98,7 @@ document.querySelector('#FullScreen').addEventListener('change', () => {
 })
 
 document.querySelector('.button__main_menu').onclick = () => {
-  clearAllGameTimeouts()
-  clearAllGameIntervals()
-
-  resetGame()
-  gameStatus.isExit = true
-
-  music.object.src = MusicMainTheme
-
-  closePauseMenu()
-  closeMenu()
-
-  cancelAnimationFrame(gameUpdateLogic)
-
-  document.querySelector('.main__wrapper').removeChild(document.querySelector('.game'))
-
-  document.querySelector('.main__wrapper').innerHTML = /*html*/ `
+  mainHTML.innerHTML = /*html*/ `
     <div class='selector_screen' id='selector_screen'>
       <div class='selector_screen__center'></div>
       <div class='selector_screen__left'>
@@ -164,6 +151,17 @@ document.querySelector('.button__main_menu').onclick = () => {
     </div>
   `
 
+  clearAllGameTimeouts()
+  clearAllGameIntervals()
+
+  resetGame()
+  gameStatus.isExit = true
+
+  music.object.src = MusicMainTheme
+
+  closePauseMenu()
+  closeMenu()
+
   // Для всех ссылок делаем плавный скролл до якоря
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -172,7 +170,7 @@ document.querySelector('.button__main_menu').onclick = () => {
     })
   })
 
-  document.querySelector('.selector_screen_button_adventure').onclick = startGame
+  document.querySelector('.selector_screen_button_adventure').onclick = Game.render
 }
 
 export default {

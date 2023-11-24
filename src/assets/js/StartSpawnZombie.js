@@ -6,11 +6,11 @@ import { soundFX } from '/src/assets/js/Music'
 const zombiesArray = [Zombie.RegularZombie, Zombie.ConeheadZombie]
 const zombieStartSound = soundFX.object.sounds.zombieStartSound
 
-export default (startDelay, map) => {
+export default (startDelay, levelMap) => {
   setGameTimeout(() => {
     // Для спавна зомби на уровне
     setGameInterval(() => {
-      const randomLane = Math.floor(Math.random() * map.length)
+      const randomLane = Math.floor(Math.random() * levelMap.length)
 
       const newElement = document.createElement('div')
       const newZombie = new zombiesArray[Math.floor(Math.random() * 2)](newElement)
@@ -18,7 +18,7 @@ export default (startDelay, map) => {
       let zombieSpawners = document.querySelectorAll('.zombie_spawner')
       zombieSpawners[randomLane].appendChild(newElement)
 
-      map[randomLane].zombiesArray.push(newZombie)
+      levelMap[randomLane].zombiesArray.push(newZombie)
     }, 11500)
     // Для проигрывания звука перед началом атаки Зомби
     setGameTimeout(() => {

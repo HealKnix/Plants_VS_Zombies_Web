@@ -1,5 +1,5 @@
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { gameStatus } from '/main'
+import { gameStatus } from '/src/views/Game'
 import { soundFX } from '/src/assets/js/Music'
 import MusicDayTimeTheme from '/src/music/daytime_theme.mp3'
 

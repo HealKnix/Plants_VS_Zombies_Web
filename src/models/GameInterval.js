@@ -1,4 +1,4 @@
-import { deltaTime } from '/main'
+import { deltaTime } from '/src/views/Game'
 
 export class GameInterval {
   constructor(option) {

@@ -1,7 +1,7 @@
 import RegularZombieImg from '../images/zombies/regular_zombie.png'
 import CoinSilverGif from '../images/other/coin_silver.gif'
 
-import { deltaTime } from '/main'
+import { deltaTime } from '/src/views/Game'
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { dropRandomJewel } from './Jewels'
 import { soundFX } from '/src/assets/js/Music'

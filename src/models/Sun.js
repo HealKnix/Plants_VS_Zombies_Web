@@ -1,5 +1,5 @@
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { deltaTime, gameStatus } from '/main'
+import { gameStatus, deltaTime } from '/src/views/Game'
 import { soundFX } from '/src/assets/js/Music'
 
 export class Sun {

@@ -1,7 +1,7 @@
 import { setGameInterval } from '/src/models/GameInterval'
 import { setGameTimeout } from '/src/models/GameTimeout'
 import { Sun } from '/src/models/Sun'
-import { sunsArray } from '/main'
+import { gameStatus } from '/src/views/Game'
 
 export default startDelay => {
   setGameTimeout(() => {
@@ -16,7 +16,7 @@ export default startDelay => {
       newSun.goalY = Math.floor(Math.random() * 70 + 20)
       newSun.isFall = true
 
-      sunsArray.push(newSun)
+      gameStatus.sunsArray.push(newSun)
     }, 5000)
   }, startDelay + 2000)
 }

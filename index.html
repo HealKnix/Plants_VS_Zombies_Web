@@ -11,62 +11,58 @@
 </head>
 
 <body oncontextmenu="return false;">
+	<div class="menu__wrapper">
+		<div class="menu">
+			<div class="menu__title">
+				<label for="Music">
+					<span>Music</span>
+					<input type="range" min="0" max="0.75" step="0.001" value="0.25" id="Music" />
+				</label>
+				<br />
+				<label for="SoundFX">
+					<span>Sound FX</span>
+					<input type="range" min="0" max="0.75" step="0.001" id="SoundFX" />
+				</label>
+				<br />
+				<label for="3DAcceleration">
+					<span>3D Acceleration</span>
+					<input type="checkbox" id="3DAcceleration" />
+				</label>
+				<br />
+				<label for="FullScreen">
+					<span>Full Screen</span>
+					<input type="checkbox" id="FullScreen" />
+				</label>
+				<br />
+				<div class="menu__title__buttons__wrapper">
+					<button class="menu__title__button button__restart_level">
+						<span>Restart Level</span>
+					</button>
+					<br />
+					<button class="menu__title__button button__main_menu">
+						<span>Main Menu</span>
+					</button>
+				</div>
+			</div>
+			<button class="menu__button">
+				<span>Back To Game</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="pause_menu__wrapper">
+		<div class="pause_menu">
+			<div class="pause_menu__title">
+				<p class="pause_menu__title_text">GAME PAUSED</p>
+				<img src="/src/images/zombies/newspaper_zombie.png" width="25%" />
+				<p class="pause_menu__title_help">Click to resume game</p>
+			</div>
+			<div class="pause_menu__button__shadow"></div>
+			<button class="pause_menu__button">RESUME GAME</button>
+		</div>
+	</div>
+	
 	<main>
-		<div class="ready_set_plant">
-			<span class="ready_set_plant__text">Ready...</span>
-		</div>
-
-		<div class="menu__wrapper">
-			<div class="menu">
-				<div class="menu__title">
-					<label for="Music">
-						<span>Music</span>
-						<input type="range" min="0" max="0.75" step="0.001" value="0.25" id="Music" />
-					</label>
-					<br />
-					<label for="SoundFX">
-						<span>Sound FX</span>
-						<input type="range" min="0" max="0.75" step="0.001" id="SoundFX" />
-					</label>
-					<br />
-					<label for="3DAcceleration">
-						<span>3D Acceleration</span>
-						<input type="checkbox" id="3DAcceleration" />
-					</label>
-					<br />
-					<label for="FullScreen">
-						<span>Full Screen</span>
-						<input type="checkbox" id="FullScreen" />
-					</label>
-					<br />
-					<div class="menu__title__buttons__wrapper">
-						<button class="menu__title__button button__restart_level">
-							<span>Restart Level</span>
-						</button>
-						<br />
-						<button class="menu__title__button button__main_menu">
-							<span>Main Menu</span>
-						</button>
-					</div>
-				</div>
-				<button class="menu__button">
-					<span>Back To Game</span>
-				</button>
-			</div>
-		</div>
-
-		<div class="pause_menu__wrapper">
-			<div class="pause_menu">
-				<div class="pause_menu__title">
-					<p class="pause_menu__title_text">GAME PAUSED</p>
-					<img src="/src/images/zombies/newspaper_zombie.png" width="25%" />
-					<p class="pause_menu__title_help">Click to resume game</p>
-				</div>
-				<div class="pause_menu__button__shadow"></div>
-				<button class="pause_menu__button">RESUME GAME</button>
-			</div>
-		</div>
-
 		<div class="main__wrapper animated">
 			<div class='selector_screen' id='selector_screen'>
 				<div class='selector_screen__center'></div>
@@ -116,9 +112,7 @@
 					<div class="selector_screen_achievement_china"></div>
 				</div>
 			</div>
-			<div class='game'></div>
 	</main>
-
 
 	<audio id="music_level" loop>
 		<source src="/src/music/main_theme.mp3" type="audio/mpeg" />

@@ -1,7 +1,7 @@
 import { Sun } from '/src/models/Sun'
 
 import { setGameTimeout } from '/src/models/GameTimeout'
-import { map, deltaTime, sunsArray } from '/main'
+import { gameStatus, deltaTime } from '/src/views/Game'
 
 import { soundFX } from '/src/assets/js/Music'
 
@@ -197,7 +197,7 @@ export class Sunflower extends Plant {
 
       this.allTimeouts.push(
         setGameTimeout(() => {
-          sunsArray.push(new Sun(newElement, posX, posY, this.sunCharge))
+          gameStatus.sunsArray.push(new Sun(newElement, posX, posY, this.sunCharge))
         }, 1000)
       )
 
@@ -291,7 +291,7 @@ export class CherryBomb extends Plant {
 
     this.allTimeouts.push(
       setGameTimeout(() => {
-        map.forEach(lane => {
+        levelMap.forEach(lane => {
           lane.zombiesArray.forEach(zombie => {
             const distanceX =
               zombie.htmlElement.getBoundingClientRect().x +
