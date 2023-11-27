@@ -18,7 +18,7 @@ class Zombie {
 
   health = 181 // Здоровье
   damage = 100 // Урон
-  maxSpeedX = 3 // Макс скорость передвижения
+  maxSpeedX = 2 // Макс скорость передвижения
   speedX = this.maxSpeedX // Текущая скорость передвижения
 
   eatDelay = 650 // Задержка между укусами
@@ -61,16 +61,6 @@ class Zombie {
           document.querySelector('.main__wrapper').getBoundingClientRect().height) *
         100
     }
-  }
-
-  dropCoin() {
-    const newCoinHtml = document.createElement('img')
-    newCoinHtml.classList.add('coin')
-    newCoinHtml.setAttribute('src', CoinSilverGif)
-    newCoinHtml.style.left = `${this.getScreenPos().x}%`
-    newCoinHtml.style.top = `${this.getScreenPos().y}%`
-
-    document.querySelector('.main__wrapper').appendChild(newCoinHtml)
   }
 
   destroy() {
