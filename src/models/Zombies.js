@@ -73,7 +73,7 @@ class Zombie {
 
   destroy() {
     const random = Math.random()
-    if (random <= 0.25) {
+    if (random <= 0.1) {
       dropRandomJewel(this.getScreenPos().x, this.getScreenPos().y)
     }
 
