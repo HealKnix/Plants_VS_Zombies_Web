@@ -31,6 +31,8 @@ class Zombie {
   effectDuration = 0 // Продолжительность эффекта
   isEffect = false // Есть ли эффект
 
+  chanceOfFalloutJewel = 0.1 // Шанс выпадения монет
+
   constructor(htmlElement) {
     this.htmlElement = htmlElement
     this.htmlElementZombie = document.createElement('img')
@@ -73,7 +75,7 @@ class Zombie {
 
   destroy() {
     const random = Math.random()
-    if (random <= 0.1) {
+    if (random <= this.chanceOfFalloutJewel) {
       dropRandomJewel(this.getScreenPos().x, this.getScreenPos().y)
     }
 
