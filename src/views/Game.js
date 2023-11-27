@@ -1,6 +1,10 @@
 import { seedPacketsList } from '/src/models/SeedPacket'
-import { setGameTimeout, gameTimeoutsArray } from '/src/models/GameTimeout'
-import { setGameInterval, gameIntervalsArray } from '/src/models/GameInterval'
+import { setGameTimeout, gameTimeoutsArray, clearAllGameTimeouts } from '/src/models/GameTimeout'
+import {
+  setGameInterval,
+  gameIntervalsArray,
+  clearAllGameIntervals
+} from '/src/models/GameInterval'
 import { currentSaveData } from '/src/store/gameStore'
 import { rel } from '/src/models/Relation'
 import { music, soundFX } from '/src/assets/js/Music'
@@ -11,6 +15,7 @@ import * as StartLevelText from '/src/assets/js/StartLevelText'
 import StartSpawnZombie from '/src/assets/js/StartSpawnZombie'
 import StartSpawnSun from '/src/assets/js/StartSpawnSun'
 import Menu from '/src/assets/js/Menu'
+import { currentRoute } from '/src/router/routes'
 
 const seedPacketSound = soundFX.object.sounds.seedPacketSound
 const shovelSound = soundFX.object.sounds.shovelSound
@@ -20,6 +25,8 @@ export let startLevelDelay = 1000
 export let gameUpdateLogic = null
 
 export let deltaTime = 0
+
+let gameLogic = () => {}
 
 const mouse = {
   x: 0,
@@ -63,8 +70,14 @@ export function resetGame() {
   gameStatus.levelMap = []
   gameStatus.sunsArray = []
 
+  clearAllGameTimeouts()
+  clearAllGameIntervals()
+
+  Howler.mute(false)
+  music.object.play()
+
   deltaTime = 0
-  gameUpdateLogic = null
+  cancelAnimationFrame(gameLogic)
 }
 
 function timeoutsAndIntervalsUpdate() {
@@ -84,6 +97,8 @@ function timeoutsAndIntervalsUpdate() {
 }
 
 export function render() {
+  currentRoute.value = 'ADVENTURE'
+
   mainHTML.innerHTML = /*html*/ `
     <div class="ready_set_plant">
 			<span class="ready_set_plant__text">Ready...</span>
@@ -201,7 +216,7 @@ export function render() {
   ]
 
   let index = 0
-  gameStatus.levelMap.forEach(lane => {
+  gameStatus.levelMap.forEach(() => {
     document.querySelector('.floor').innerHTML += /*html*/ `
       <div class="floor__row" id="${index}">
         <div class="lawn_mower animated"></div>
@@ -477,7 +492,7 @@ export function render() {
 
   let preventTime = Date.now()
   // Игровая логика
-  function gameLogic() {
+  gameLogic = () => {
     deltaTime = (Date.now() - preventTime) / 1000
     if (!gameStatus.isPaused.value && !gameStatus.isMenu.value) {
       timeoutsAndIntervalsUpdate()
@@ -528,10 +543,9 @@ export function render() {
 
     if (!gameStatus.isExit) {
       requestAnimationFrame(gameLogic)
-    } else {
-      cancelAnimationFrame(gameLogic)
     }
   }
+
   // Обновление игровой логики
   gameUpdateLogic = requestAnimationFrame(gameLogic)
 

@@ -291,7 +291,7 @@ export class CherryBomb extends Plant {
 
     this.allTimeouts.push(
       setGameTimeout(() => {
-        levelMap.forEach(lane => {
+        gameStatus.levelMap.forEach(lane => {
           lane.zombiesArray.forEach(zombie => {
             const distanceX =
               zombie.htmlElement.getBoundingClientRect().x +

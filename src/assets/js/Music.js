@@ -29,32 +29,22 @@ import Diamond from '/src/music/diamond.mp3'
 import Tap from '/src/music/tap.mp3'
 
 ////////? Music ////////
-const musicSliderHtml = document.querySelector('#Music')
-
-export const music = rel(new Audio(MusicMainTheme), 'volume', value => {
-  musicSliderHtml.value = value
-})
-music.value = 0.25
-
-addEventListener('click', startMusicOnClick)
+export const music = rel(new Audio(MusicMainTheme), 'volume', value => {})
+music.object.volume = 0.25
 
 function startMusicOnClick() {
   music.object.play()
   removeEventListener('click', startMusicOnClick)
 }
 
+addEventListener('click', startMusicOnClick)
+
 music.object.addEventListener('ended', () => {
   music.object.play()
-})
-
-musicSliderHtml.addEventListener('change', () => {
-  music.value = musicSliderHtml.value
 })
 //////////////////////////?END Music
 
 ////////? SoundFX ////////
-const soundFXSliderHtml = document.querySelector('#SoundFX')
-
 export const soundFX = rel(
   {
     sounds: {
@@ -128,14 +118,6 @@ export const soundFX = rel(
   'volume',
   value => {
     Howler.volume(value)
-    soundFXSliderHtml.value = value
   }
 )
-
-soundFXSliderHtml.addEventListener('change', () => {
-  soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value
-  Howler.volume(soundFXSliderHtml.value)
-})
-
-soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value
 //////////////////////////?END SoundFX

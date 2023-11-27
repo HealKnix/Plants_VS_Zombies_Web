@@ -1,8 +1,10 @@
 export const mainHTML = document.querySelector('.main__wrapper')
 
+import route from '/src/router/routes'
 import * as Game from '/src/views/Game'
-
 import Menu from '/src/assets/js/Menu'
+
+// import Menu from '/src/assets/js/Menu'
 
 // Для всех ссылок делаем плавный скролл до якоря
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -11,6 +13,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' })
   })
 })
+
+route.toSelectorScreen()
 
 document.querySelector('.selector_screen_button_adventure').onclick = Game.render
 

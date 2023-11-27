@@ -6,10 +6,10 @@ import MusicDayTimeTheme from '/src/music/daytime_theme.mp3'
 export const readySetPlantSound = soundFX.object.sounds.readySetPlantSound
 export let isAllAnimationStylesDelete = false
 
-export function start(startLevelDelay, musicLevel) {
+export function start(startLevelDelay, music) {
   isAllAnimationStylesDelete = false
-  musicLevel.object.pause()
-  musicLevel.object.src = MusicDayTimeTheme
+  music.object.pause()
+  music.object.src = MusicDayTimeTheme
 
   setGameTimeout(() => {
     readySetPlantSound.play()
@@ -32,7 +32,7 @@ export function start(startLevelDelay, musicLevel) {
           startText.style.display = 'none'
           startWrapperText.style.display = 'none'
 
-          musicLevel.object.play()
+          music.object.play()
           gameStatus.isStart = true
 
           // Показываем игровой интерфейс
