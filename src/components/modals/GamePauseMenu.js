@@ -1,4 +1,6 @@
 import Menu from '/src/assets/js/Menu'
+import { music, soundFX } from '/src/assets/js/Music'
+import { musicSliderHtmlValue, soundFXSliderHtmlValue } from '/src/components/modals/GameMenu'
 
 export function open() {
   document.querySelector('Modal').innerHTML = /*html*/ `
@@ -14,6 +16,10 @@ export function open() {
       </div>
     </div>
   `
+
+  music.value = musicSliderHtmlValue
+  soundFX.value = soundFXSliderHtmlValue
+  soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtmlValue
 
   document.querySelector('.pause_menu__button').onclick = Menu.closePauseMenu
 }

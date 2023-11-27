@@ -15,6 +15,24 @@ export class Sun {
   posX = 0
   posY = 0
 
+  createNewSun() {
+    if (this.htmlElement.classList.contains('sun_from_sunflower')) return
+
+    setGameTimeout(() => {
+      const newElement = document.createElement('div')
+      newElement.classList.add('sun_from_level', 'sun')
+
+      const randomX = Math.floor(Math.random() * 68 + 12)
+
+      const newSun = new Sun(newElement, randomX, 18, 25)
+
+      newSun.goalY = Math.floor(Math.random() * 70 + 20)
+      newSun.isFall = true
+
+      gameStatus.sunsArray.push(newSun)
+    }, 5000)
+  }
+
   constructor(htmlElement, x, y, capacity) {
     this.htmlElement = htmlElement
     this.posX = x
@@ -56,6 +74,7 @@ export class Sun {
   }
 
   destroy() {
+    this.createNewSun()
     this.htmlElement.parentElement.removeChild(this.htmlElement)
     this.htmlElement = null
     this.allTimeouts.forEach(item => {

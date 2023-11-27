@@ -5,7 +5,7 @@ import { gameStatus } from '/src/views/Game'
 
 export default startDelay => {
   setGameTimeout(() => {
-    setGameInterval(() => {
+    setGameTimeout(() => {
       const newElement = document.createElement('div')
       newElement.classList.add('sun_from_level', 'sun')
 

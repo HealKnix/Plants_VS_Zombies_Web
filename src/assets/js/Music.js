@@ -34,13 +34,14 @@ music.object.volume = 0.25
 
 function startMusicOnClick() {
   music.object.play()
-  removeEventListener('click', startMusicOnClick)
+  removeEventListener('active', startMusicOnClick)
 }
 
-addEventListener('click', startMusicOnClick)
+addEventListener('active', startMusicOnClick)
 
 music.object.addEventListener('ended', () => {
   music.object.play()
+  console.log('dawadwdaw')
 })
 //////////////////////////?END Music
 
