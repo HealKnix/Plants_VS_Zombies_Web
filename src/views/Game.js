@@ -357,17 +357,17 @@ export function render() {
 
       if (seedPacket.isRecharged) {
         packet.children[2].innerHTML = /*html*/ `
-        <span style="font-size: 1.5vh; color: red">перезарядка...</span>
-        <span>${seedPacket.option.plant.name}</span>
-      `;
+          <span style="font-size: 1.5vh; color: red">recharging...</span>
+          <span>${seedPacket.option.plant.name}</span>
+        `;
         return;
       }
 
       if (gameStatus.suns.value < seedPacket.option.cost) {
         packet.children[2].innerHTML = /*html*/ `
-        <span style="font-size: 1.5vh; color: red">недостаточно солнышек</span>
-        <span>${seedPacket.option.plant.name}</span>
-      `;
+          <span style="font-size: 1.5vh; color: red">not enough sun</span>
+          <span>${seedPacket.option.plant.name}</span>
+        `;
       } else {
         packet.children[2].innerText = seedPacket.option.plant.name;
       }
@@ -520,12 +520,14 @@ export function render() {
         lane.zombiesArray.forEach(zombie => {
           zombie.update(lane);
         });
+
         if (lane.zombiesArray.some(zombie => zombie.health === 0))
           lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0);
         if (lane.plantsArray.some(plant => plant.health === 0))
           lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0);
 
         if (lane.lawnMower.htmlElement === null) return;
+
         if (lane.lawnMower.active) {
           lane.lawnMower.posX += 25 * deltaTime;
           lane.lawnMower.htmlElement.style.left = `${lane.lawnMower.posX}vh`;
@@ -557,5 +559,5 @@ export function render() {
   // Для спавна солнышек на уровне
   StartSpawnSun(startLevelDelay);
 
-  dropAward(60, 70, awards.sunflowerSeed);
+  dropAward(70, 70, awards.sunflowerSeed);
 }
