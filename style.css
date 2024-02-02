@@ -6,6 +6,7 @@
 @import 'src/assets/css/pause_menu.css';
 @import 'src/assets/css/ready_set_plant.css';
 @import 'src/assets/css/level_menu_button.css';
+@import 'src/assets/css/award_screen.css';
 
 :root {
   --offset-x: 0px;
@@ -200,15 +201,19 @@ body {
   top: 91%;
   background: linear-gradient(to top, #f4f7cc, #e1d79f);
   transform: translate3d(-50%, -50%, 0);
-  box-shadow: 0.3vh 0.4vh 0.5vh #53270f, 0 0 0.5vh #3d1d0b;
+  box-shadow:
+    0.3vh 0.4vh 0.5vh #53270f,
+    0 0 0.5vh #3d1d0b;
 }
 
-.seed_bar__suns__sticker>.count_of_suns {
+.seed_bar__suns__sticker > .count_of_suns {
   font-family: Cornerita;
   margin-top: 0.6vh;
   margin-left: 0.5vh;
   font-size: 3.5vh;
-  text-shadow: 0 0 1px black, 0 0 1px black;
+  text-shadow:
+    0 0 1px black,
+    0 0 1px black;
 }
 
 .seed_bar__suns_present {
@@ -219,7 +224,9 @@ body {
   border-radius: 50%;
   background: linear-gradient(-35deg, #98381b, #4d1c08, #6f3215);
   border: 0.5vh solid #98441b;
-  box-shadow: 0.3vh 0.4vh 0.5vh #53270f, 0 0 0.5vh #53270f81;
+  box-shadow:
+    0.3vh 0.4vh 0.5vh #53270f,
+    0 0 0.5vh #53270f81;
   overflow: hidden;
 }
 
@@ -312,10 +319,14 @@ main {
 }
 
 .floor__ceil:has(.plant) {
-  background: radial-gradient(circle closest-side at 53% 70%, rgba(0, 60, 9, 0.75) 2vh, transparent 80%);
+  background: radial-gradient(
+    circle closest-side at 53% 70%,
+    rgba(0, 60, 9, 0.75) 2vh,
+    transparent 80%
+  );
 }
 
-.floor__ceil>.plant {
+.floor__ceil > .plant {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -351,7 +362,7 @@ main {
   background-color: red;
 }
 
-.zombie_spawner>.zombie {
+.zombie_spawner > .zombie {
   pointer-events: none;
   position: absolute;
   will-change: auto;
@@ -360,19 +371,19 @@ main {
   z-index: 9999;
 }
 
-.zombie_spawner>.zombie>.zombie_img {
+.zombie_spawner > .zombie > .zombie_img {
   pointer-events: none;
   position: absolute;
   will-change: auto;
   bottom: 0;
 }
 
-.zombie_spawner>.zombie>.hat {
+.zombie_spawner > .zombie > .hat {
   position: absolute;
   top: -6.5vh;
 }
 
-.zombie_spawner>.zombie>.hat.armor_broken {
+.zombie_spawner > .zombie > .hat.armor_broken {
   animation: hatFall 1s ease-in-out both;
 }
 

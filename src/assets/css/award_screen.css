@@ -1,0 +1,124 @@
+.award_screen__wrapper {
+  width: 100%;
+  height: 100%;
+  background-image: url('../../images/ui/award_screen_back.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100.1% 100.1%;
+}
+
+.award_screen_bg {
+  pointer-events: all;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transition: 2s linear;
+  z-index: 10000;
+}
+
+.award_screen__title {
+  position: absolute;
+  left: 38vh;
+  top: 5vh;
+  color: #d29f2e;
+  font-size: 7.5vh;
+  font-family: DwarvenStonecraft;
+  text-shadow: 0 0 5px #000000;
+}
+
+.award_screen__image {
+  pointer-events: none;
+  transform: translate3d(0, 30vh, 0);
+  z-index: 9999;
+}
+
+.award_screen__name {
+  position: absolute;
+  width: 50vh;
+  left: 47vh;
+  top: 51.5vh;
+  text-align: center;
+  color: #d29f2e;
+  font-size: 4vh;
+  font-family: DwarvenStonecraft;
+  text-shadow: 0 0 5px #00000088;
+}
+
+.award_screen__description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 30vh;
+  height: 17vh;
+  left: 58vh;
+  top: 59vh;
+  text-align: center;
+  color: #32315b;
+  font-size: 3vh;
+  font-family: BrianneTod;
+  filter: blur(0.65px);
+}
+
+.award_screen__next_level_bth {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  width: 22vh;
+  height: 6vh;
+  left: 61vh;
+  top: 84vh;
+  background-image: url('../../images/ui/next_level_button.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  text-align: center;
+  color: #d29f2e;
+  font-size: 3.8vh;
+  font-family: DwarvenStonecraft;
+  text-shadow: 0 0 5px #00000088;
+}
+
+.award_screen__next_level_bth:hover {
+  text-shadow: 0 0 25px #ffeabe;
+}
+
+.award_bg {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  scale: 4;
+  background-color: white;
+  border-radius: 50%;
+  filter: blur(1vh);
+  transition: 8s linear;
+  z-index: 1;
+}
+
+.award_bg_blur {
+  position: absolute;
+  pointer-events: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 0vh;
+  height: 0vh;
+  transition: 8s linear;
+  background-color: white;
+  border-radius: 50%;
+  filter: blur(15vh);
+  z-index: 10001;
+}
+
+.award__wrapper {
+  scale: 5;
+  background-color: white;
+  z-index: 10001;
+}

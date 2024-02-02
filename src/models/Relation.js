@@ -1,43 +1,43 @@
 class Relation {
   constructor(objTarget, propName, callback) {
     if (propName === '') {
-      callback(objTarget)
+      callback(objTarget);
       return new Proxy(
         {
-          value: objTarget
+          value: objTarget,
         },
         {
           set(target, prop, value) {
             if (prop) {
-              target[prop] = value
-              callback(value)
-              return true
+              target[prop] = value;
+              callback(value);
+              return true;
             }
-          }
-        }
-      )
+          },
+        },
+      );
     } else {
-      callback(objTarget[propName])
+      callback(objTarget[propName]);
       return new Proxy(
         {
           object: objTarget,
-          value: objTarget[propName]
+          value: objTarget[propName],
         },
         {
           set(target, prop, value) {
             if (prop) {
-              target[prop] = value
-              objTarget[propName] = value
-              callback(value)
-              return true
+              target[prop] = value;
+              objTarget[propName] = value;
+              callback(value);
+              return true;
             }
-          }
-        }
-      )
+          },
+        },
+      );
     }
   }
 }
 
 export function rel(objTarget, propName, callback) {
-  return new Relation(objTarget, propName, callback)
+  return new Relation(objTarget, propName, callback);
 }

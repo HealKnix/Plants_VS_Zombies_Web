@@ -22,3 +22,8 @@
   font-family: Cornerita;
   src: url('Cornerita.ttf');
 }
+
+@font-face {
+  font-family: DwarvenStonecraft;
+  src: url('Dwarven_Stonecraft.ttf');
+}

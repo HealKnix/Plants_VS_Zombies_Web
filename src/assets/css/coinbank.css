@@ -8,7 +8,7 @@
   width: 25vh;
   height: 6vh;
   transition: 0.25s ease-in-out;
-  background-image: url("/src/images/ui/coinbank.png");
+  background-image: url('/src/images/ui/coinbank.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

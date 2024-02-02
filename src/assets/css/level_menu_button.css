@@ -19,11 +19,11 @@
   transform: translate3d(0, 0, 0);
 }
 
-.level_menu_button:hover>span {
+.level_menu_button:hover > span {
   color: #00e400;
 }
 
-.level_menu_button>span {
+.level_menu_button > span {
   width: 100%;
   position: absolute;
   left: 0;

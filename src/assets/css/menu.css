@@ -38,18 +38,18 @@
   -webkit-text-stroke: 0.2vh black;
 }
 
-.menu__title>label {
+.menu__title > label {
   display: flex;
   justify-content: right;
   align-items: center;
   height: 0.6vh;
 }
 
-.menu__title>label>span {
+.menu__title > label > span {
   margin-right: 2vh;
 }
 
-input[type="range"] {
+input[type='range'] {
   appearance: none;
   -webkit-appearance: none !important;
   background: linear-gradient(to top, #212229, #121216);
@@ -71,7 +71,7 @@ input[type='range']::-webkit-slider-thumb {
   background-size: contain;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none !important;
@@ -83,7 +83,7 @@ input[type="checkbox"] {
   background-size: contain;
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none !important;
@@ -111,7 +111,7 @@ input[type="checkbox"]:checked {
   background-size: contain;
 }
 
-.menu__title__button>span {
+.menu__title__button > span {
   display: block;
   margin-top: -1vh;
 
@@ -139,7 +139,7 @@ input[type="checkbox"]:checked {
   background-size: contain;
 }
 
-.menu__button>span {
+.menu__button > span {
   display: block;
   margin-top: -2vh;
 
@@ -149,8 +149,8 @@ input[type="checkbox"]:checked {
   color: #00c600;
 }
 
-.menu__button>span:hover,
-.menu__title__button>span:hover {
+.menu__button > span:hover,
+.menu__title__button > span:hover {
   color: #00e400;
 }
 

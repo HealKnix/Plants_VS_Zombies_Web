@@ -10,7 +10,7 @@
   z-index: 9999;
 }
 
-.ready_set_plant>span {
+.ready_set_plant > span {
   opacity: 0;
   color: red;
   font-size: 15vh;

@@ -1,15 +1,15 @@
-import * as Game from '/src/views/Game'
-import Menu from '/src/assets/js/Menu'
-import { currentSaveData } from '/src/store/gameStore'
-import { mainHTML } from '/main'
-import { clearAllGameTimeouts } from '/src/models/GameTimeout'
-import { clearAllGameIntervals } from '/src/models/GameInterval'
-import { music, soundFX } from '/src/assets/js/Music'
-import MusicMainTheme from '/src/music/main_theme.mp3'
-import { currentRoute } from '/src/router/routes'
+import * as Game from '/src/views/Game';
+import Menu from '/src/assets/js/Menu';
+import { currentSaveData } from '/src/store/gameStore';
+import { mainHTML } from '/main';
+import { clearAllGameTimeouts } from '/src/models/GameTimeout';
+import { clearAllGameIntervals } from '/src/models/GameInterval';
+import { music, soundFX } from '/src/assets/js/Music';
+import MusicMainTheme from '/src/music/main_theme.mp3';
+import { currentRoute } from '/src/router/routes';
 
 export function render() {
-  currentRoute.value = 'SELECTOR_SCREEN'
+  currentRoute.value = 'SELECTOR_SCREEN';
 
   let html = /*html*/ `
     <div class='selector_screen' id='selector_screen'>
@@ -39,38 +39,38 @@ export function render() {
         <div class="selector_screen_achievement_top">
           <a class="selector_screen_achievement_back tap" href='#selector_screen'></a>
         </div>
-  `
+  `;
   for (let i = 0; i < 40; i++) {
     html += /*html*/ `
         <div class="selector_screen_achievement_tile"></div>
-    `
+    `;
   }
   html += /*html*/ `
         <div class="selector_screen_achievement_china"></div>
       </div>
     </div>
-  `
+  `;
 
-  mainHTML.innerHTML = html
+  mainHTML.innerHTML = html;
 
   document.querySelectorAll('.tap').forEach(element => {
     element.onclick = () => {
-      soundFX.object.sounds.tap.play()
-    }
-  })
+      soundFX.object.sounds.tap.play();
+    };
+  });
 
   document.querySelector('.selector_screen_options').onclick = () => {
-    soundFX.object.sounds.tap.play()
-    Menu.openMenu()
-  }
+    soundFX.object.sounds.tap.play();
+    Menu.openMenu();
+  };
 
-  clearAllGameTimeouts()
-  clearAllGameIntervals()
+  clearAllGameTimeouts();
+  clearAllGameIntervals();
 
-  Game.resetGame()
+  Game.resetGame();
 
-  music.object.src = MusicMainTheme
-  music.object.play()
+  music.object.src = MusicMainTheme;
+  music.object.play();
 
   // Menu.closePauseMenu()
   // Menu.closeMenu()
@@ -78,10 +78,10 @@ export function render() {
   // Для всех ссылок делаем плавный скролл до якоря
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      e.preventDefault()
-      document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' })
-    })
-  })
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 
-  document.querySelector('.selector_screen_button_adventure').onclick = Game.render
+  document.querySelector('.selector_screen_button_adventure').onclick = Game.render;
 }

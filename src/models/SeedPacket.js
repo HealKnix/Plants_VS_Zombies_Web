@@ -1,23 +1,23 @@
-import { gameStatus, deltaTime } from '/src/views/Game'
-import { soundFX } from '/src/assets/js/Music'
+import { gameStatus, deltaTime } from '/src/views/Game';
+import { soundFX } from '/src/assets/js/Music';
 
-import PeashooterImg from '../images/plants/peashooter.png'
-import SnowPeaImg from '../images/plants/snow_pea.png'
-import SunflowerImg from '../images/plants/sunflower.png'
-import CherryBombImg from '../images/plants/cherry_bomb.png'
-import WallNutImg from '../images/plants/wall_nut.png'
-import RepeaterImg from '../images/plants/repeater.png'
+import PeashooterImg from '../images/plants/peashooter.png';
+import SnowPeaImg from '../images/plants/snow_pea.png';
+import SunflowerImg from '../images/plants/sunflower.png';
+import CherryBombImg from '../images/plants/cherry_bomb.png';
+import WallNutImg from '../images/plants/wall_nut.png';
+import RepeaterImg from '../images/plants/repeater.png';
 
-import * as Plants from '../models/Plants'
-import RechargeTime from '../models/RechargeTime'
+import * as Plants from '../models/Plants';
+import RechargeTime from '../models/RechargeTime';
 
 export class SeedPacket {
-  selectSound = soundFX.object.sounds.selectSound
-  htmlElement = null
-  isSelected = false
-  isRecharged = false
-  defaultRecharge = this.isRecharged
-  currentRechargedTime = 0
+  selectSound = soundFX.object.sounds.selectSound;
+  htmlElement = null;
+  isSelected = false;
+  isRecharged = false;
+  defaultRecharge = this.isRecharged;
+  currentRechargedTime = 0;
 
   constructor(option) {
     this.option = Object.assign(option, {
@@ -26,64 +26,78 @@ export class SeedPacket {
       cost: option.cost,
       rechargeTime: option.rechargeTime,
       isRecharged: option.isRecharged,
-      id: option.id
-    })
+      id: option.id,
+    });
 
-    this.defaultRecharge = this.option.isRecharged
+    this.defaultRecharge = this.option.isRecharged;
 
-    this.createNewHtmlElement()
+    this.createNewHtmlElement();
   }
 
   createNewHtmlElement() {
-    this.isSelected = false
-    this.isRecharged = this.defaultRecharge
-    this.currentRechargedTime = 0
+    this.isSelected = false;
+    this.isRecharged = this.defaultRecharge;
+    this.currentRechargedTime = 0;
 
-    this.htmlElement = document.createElement('div')
-    this.htmlElement.setAttribute('class', 'seed_bar__seeds__packet')
-    this.htmlElement.setAttribute('style', '--reloaded-height: 100%')
-    this.htmlElement.setAttribute('id', `${this.option.id}`)
+    this.htmlElement = document.createElement('div');
+    this.htmlElement.setAttribute('class', 'seed_bar__seeds__packet');
+    this.htmlElement.setAttribute('style', '--reloaded-height: 100%');
+    this.htmlElement.setAttribute('id', `${this.option.id}`);
     this.htmlElement.innerHTML = /*html*/ `
       <div
         class="seed_bar__seeds__packet__image"
-        style='background-image: url(${this.option.image})'></div>
+        style="background-image: url(${this.option.image})"></div>
       <div class="seed_bar__seeds__packet__cost">${this.option.cost}</div>
       <div class="seed_bar__seeds__packet__info">${this.option.plant.name}</div>
       <div class="seed_bar__seeds__packet__reloaded_wrapper"></div>
-    `
+    `;
 
     if (this.option.isRecharged) {
-      this.startRecharge()
+      this.startRecharge();
     }
+  }
+
+  getSeedElement() {
+    return /*html*/ `
+      <div class="award_bg_blur"></div>
+      <div class="seed_bar__seeds__packet award" style="scale: 3; z-index: 10000">
+        <div
+          class="seed_bar__seeds__packet__image"
+          style="background-image: url(${this.option.image}); background-size: 3vh; background-position: center 1.5vh"></div>
+        <div class="seed_bar__seeds__packet__cost" style="transform: translate3d(-0.25vh, 0, 0); scale: 0.7">${this.option.cost}</div>
+        <div class="seed_bar__seeds__packet__info">${this.option.plant.name}</div>
+      </div>
+      <div class="award_bg"></div>
+    `;
   }
 
   updateReload() {
     if (this.isRecharged) {
-      this.currentRechargedTime -= deltaTime * 1000
+      this.currentRechargedTime -= deltaTime * 1000;
       if (this.currentRechargedTime <= 0) {
-        this.htmlElement.children[2].innerText = this.option.plant.name
-        this.isRecharged = false
-        this.currentRechargedTime = 0
-        this.htmlElement.children[3].classList.remove('show')
+        this.htmlElement.children[2].innerText = this.option.plant.name;
+        this.isRecharged = false;
+        this.currentRechargedTime = 0;
+        this.htmlElement.children[3].classList.remove('show');
       }
       this.htmlElement.setAttribute(
         'style',
-        `--reloaded-height: ${(this.currentRechargedTime / this.option.rechargeTime) * 100}%`
-      )
+        `--reloaded-height: ${(this.currentRechargedTime / this.option.rechargeTime) * 100}%`,
+      );
     }
   }
 
   startRecharge() {
-    this.isRecharged = true
-    this.currentRechargedTime = this.option.rechargeTime
-    this.htmlElement.classList.add('disabled')
-    this.htmlElement.children[3].classList.add('show')
+    this.isRecharged = true;
+    this.currentRechargedTime = this.option.rechargeTime;
+    this.htmlElement.classList.add('disabled');
+    this.htmlElement.children[3].classList.add('show');
   }
 
   createPlant(htmlElement) {
-    gameStatus.suns.value -= this.option.cost
-    this.startRecharge()
-    return new this.option.plant(htmlElement, this.option.image)
+    gameStatus.suns.value -= this.option.cost;
+    this.startRecharge();
+    return new this.option.plant(htmlElement, this.option.image);
   }
 }
 
@@ -94,7 +108,7 @@ export const seedPacketsList = [
     cost: 100,
     rechargeTime: RechargeTime.fast,
     isRecharged: false,
-    id: 0
+    id: 0,
   }),
   new SeedPacket({
     plant: Plants.Sunflower,
@@ -102,7 +116,7 @@ export const seedPacketsList = [
     cost: 50,
     rechargeTime: RechargeTime.fast,
     isRecharged: false,
-    id: 1
+    id: 1,
   }),
   new SeedPacket({
     plant: Plants.CherryBomb,
@@ -110,7 +124,7 @@ export const seedPacketsList = [
     cost: 150,
     rechargeTime: RechargeTime.verySlow,
     isRecharged: true,
-    id: 2
+    id: 2,
   }),
   new SeedPacket({
     plant: Plants.WallNut,
@@ -118,7 +132,7 @@ export const seedPacketsList = [
     cost: 50,
     rechargeTime: RechargeTime.slow,
     isRecharged: true,
-    id: 3
+    id: 3,
   }),
   new SeedPacket({
     plant: Plants.SnowPea,
@@ -126,8 +140,8 @@ export const seedPacketsList = [
     cost: 175,
     rechargeTime: RechargeTime.fast,
     isRecharged: true,
-    id: 4
-  })
+    id: 4,
+  }),
   // new SeedPacket({
   //   plant: Plants.Repeater,
   //   image: RepeaterImg,
@@ -136,4 +150,4 @@ export const seedPacketsList = [
   // isRecharged: true,
   //   id: 4
   // }),
-]
+];

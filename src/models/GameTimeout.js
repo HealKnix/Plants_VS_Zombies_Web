@@ -1,47 +1,47 @@
-import { deltaTime } from '/src/views/Game'
+import { deltaTime } from '/src/views/Game';
 
 export class GameTimeout {
   constructor(option) {
-    this.durationTime = 0
-    this.clearAfterEnd = false
-    this.isComplete = false
+    this.durationTime = 0;
+    this.clearAfterEnd = false;
+    this.isComplete = false;
     this.option = Object.assign(option, {
       callback: option.callback,
-      goalTime: option.goalTime
-    })
+      goalTime: option.goalTime,
+    });
   }
 
   clear() {
-    this.option = null
-    this.isComplete = true
+    this.option = null;
+    this.isComplete = true;
   }
 
   method() {
-    if (this.isComplete || !this.option) return
-    this.durationTime += deltaTime * 1000
-    if (this.durationTime <= this.option.goalTime) return
-    this.option.callback()
-    this.isComplete = true
+    if (this.isComplete || !this.option) return;
+    this.durationTime += deltaTime * 1000;
+    if (this.durationTime <= this.option.goalTime) return;
+    this.option.callback();
+    this.isComplete = true;
     if (this.clearAfterEnd) {
-      this.clear()
+      this.clear();
     }
   }
 }
 
 export const gameTimeoutsArray = {
-  array: new Array()
-}
+  array: new Array(),
+};
 
 export function setGameTimeout(callback, ms, clearAfterEnd = false) {
   const newGameTimeout = new GameTimeout({
     callback: callback,
-    goalTime: ms
-  })
-  newGameTimeout.clearAfterEnd = clearAfterEnd
-  gameTimeoutsArray.array.push(newGameTimeout)
-  return newGameTimeout
+    goalTime: ms,
+  });
+  newGameTimeout.clearAfterEnd = clearAfterEnd;
+  gameTimeoutsArray.array.push(newGameTimeout);
+  return newGameTimeout;
 }
 
 export function clearAllGameTimeouts() {
-  gameTimeoutsArray.array = new Array()
+  gameTimeoutsArray.array = new Array();
 }

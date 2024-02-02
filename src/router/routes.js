@@ -1,21 +1,25 @@
-import * as SelectorScreen from '/src/views/SelectorScreen'
-import * as Game from '/src/views/Game'
+import * as SelectorScreen from '/src/views/SelectorScreen';
+import * as Game from '/src/views/Game';
+import * as AwardScreen from '/src/views/AwardScreen';
 
 export let currentRoute = {
-  value: ''
-}
+  value: '',
+};
 
 export default {
   toSelectorScreen: () => {
-    SelectorScreen.render()
+    SelectorScreen.render();
   },
   toAdventure: () => {
-    Game.render()
+    Game.render();
+  },
+  toAwardScreen: award => {
+    AwardScreen.render(award);
   },
   toMiniGame: false,
   toPuzzle: false,
   toSurvival: false,
   toAlmanac: false,
   toGarden: false,
-  toShop: false
-}
+  toShop: false,
+};

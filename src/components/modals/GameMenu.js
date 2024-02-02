@@ -1,17 +1,19 @@
-import route from '/src/router/routes'
-import { currentRoute } from '/src/router/routes'
-import Menu from '/src/assets/js/Menu'
-import { music, soundFX } from '/src/assets/js/Music'
+import route from '/src/router/routes';
+import { currentRoute } from '/src/router/routes';
+import Menu from '/src/assets/js/Menu';
+import { music, soundFX } from '/src/assets/js/Music';
 
-export let musicSliderHtml = null
-export let musicSliderHtmlValue = 0.25
+export let musicSliderHtml = null;
+export let musicSliderHtmlValue = 0.25;
 
-export let soundFXSliderHtml = null
-export let soundFXSliderHtmlValue = 0.25
+export let soundFXSliderHtml = null;
+export let soundFXSliderHtmlValue = 0.25;
 
-export let fullScreenCheckBoxHtml = null
+export let fullScreenCheckBoxHtml = null;
 
 export function open() {
+  if (currentRoute.value === 'AWARD_SCREEN') return;
+
   let html = /*html*/ `
     <div class="menu__wrapper">
       <div class="menu">
@@ -36,7 +38,7 @@ export function open() {
             <input type="checkbox" id="FullScreen" />
           </label>
           <br />
-  `
+  `;
   if (currentRoute.value === 'ADVENTURE') {
     html += /*html*/ `
           <div class="menu__title__buttons__wrapper">
@@ -53,7 +55,7 @@ export function open() {
           <span>Back To Game</span>
         </button>
       </div>
-    `
+    `;
   } else if (currentRoute.value === 'SELECTOR_SCREEN') {
     html += /*html*/ `
         </div>
@@ -61,52 +63,52 @@ export function open() {
           <span>Back</span>
         </button>
       </div>
-    `
+    `;
   }
   html += /*html*/ `
     </div>
-  `
+  `;
 
-  document.querySelector('Modal').innerHTML = html
+  document.querySelector('Modal').innerHTML = html;
 
   if (currentRoute.value === 'ADVENTURE') {
-    document.querySelector('.button__restart_level').onclick = route.toAdventure
-    document.querySelector('.button__main_menu').onclick = route.toSelectorScreen
+    document.querySelector('.button__restart_level').onclick = route.toAdventure;
+    document.querySelector('.button__main_menu').onclick = route.toSelectorScreen;
   }
 
-  document.querySelector('.button__back_to_game').onclick = Menu.closeMenu
+  document.querySelector('.button__back_to_game').onclick = Menu.closeMenu;
 
-  musicSliderHtml = document.querySelector('#Music')
-  soundFXSliderHtml = document.querySelector('#SoundFX')
-  fullScreenCheckBoxHtml = document.querySelector('#FullScreen')
+  musicSliderHtml = document.querySelector('#Music');
+  soundFXSliderHtml = document.querySelector('#SoundFX');
+  fullScreenCheckBoxHtml = document.querySelector('#FullScreen');
 
-  music.value = musicSliderHtmlValue
+  music.value = musicSliderHtmlValue;
   musicSliderHtml.addEventListener('input', e => {
-    music.value = musicSliderHtml.value
-  })
+    music.value = musicSliderHtml.value;
+  });
 
-  soundFX.value = soundFXSliderHtmlValue
-  soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtmlValue
+  soundFX.value = soundFXSliderHtmlValue;
+  soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtmlValue;
   soundFXSliderHtml.addEventListener('input', e => {
-    soundFX.value = soundFXSliderHtml.value
-    soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value
-    Howler.volume(soundFXSliderHtml.value)
-  })
+    soundFX.value = soundFXSliderHtml.value;
+    soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value;
+    Howler.volume(soundFXSliderHtml.value);
+  });
 
-  musicSliderHtml.value = music.value
-  soundFXSliderHtml.value = soundFX.value
+  musicSliderHtml.value = music.value;
+  soundFXSliderHtml.value = soundFX.value;
 
   fullScreenCheckBoxHtml.addEventListener('change', () => {
     if (document.fullscreenElement) {
-      document.exitFullscreen()
+      document.exitFullscreen();
     } else {
-      document.documentElement.requestFullscreen()
+      document.documentElement.requestFullscreen();
     }
-  })
+  });
 }
 
 export function close() {
-  document.querySelector('Modal').innerHTML = ''
-  musicSliderHtmlValue = music.value
-  soundFXSliderHtmlValue = soundFX.value
+  document.querySelector('Modal').innerHTML = '';
+  musicSliderHtmlValue = music.value;
+  soundFXSliderHtmlValue = soundFX.value;
 }

@@ -1,28 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/ico.png" />
+    <meta name="viewport" content="initial-scale=1.0" />
+    <title>Plants Vs Zombies</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/main.js" defer></script>
+  </head>
 
-<head>
-	<meta charset="UTF-8" />
-	<link rel="icon" type="image/svg+xml" href="/ico.png" />
-	<meta name="viewport" content="initial-scale=1.0" />
-	<title>Plants Vs Zombies</title>
-	<link rel="stylesheet" href="/style.css" />
-	<script type="module" src="/main.js" defer></script>
-</head>
+  <body oncontextmenu="return false;">
+    <ConfirmModal></ConfirmModal>
+    <Modal></Modal>
 
-<body oncontextmenu="return false;">
-	
-	<ConfirmModal></ConfirmModal>
-	<Modal></Modal>
-	
-	<main>
-		<div class="main__wrapper animated"></div>
-	</main>
+    <main>
+      <div class="main__wrapper animated"></div>
+    </main>
 
-	<audio id="music_level" loop>
-		<source src="/src/music/main_theme.mp3" type="audio/mpeg" />
-		Ваш браузер не поддерживает воспроизведение аудио.
-	</audio>
-</body>
-
+    <audio id="music_level" loop>
+      <source src="/src/music/main_theme.mp3" type="audio/mpeg" />
+      Ваш браузер не поддерживает воспроизведение аудио.
+    </audio>
+  </body>
 </html>

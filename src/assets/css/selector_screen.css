@@ -4,7 +4,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_bg.jpg");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_bg.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -17,7 +17,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_bg_center.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_bg_center.png');
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: 80%;
@@ -42,7 +42,7 @@
   bottom: 0;
   width: 110%;
   height: 110%;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_bg_left.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_bg_left.png');
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
@@ -66,7 +66,7 @@
   bottom: 7.75vh;
   width: 14%;
   height: 24%;
-  background-image: url("/src/images/ui/achievements_pedestal.png");
+  background-image: url('/src/images/ui/achievements_pedestal.png');
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
@@ -74,7 +74,7 @@
 }
 
 .achievements_pedestal:hover {
-  background-image: url("/src/images/ui/achievements_pedestal_press.png");
+  background-image: url('/src/images/ui/achievements_pedestal_press.png');
 }
 
 .selector_screen__right {
@@ -83,7 +83,7 @@
   bottom: 0;
   width: 95%;
   height: 95%;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_bg_right.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_bg_right.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size: contain;
@@ -130,7 +130,7 @@
   width: 42%;
   height: 27%;
   filter: drop-shadow(0.5vh 0.5vh 0.2vh rgba(0, 0, 0, 0.4));
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_start_adventure.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_start_adventure.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size: contain;
@@ -138,7 +138,7 @@
 }
 
 .selector_screen_button_adventure:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_start_adventure_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_start_adventure_highlight.png');
 }
 
 .selector_screen_button_minigames {
@@ -149,7 +149,7 @@
   width: 38%;
   height: 24%;
   filter: drop-shadow(0.5vh 0.5vh 0.2vh rgba(0, 0, 0, 0.4));
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_minigames.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_minigames.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size: contain;
@@ -157,7 +157,7 @@
 }
 
 .selector_screen_button_minigames:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_minigames_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_minigames_highlight.png');
 }
 
 .selector_screen_button_challenges {
@@ -168,7 +168,7 @@
   width: 35%;
   height: 24%;
   filter: drop-shadow(0.5vh 0.5vh 0.2vh rgba(0, 0, 0, 0.4));
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_challenges.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_challenges.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size: contain;
@@ -176,7 +176,7 @@
 }
 
 .selector_screen_button_challenges:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_challenges_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_challenges_highlight.png');
 }
 
 .selector_screen_button_survival {
@@ -187,7 +187,7 @@
   width: 33%;
   height: 24%;
   filter: drop-shadow(0.5vh 0.5vh 0.2vh rgba(0, 0, 0, 0.4));
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_survival.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_survival.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size: contain;
@@ -195,7 +195,7 @@
 }
 
 .selector_screen_button_survival:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_survival_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_survival_highlight.png');
 }
 
 .selector_screen__leaves {
@@ -205,7 +205,7 @@
   bottom: 0;
   width: 45vh;
   height: 11.5vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_leaves.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_leaves.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -218,14 +218,14 @@
   bottom: 13vh;
   width: 14vh;
   height: 6vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_options.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_options.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .selector_screen_options:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_options_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_options_highlight.png');
 }
 
 .selector_screen_help {
@@ -235,14 +235,14 @@
   bottom: 9vh;
   width: 9vh;
   height: 4vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_help.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_help.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .selector_screen_help:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_help_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_help_highlight.png');
 }
 
 .selector_screen_quit {
@@ -252,14 +252,14 @@
   bottom: 10vh;
   width: 8vh;
   height: 5vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_quit.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_quit.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .selector_screen_quit:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_quit_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_quit_highlight.png');
 }
 
 .selector_screen_woodsign__wrapper {
@@ -276,11 +276,11 @@
   top: 0;
   width: 100%;
   height: 22vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_woodsign_welcome.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_woodsign_welcome.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
-  animation: wd_welcome 1s cubic-bezier(.7, 1.6, 0, .82);
+  animation: wd_welcome 1s cubic-bezier(0.7, 1.6, 0, 0.82);
 }
 
 @keyframes wd_welcome {
@@ -313,11 +313,11 @@
   top: 20vh;
   width: 100%;
   height: 10vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_woodsign_change_user.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_woodsign_change_user.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
-  animation: wd_user 1s cubic-bezier(.7, 1.6, 0, .82);
+  animation: wd_user 1s cubic-bezier(0.7, 1.6, 0, 0.82);
 }
 
 @keyframes wd_user {
@@ -331,7 +331,7 @@
 }
 
 .selector_screen_woodsign_user:hover {
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_woodsign_change_user_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_woodsign_change_user_highlight.png');
 }
 
 .selector_screen_achievement_section {
@@ -351,7 +351,7 @@
 .selector_screen_achievement_top {
   width: 100%;
   height: 40.85%;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_achievements_bg.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_achievements_bg.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -365,7 +365,7 @@
   top: 10vh;
   left: 23vh;
   opacity: 0;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_achievements_back_highlight.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_achievements_back_highlight.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -379,7 +379,7 @@
   width: 100%;
   height: 40.8%;
   margin-top: -0.25vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_achievements_tile.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_achievements_tile.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -388,7 +388,7 @@
   width: 100%;
   height: 40.8%;
   margin-top: -5vh;
-  background-image: url("/src/images/ui/SelectorScreen/selector_screen_achievements_china_bg.png");
+  background-image: url('/src/images/ui/SelectorScreen/selector_screen_achievements_china_bg.png');
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: cover;
