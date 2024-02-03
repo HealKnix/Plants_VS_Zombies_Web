@@ -43,7 +43,7 @@ export class Sun {
 
     this.htmlElement.addEventListener('click', () => {
       const goal = document.querySelector('.seed_bar__suns_present__sun');
-      this.htmlElement.style.transition = '0.75s ease-in-out';
+      this.htmlElement.style.transition = '0.65s ease-in-out';
 
       this.htmlElement.style.left = `calc(${
         goal.getBoundingClientRect().x -
@@ -66,7 +66,7 @@ export class Sun {
         setGameTimeout(() => {
           gameStatus.suns.value += this.capacity;
           this.destroy();
-        }, 750),
+        }, 650),
       );
     });
 

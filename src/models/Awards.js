@@ -14,10 +14,15 @@ export class Award {
   gameTimeout = null;
   browserTimeout = null;
 
-  constructor(name, description, image) {
+  constructor(name, description, image, method) {
     this.name = name;
     this.description = description;
     this.image = image;
+    this.method = method;
+  }
+
+  callMethod() {
+    this.method();
   }
 
   destroy() {
@@ -115,16 +120,27 @@ export const awards = {
     seedPacketsList[1].option.plant.name,
     'Gives you additional sun',
     seedPacketsList[1].getSeedElement(),
+    () => {},
   ),
   cherryBombSeed: new Award(
     seedPacketsList[2].option.plant.name,
     'Blows up all zombies in an area',
     seedPacketsList[2].getSeedElement(),
+    () => {},
   ),
   wallNut: new Award(
     seedPacketsList[3].option.plant.name,
     'Blocks off zombies and protected your other plants',
     seedPacketsList[3].getSeedElement(),
+    () => {},
+  ),
+  snowPea: new Award(
+    seedPacketsList[4].option.plant.name,
+    'Shoots frozen peas that damage and slow the enemy',
+    seedPacketsList[4].getSeedElement(),
+    () => {
+      seedPacketsList[4].option.isAvailable = true;
+    },
   ),
 };
 

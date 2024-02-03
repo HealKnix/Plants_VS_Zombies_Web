@@ -27,6 +27,7 @@ export class SeedPacket {
       rechargeTime: option.rechargeTime,
       isRecharged: option.isRecharged,
       id: option.id,
+      isAvailable: option.isAvailable,
     });
 
     this.defaultRecharge = this.option.isRecharged;
@@ -109,6 +110,7 @@ export const seedPacketsList = [
     rechargeTime: RechargeTime.fast,
     isRecharged: false,
     id: 0,
+    isAvailable: true,
   }),
   new SeedPacket({
     plant: Plants.Sunflower,
@@ -117,6 +119,7 @@ export const seedPacketsList = [
     rechargeTime: RechargeTime.fast,
     isRecharged: false,
     id: 1,
+    isAvailable: true,
   }),
   new SeedPacket({
     plant: Plants.CherryBomb,
@@ -125,6 +128,7 @@ export const seedPacketsList = [
     rechargeTime: RechargeTime.verySlow,
     isRecharged: true,
     id: 2,
+    isAvailable: true,
   }),
   new SeedPacket({
     plant: Plants.WallNut,
@@ -133,6 +137,7 @@ export const seedPacketsList = [
     rechargeTime: RechargeTime.slow,
     isRecharged: true,
     id: 3,
+    isAvailable: true,
   }),
   new SeedPacket({
     plant: Plants.SnowPea,
@@ -141,6 +146,7 @@ export const seedPacketsList = [
     rechargeTime: RechargeTime.fast,
     isRecharged: true,
     id: 4,
+    isAvailable: false,
   }),
   // new SeedPacket({
   //   plant: Plants.Repeater,

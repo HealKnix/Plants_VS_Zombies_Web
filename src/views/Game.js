@@ -18,6 +18,7 @@ import StartSpawnSun from '/src/assets/js/StartSpawnSun';
 import Menu from '/src/assets/js/Menu';
 import { currentRoute } from '/src/router/routes';
 import { awards } from '../models/Awards';
+import { level } from '../assets/js/StartSpawnZombie';
 
 const seedPacketSound = soundFX.object.sounds.seedPacketSound;
 const shovelSound = soundFX.object.sounds.shovelSound;
@@ -59,6 +60,7 @@ export const gameStatus = {
       document.querySelector('.menu__wrapper').classList.remove('active');
     }
   }),
+  level: '1-1',
   levelMap: [],
   sunsArray: [],
 };
@@ -100,6 +102,8 @@ function timeoutsAndIntervalsUpdate() {
 
 export function render() {
   currentRoute.value = 'ADVENTURE';
+
+  const seedPacketsListFiltered = seedPacketsList.filter(item => item.option.isAvailable);
 
   mainHTML.innerHTML = /*html*/ `
     <div class="ready_set_plant">
@@ -237,7 +241,7 @@ export function render() {
     index++;
   });
 
-  seedPacketsList.forEach(packet => {
+  seedPacketsListFiltered.forEach(packet => {
     packet.createNewHtmlElement();
     document.querySelector('.seed_bar__seeds').appendChild(packet.htmlElement);
   });
@@ -271,7 +275,7 @@ export function render() {
   mainWrapperHtml.addEventListener('mousemove', e => {
     mouse.x = e.clientX - mainWrapperHtml.getBoundingClientRect().x;
     mouse.y = e.clientY - mainWrapperHtml.getBoundingClientRect().y;
-    if (seedPacketsList.some(packet => packet.isSelected) || shovelSelected.value) {
+    if (seedPacketsListFiltered.some(packet => packet.isSelected) || shovelSelected.value) {
       cursorSelectedHtml.style.left = `${
         mouse.x - cursorSelectedHtml.getBoundingClientRect().width / 2
       }px`;
@@ -335,7 +339,7 @@ export function render() {
   function clearSeedPackets() {
     let countIndex = 0;
 
-    seedPacketsList.forEach(packet => {
+    seedPacketsListFiltered.forEach(packet => {
       if (packet.isSelected) countIndex++;
     });
 
@@ -343,7 +347,7 @@ export function render() {
       seedPackets.forEach(packet => {
         packet.classList.remove('select');
       });
-      seedPacketsList.forEach(packet => {
+      seedPacketsListFiltered.forEach(packet => {
         packet.isSelected = false;
       });
     }
@@ -353,7 +357,7 @@ export function render() {
     packet.addEventListener('mouseenter', () => {
       packet.children[2].classList.add('show');
 
-      const seedPacket = seedPacketsList[parseInt(packet.getAttribute('id'))];
+      const seedPacket = seedPacketsListFiltered[parseInt(packet.getAttribute('id'))];
 
       if (seedPacket.isRecharged) {
         packet.children[2].innerHTML = /*html*/ `
@@ -381,7 +385,7 @@ export function render() {
       }
 
       if (packet.classList.contains('select')) {
-        seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = false;
+        seedPacketsListFiltered[parseInt(packet.getAttribute('id'))].isSelected = false;
         packet.classList.remove('select');
         clearCursor();
         return;
@@ -392,10 +396,11 @@ export function render() {
       clearSeedPackets();
 
       packet.classList.add('select');
-      seedPacketsList[parseInt(packet.getAttribute('id'))].isSelected = true;
+      seedPacketsListFiltered[parseInt(packet.getAttribute('id'))].isSelected = true;
 
       setCursor(
-        seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image,
+        seedPacketsListFiltered[seedPacketsListFiltered.findIndex(packet => packet.isSelected)]
+          .option.image,
       );
 
       seedPacketSound.play();
@@ -416,14 +421,15 @@ export function render() {
           ceil.classList.contains('planted') ||
           ceil.classList.contains('zombie_spawner') ||
           ceil.classList.contains('lawn_mower') ||
-          !seedPacketsList.some(packet => packet.isSelected)
+          !seedPacketsListFiltered.some(packet => packet.isSelected)
         ) {
           return;
         }
 
         if (ceil.children.length === 0) {
           ceil.style.backgroundImage = `url("${
-            seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].option.image
+            seedPacketsListFiltered[seedPacketsListFiltered.findIndex(packet => packet.isSelected)]
+              .option.image
           }")`;
           ceil.style.opacity = `0.5`;
         }
@@ -437,7 +443,7 @@ export function render() {
           ceil.classList.contains('planted') ||
           ceil.classList.contains('zombie_spawner') ||
           ceil.classList.contains('lawn_mower') ||
-          !seedPacketsList.some(packet => packet.isSelected)
+          !seedPacketsListFiltered.some(packet => packet.isSelected)
         )
           return;
 
@@ -468,7 +474,7 @@ export function render() {
           ceil.classList.contains('zombie_spawner') ||
           ceil.classList.contains('lawn_mower') ||
           ceil.children.length !== 0 ||
-          !seedPacketsList.some(packet => packet.isSelected)
+          !seedPacketsListFiltered.some(packet => packet.isSelected)
         ) {
           return;
         }
@@ -480,9 +486,9 @@ export function render() {
         ceil.appendChild(newElement);
 
         gameStatus.levelMap[parseInt(row.id)].plantsArray.push(
-          seedPacketsList[seedPacketsList.findIndex(packet => packet.isSelected)].createPlant(
-            newElement,
-          ),
+          seedPacketsListFiltered[
+            seedPacketsListFiltered.findIndex(packet => packet.isSelected)
+          ].createPlant(newElement),
         );
 
         clearCursor(ceil);
@@ -504,7 +510,7 @@ export function render() {
         sun.update();
       });
 
-      seedPacketsList.forEach(packet => {
+      seedPacketsListFiltered.forEach(packet => {
         packet.updateReload();
         if (gameStatus.suns.value < packet.option.cost) {
           seedPackets[packet.option.id].classList.add('disabled');
@@ -525,6 +531,23 @@ export function render() {
           lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0);
         if (lane.plantsArray.some(plant => plant.health === 0))
           lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0);
+
+        if (level) {
+          let countOfZombies = 0;
+
+          gameStatus.levelMap.forEach(lane => {
+            countOfZombies += lane.zombiesArray.length;
+          });
+
+          // Если это последний зомби, то добавляем к нему награду после смерти
+          if (level[gameStatus.level].zombies.count === 0 && countOfZombies === 1) {
+            gameStatus.levelMap.forEach(lane => {
+              if (lane.zombiesArray.length === 1) {
+                lane.zombiesArray[0].setAwardAfterDeath(awards.snowPea);
+              }
+            });
+          }
+        }
 
         if (lane.lawnMower.htmlElement === null) return;
 
@@ -554,10 +577,8 @@ export function render() {
   gameUpdateLogic = requestAnimationFrame(gameLogic);
 
   // Для начала волны Зомби
-  StartSpawnZombie(startLevelDelay, gameStatus.levelMap);
+  StartSpawnZombie(startLevelDelay, gameStatus.level, gameStatus.levelMap);
 
   // Для спавна солнышек на уровне
   StartSpawnSun(startLevelDelay);
-
-  dropAward(70, 70, awards.sunflowerSeed);
 }

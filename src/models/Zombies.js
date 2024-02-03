@@ -14,6 +14,7 @@ class Zombie {
   isReadyToActive = true; // Готовность что-либо сделать
 
   htmlElement = null;
+  droppedAward = null;
 
   health = 181; // Здоровье
   damage = 100; // Урон
@@ -38,6 +39,10 @@ class Zombie {
     this.htmlElementZombie.setAttribute('width', '85%');
     this.htmlElementZombie.classList.add('zombie_img');
     this.htmlElement.appendChild(this.htmlElementZombie);
+  }
+
+  setAwardAfterDeath(award) {
+    this.droppedAward = award;
   }
 
   getScreenPos() {
@@ -66,6 +71,10 @@ class Zombie {
     const random = Math.random();
     if (random <= this.chanceOfFalloutJewel) {
       dropRandomJewel(this.getScreenPos().x, this.getScreenPos().y);
+    }
+
+    if (this.droppedAward) {
+      dropAward(this.getScreenPos().x, this.getScreenPos().y, this.droppedAward);
     }
 
     this.health = 0;
@@ -261,6 +270,7 @@ export class RegularZombie extends Zombie {
 }
 
 import ConeHat from '/src/images/other/cone_hat_for_zombie.png';
+import { dropAward } from './Awards';
 export class ConeheadZombie extends Zombie {
   constructor(htmlElement) {
     super(htmlElement);

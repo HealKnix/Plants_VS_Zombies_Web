@@ -50,6 +50,8 @@ export function render(award) {
 
   Game.resetGame();
 
+  award.callMethod();
+
   document.querySelector('.award_screen__next_level_bth').onclick = () => {
     soundFX.object.sounds.tap.play();
     Howler.mute(true);
