@@ -241,6 +241,10 @@ export function render() {
     index++;
   });
 
+  gameStatus.levelMap.forEach((lane, index) => {
+    lane.lawnMower.htmlElement = document.querySelectorAll('.lawn_mower')[index];
+  });
+
   seedPacketsListFiltered.forEach(packet => {
     packet.createNewHtmlElement();
     document.querySelector('.seed_bar__seeds').appendChild(packet.htmlElement);
@@ -362,6 +366,7 @@ export function render() {
       if (seedPacket.isRecharged) {
         packet.children[2].innerHTML = /*html*/ `
           <span style="font-size: 1.5vh; color: red">recharging...</span>
+          <br>
           <span>${seedPacket.option.plant.name}</span>
         `;
         return;
@@ -370,6 +375,7 @@ export function render() {
       if (gameStatus.suns.value < seedPacket.option.cost) {
         packet.children[2].innerHTML = /*html*/ `
           <span style="font-size: 1.5vh; color: red">not enough sun</span>
+          <br>
           <span>${seedPacket.option.plant.name}</span>
         `;
       } else {

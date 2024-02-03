@@ -135,7 +135,7 @@ export const seedPacketsList = [
     image: WallNutImg,
     cost: 50,
     rechargeTime: RechargeTime.slow,
-    isRecharged: true,
+    isRecharged: false,
     id: 3,
     isAvailable: true,
   }),
