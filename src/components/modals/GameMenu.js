@@ -83,13 +83,13 @@ export function open() {
   fullScreenCheckBoxHtml = document.querySelector('#FullScreen');
 
   music.value = musicSliderHtmlValue;
-  musicSliderHtml.addEventListener('input', e => {
+  musicSliderHtml.addEventListener('input', (e) => {
     music.value = musicSliderHtml.value;
   });
 
   soundFX.value = soundFXSliderHtmlValue;
   soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtmlValue;
-  soundFXSliderHtml.addEventListener('input', e => {
+  soundFXSliderHtml.addEventListener('input', (e) => {
     soundFX.value = soundFXSliderHtml.value;
     soundFX.object.sounds.openMenuSound.volume = soundFXSliderHtml.value;
     Howler.volume(soundFXSliderHtml.value);

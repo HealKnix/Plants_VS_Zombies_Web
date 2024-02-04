@@ -37,14 +37,14 @@ const mouse = {
 };
 
 export const gameStatus = {
-  suns: rel(50, '', value => {
+  suns: rel(50, '', (value) => {
     if (!document.querySelector('.count_of_suns')) return;
     document.querySelector('.count_of_suns').innerText = value;
   }),
   shovelSelected: false,
   isExit: false,
   isStart: false,
-  isPaused: rel(false, '', value => {
+  isPaused: rel(false, '', (value) => {
     if (!document.querySelector('.pause_menu__wrapper')) return;
     if (value) {
       document.querySelector('.pause_menu__wrapper').classList.add('paused');
@@ -52,7 +52,7 @@ export const gameStatus = {
       document.querySelector('.pause_menu__wrapper').classList.remove('paused');
     }
   }),
-  isMenu: rel(false, '', value => {
+  isMenu: rel(false, '', (value) => {
     if (!document.querySelector('.menu__wrapper')) return;
     if (value) {
       document.querySelector('.menu__wrapper').classList.add('active');
@@ -85,17 +85,17 @@ export function resetGame() {
 }
 
 function timeoutsAndIntervalsUpdate() {
-  if (gameTimeoutsArray.array.some(item => item.option === null)) {
-    gameTimeoutsArray.array = gameTimeoutsArray.array.filter(item => item.option !== null);
+  if (gameTimeoutsArray.array.some((item) => item.option === null)) {
+    gameTimeoutsArray.array = gameTimeoutsArray.array.filter((item) => item.option !== null);
   }
-  if (gameIntervalsArray.array.some(item => item.option === null)) {
-    gameIntervalsArray.array = gameIntervalsArray.array.filter(item => item.option !== null);
+  if (gameIntervalsArray.array.some((item) => item.option === null)) {
+    gameIntervalsArray.array = gameIntervalsArray.array.filter((item) => item.option !== null);
   }
 
-  gameTimeoutsArray.array.forEach(item => {
+  gameTimeoutsArray.array.forEach((item) => {
     item.method();
   });
-  gameIntervalsArray.array.forEach(item => {
+  gameIntervalsArray.array.forEach((item) => {
     item.method();
   });
 }
@@ -103,7 +103,7 @@ function timeoutsAndIntervalsUpdate() {
 export function render() {
   currentRoute.value = 'ADVENTURE';
 
-  const seedPacketsListFiltered = seedPacketsList.filter(item => item.option.isAvailable);
+  const seedPacketsListFiltered = seedPacketsList.filter((item) => item.option.isAvailable);
 
   mainHTML.innerHTML = /*html*/ `
     <div class="ready_set_plant">
@@ -245,7 +245,7 @@ export function render() {
     lane.lawnMower.htmlElement = document.querySelectorAll('.lawn_mower')[index];
   });
 
-  seedPacketsListFiltered.forEach(packet => {
+  seedPacketsListFiltered.forEach((packet) => {
     packet.createNewHtmlElement();
     document.querySelector('.seed_bar__seeds').appendChild(packet.htmlElement);
   });
@@ -257,14 +257,14 @@ export function render() {
   let floor_row = document.querySelectorAll('.floor__row');
 
   const shovel = document.querySelector('.shovel');
-  const shovelSelected = rel(false, '', value => {
+  const shovelSelected = rel(false, '', (value) => {
     if (value) {
       shovel.classList.add('active');
     } else {
       shovel.classList.remove('active');
-      floor_row.forEach(row => {
+      floor_row.forEach((row) => {
         if (!gameStatus.levelMap[parseInt(row.id)].isActive) return;
-        [...row.children].forEach(ceil => {
+        [...row.children].forEach((ceil) => {
           if (ceil.classList.contains('planted')) {
             ceil.style.filter = 'brightness(1)';
           }
@@ -276,10 +276,10 @@ export function render() {
   const cursorSelectedHtml = document.querySelector('.cursor_selected');
 
   const mainWrapperHtml = document.querySelector('.main__wrapper');
-  mainWrapperHtml.addEventListener('mousemove', e => {
+  mainWrapperHtml.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX - mainWrapperHtml.getBoundingClientRect().x;
     mouse.y = e.clientY - mainWrapperHtml.getBoundingClientRect().y;
-    if (seedPacketsListFiltered.some(packet => packet.isSelected) || shovelSelected.value) {
+    if (seedPacketsListFiltered.some((packet) => packet.isSelected) || shovelSelected.value) {
       cursorSelectedHtml.style.left = `${
         mouse.x - cursorSelectedHtml.getBoundingClientRect().width / 2
       }px`;
@@ -289,7 +289,7 @@ export function render() {
     }
   });
 
-  document.addEventListener('mousedown', e => {
+  document.addEventListener('mousedown', (e) => {
     if (e.button === 2) {
       clearCursor(document.elementFromPoint(e.clientX, e.clientY));
     }
@@ -343,21 +343,21 @@ export function render() {
   function clearSeedPackets() {
     let countIndex = 0;
 
-    seedPacketsListFiltered.forEach(packet => {
+    seedPacketsListFiltered.forEach((packet) => {
       if (packet.isSelected) countIndex++;
     });
 
     if (countIndex > 0) {
-      seedPackets.forEach(packet => {
+      seedPackets.forEach((packet) => {
         packet.classList.remove('select');
       });
-      seedPacketsListFiltered.forEach(packet => {
+      seedPacketsListFiltered.forEach((packet) => {
         packet.isSelected = false;
       });
     }
   }
 
-  seedPackets.forEach(packet => {
+  seedPackets.forEach((packet) => {
     packet.addEventListener('mouseenter', () => {
       packet.children[2].classList.add('show');
 
@@ -385,7 +385,7 @@ export function render() {
     packet.addEventListener('mouseleave', () => {
       packet.children[2].classList.remove('show');
     });
-    packet.addEventListener('click', e => {
+    packet.addEventListener('click', (e) => {
       if (packet.classList.contains('disabled')) {
         return;
       }
@@ -405,7 +405,7 @@ export function render() {
       seedPacketsListFiltered[parseInt(packet.getAttribute('id'))].isSelected = true;
 
       setCursor(
-        seedPacketsListFiltered[seedPacketsListFiltered.findIndex(packet => packet.isSelected)]
+        seedPacketsListFiltered[seedPacketsListFiltered.findIndex((packet) => packet.isSelected)]
           .option.image,
       );
 
@@ -415,10 +415,10 @@ export function render() {
 
   const shovelDiggingSound = soundFX.object.sounds.shovelDiggingSound;
 
-  floor_row.forEach(row => {
+  floor_row.forEach((row) => {
     if (!gameStatus.levelMap[parseInt(row.id)].isActive) return;
-    [...row.children].forEach(ceil => {
-      ceil.addEventListener('mouseenter', e => {
+    [...row.children].forEach((ceil) => {
+      ceil.addEventListener('mouseenter', (e) => {
         if (ceil.classList.contains('planted') && shovelSelected.value) {
           ceil.style.filter = `brightness(1.25)`;
         }
@@ -427,20 +427,21 @@ export function render() {
           ceil.classList.contains('planted') ||
           ceil.classList.contains('zombie_spawner') ||
           ceil.classList.contains('lawn_mower') ||
-          !seedPacketsListFiltered.some(packet => packet.isSelected)
+          !seedPacketsListFiltered.some((packet) => packet.isSelected)
         ) {
           return;
         }
 
         if (ceil.children.length === 0) {
           ceil.style.backgroundImage = `url("${
-            seedPacketsListFiltered[seedPacketsListFiltered.findIndex(packet => packet.isSelected)]
-              .option.image
+            seedPacketsListFiltered[
+              seedPacketsListFiltered.findIndex((packet) => packet.isSelected)
+            ].option.image
           }")`;
           ceil.style.opacity = `0.5`;
         }
       });
-      ceil.addEventListener('mouseleave', e => {
+      ceil.addEventListener('mouseleave', (e) => {
         if (ceil.classList.contains('planted') && shovelSelected.value) {
           ceil.style.filter = `brightness(1)`;
         }
@@ -449,7 +450,7 @@ export function render() {
           ceil.classList.contains('planted') ||
           ceil.classList.contains('zombie_spawner') ||
           ceil.classList.contains('lawn_mower') ||
-          !seedPacketsListFiltered.some(packet => packet.isSelected)
+          !seedPacketsListFiltered.some((packet) => packet.isSelected)
         )
           return;
 
@@ -457,19 +458,19 @@ export function render() {
           ceil.removeAttribute('style');
         }
       });
-      ceil.addEventListener('click', e => {
+      ceil.addEventListener('click', (e) => {
         if (ceil.classList.contains('planted') && shovelSelected.value) {
           shovelDiggingSound.play();
 
           const indexDelete = gameStatus.levelMap[parseInt(row.id)].plantsArray.findIndex(
-            plant => plant.htmlElement === ceil.children[0],
+            (plant) => plant.htmlElement === ceil.children[0],
           );
           const plant = gameStatus.levelMap[parseInt(row.id)].plantsArray[indexDelete];
           plant.destroy();
 
           gameStatus.levelMap[parseInt(row.id)].plantsArray = gameStatus.levelMap[
             parseInt(row.id)
-          ].plantsArray.filter(plant => plant.htmlElement !== null);
+          ].plantsArray.filter((plant) => plant.htmlElement !== null);
 
           ceil.classList.remove('planted');
           clearCursor();
@@ -480,7 +481,7 @@ export function render() {
           ceil.classList.contains('zombie_spawner') ||
           ceil.classList.contains('lawn_mower') ||
           ceil.children.length !== 0 ||
-          !seedPacketsListFiltered.some(packet => packet.isSelected)
+          !seedPacketsListFiltered.some((packet) => packet.isSelected)
         ) {
           return;
         }
@@ -493,7 +494,7 @@ export function render() {
 
         gameStatus.levelMap[parseInt(row.id)].plantsArray.push(
           seedPacketsListFiltered[
-            seedPacketsListFiltered.findIndex(packet => packet.isSelected)
+            seedPacketsListFiltered.findIndex((packet) => packet.isSelected)
           ].createPlant(newElement),
         );
 
@@ -511,12 +512,12 @@ export function render() {
     if (!gameStatus.isPaused.value && !gameStatus.isMenu.value) {
       timeoutsAndIntervalsUpdate();
 
-      gameStatus.sunsArray = gameStatus.sunsArray.filter(sun => sun.htmlElement !== null);
-      gameStatus.sunsArray.forEach(sun => {
+      gameStatus.sunsArray = gameStatus.sunsArray.filter((sun) => sun.htmlElement !== null);
+      gameStatus.sunsArray.forEach((sun) => {
         sun.update();
       });
 
-      seedPacketsListFiltered.forEach(packet => {
+      seedPacketsListFiltered.forEach((packet) => {
         packet.updateReload();
         if (gameStatus.suns.value < packet.option.cost) {
           seedPackets[packet.option.id].classList.add('disabled');
@@ -525,29 +526,29 @@ export function render() {
         }
       });
 
-      gameStatus.levelMap.forEach(lane => {
-        lane.plantsArray.forEach(plant => {
+      gameStatus.levelMap.forEach((lane) => {
+        lane.plantsArray.forEach((plant) => {
           plant.update(lane);
         });
-        lane.zombiesArray.forEach(zombie => {
+        lane.zombiesArray.forEach((zombie) => {
           zombie.update(lane);
         });
 
-        if (lane.zombiesArray.some(zombie => zombie.health === 0))
-          lane.zombiesArray = lane.zombiesArray.filter(zombie => zombie.health !== 0);
-        if (lane.plantsArray.some(plant => plant.health === 0))
-          lane.plantsArray = lane.plantsArray.filter(plant => plant.health !== 0);
+        if (lane.zombiesArray.some((zombie) => zombie.health === 0))
+          lane.zombiesArray = lane.zombiesArray.filter((zombie) => zombie.health !== 0);
+        if (lane.plantsArray.some((plant) => plant.health === 0))
+          lane.plantsArray = lane.plantsArray.filter((plant) => plant.health !== 0);
 
         if (level) {
           let countOfZombies = 0;
 
-          gameStatus.levelMap.forEach(lane => {
+          gameStatus.levelMap.forEach((lane) => {
             countOfZombies += lane.zombiesArray.length;
           });
 
           // Если это последний зомби, то добавляем к нему награду после смерти
           if (level[gameStatus.level].zombies.count === 0 && countOfZombies === 1) {
-            gameStatus.levelMap.forEach(lane => {
+            gameStatus.levelMap.forEach((lane) => {
               if (lane.zombiesArray.length === 1) {
                 lane.zombiesArray[0].setAwardAfterDeath(awards.snowPea);
               }

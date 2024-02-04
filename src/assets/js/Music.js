@@ -32,7 +32,7 @@ import Tap from '/src/music/tap.mp3';
 import PickupAward from '/src/music/pickup_award.mp3';
 
 ////////? Music ////////
-export const music = rel(new Audio(), 'volume', value => {});
+export const music = rel(new Audio(), 'volume', (value) => {});
 music.object.volume = 0.25;
 
 function startMusicOnClick() {
@@ -126,7 +126,7 @@ export const soundFX = rel(
     volume: 0.185,
   },
   'volume',
-  value => {
+  (value) => {
     Howler.volume(value);
   },
 );

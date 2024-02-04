@@ -53,7 +53,7 @@ export function render() {
 
   mainHTML.innerHTML = html;
 
-  document.querySelectorAll('.tap').forEach(element => {
+  document.querySelectorAll('.tap').forEach((element) => {
     element.onclick = () => {
       soundFX.object.sounds.tap.play();
     };
@@ -76,7 +76,7 @@ export function render() {
   // Menu.closeMenu()
 
   // Для всех ссылок делаем плавный скролл до якоря
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });

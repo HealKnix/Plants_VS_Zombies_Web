@@ -3,7 +3,7 @@ import { setGameTimeout } from '/src/models/GameTimeout';
 import { Sun } from '/src/models/Sun';
 import { gameStatus } from '/src/views/Game';
 
-export default startDelay => {
+export default (startDelay) => {
   setGameTimeout(() => {
     setGameTimeout(() => {
       const newElement = document.createElement('div');

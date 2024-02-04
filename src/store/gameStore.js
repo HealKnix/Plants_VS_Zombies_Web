@@ -36,11 +36,11 @@ export const userSaveData = [
 const currentUser = userSaveData[0];
 
 export const currentSaveData = {
-  userName: rel(currentUser.userName, '', value => {
+  userName: rel(currentUser.userName, '', (value) => {
     if (!document.querySelector('.selector_screen_woodsign_welcome__user-name')) return;
     document.querySelector('.selector_screen_woodsign_welcome__user-name').innerText = value + '!';
   }),
-  coinbank: rel(currentUser.coinbank, '', value => {
+  coinbank: rel(currentUser.coinbank, '', (value) => {
     clearTimeout(showCoinbankTimeout);
     if (!document.querySelector('.coinbank')) return;
     document.querySelector('.coinbank__value').innerText = '$' + value;

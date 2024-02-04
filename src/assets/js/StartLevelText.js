@@ -40,21 +40,21 @@ export function start(startLevelDelay, music) {
           document.querySelector('.level_menu_button').classList.add('show');
           document.querySelector('.seed_bar').classList.add('show');
           document.querySelector('.shovel_panel').classList.add('show');
-          document.querySelectorAll('.lawn_mower').forEach(animation => {
+          document.querySelectorAll('.lawn_mower').forEach((animation) => {
             animation.classList.add('show');
           });
 
           const allTransitionOnLevel = document.querySelectorAll('.show');
           // Через 500 мс. удаляем transition со всех показанных интерфейсов
           setGameTimeout(() => {
-            allTransitionOnLevel.forEach(animation => {
+            allTransitionOnLevel.forEach((animation) => {
               animation.style.transition = 'none';
             });
           }, 500);
 
           const allAnimationsOnLevel = document.querySelectorAll('.animated');
           setGameTimeout(() => {
-            allAnimationsOnLevel.forEach(animation => {
+            allAnimationsOnLevel.forEach((animation) => {
               animation.style.animation = 'none';
             });
             isAllAnimationStylesDelete = true;

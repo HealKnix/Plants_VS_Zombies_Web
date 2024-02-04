@@ -13,7 +13,7 @@ export default {
   toAdventure: () => {
     Game.render();
   },
-  toAwardScreen: award => {
+  toAwardScreen: (award) => {
     AwardScreen.render(award);
   },
   toMiniGame: false,

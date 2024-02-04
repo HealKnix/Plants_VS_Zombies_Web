@@ -77,7 +77,7 @@ export class Sun {
     this.createNewSun();
     this.htmlElement.parentElement.removeChild(this.htmlElement);
     this.htmlElement = null;
-    this.allTimeouts.forEach(item => {
+    this.allTimeouts.forEach((item) => {
       item.clear();
     });
   }

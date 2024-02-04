@@ -7,7 +7,7 @@ import Menu from '/src/assets/js/Menu';
 // import Menu from '/src/assets/js/Menu'
 
 // Для всех ссылок делаем плавный скролл до якоря
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
     document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
@@ -16,7 +16,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 route.toSelectorScreen();
 
-window.addEventListener('keydown', e => {
+window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     if (!Game.gameStatus.isStart) return;
     if (Game.gameStatus.isPaused.value) {

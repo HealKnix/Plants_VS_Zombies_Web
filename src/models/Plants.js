@@ -27,7 +27,7 @@ class Plant {
   }
 
   destroy() {
-    this.allTimeouts.forEach(event => {
+    this.allTimeouts.forEach((event) => {
       event.clear();
     });
     this.health = 0;
@@ -117,7 +117,7 @@ export class Peashooter extends Plant {
     if (!this.htmlElement) return;
     if (
       lane.zombiesArray.length > 0 &&
-      lane.zombiesArray.some(zombie => {
+      lane.zombiesArray.some((zombie) => {
         const centerOfZombie =
           zombie.htmlElement.getBoundingClientRect().x +
           zombie.htmlElement.getBoundingClientRect().width / 3;
@@ -246,7 +246,7 @@ export class CherryBomb extends Plant {
       setGameTimeout(() => {
         this.bombHtml.parentElement.removeChild(this.bombHtml);
         this.bombHtml = null;
-        this.allTimeouts.forEach(item => {
+        this.allTimeouts.forEach((item) => {
           item.clear();
         });
       }, 500),
@@ -291,8 +291,8 @@ export class CherryBomb extends Plant {
 
     this.allTimeouts.push(
       setGameTimeout(() => {
-        gameStatus.levelMap.forEach(lane => {
-          lane.zombiesArray.forEach(zombie => {
+        gameStatus.levelMap.forEach((lane) => {
+          lane.zombiesArray.forEach((zombie) => {
             const distanceX =
               zombie.htmlElement.getBoundingClientRect().x +
               zombie.htmlElement.getBoundingClientRect().width / 2 -

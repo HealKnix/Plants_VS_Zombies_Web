@@ -80,7 +80,7 @@ class Zombie {
     this.health = 0;
     this.htmlElement.parentElement.removeChild(this.htmlElement);
     this.htmlElement = null;
-    this.allTimeouts.forEach(event => {
+    this.allTimeouts.forEach((event) => {
       event.clear();
     });
   }
@@ -101,9 +101,9 @@ class Zombie {
 
   checkHit(plantsArray, lawnMower) {
     let isHit = false;
-    plantsArray.forEach(plant => {
+    plantsArray.forEach((plant) => {
       if (plant.htmlElement === null) return;
-      [...plant.htmlElement.children].forEach(bullet => {
+      [...plant.htmlElement.children].forEach((bullet) => {
         if (!bullet.classList.contains('bullet')) return;
         if (
           bullet.getBoundingClientRect().x - bullet.getBoundingClientRect().width * 1.75 >=
@@ -210,7 +210,7 @@ class Zombie {
       this.htmlElement.getBoundingClientRect().x +
       this.htmlElement.getBoundingClientRect().width / 2;
 
-    plantsArray.forEach(plant => {
+    plantsArray.forEach((plant) => {
       if (!plant.htmlElement) return;
 
       // Левая сторона растения по X
